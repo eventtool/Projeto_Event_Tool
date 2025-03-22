@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela de Cadastro</title>
+    <link rel="stylesheet" href="/src/style/cadastro.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Cadastro</h1>
+        <form id="cadastroForm">
+            <div class="form-group">
+                <label for="nome">Nome Completo</label>
+                <input type="text" id="nome" name="nome" required>
+                <div class="error" id="nomeError">Por favor, insira seu nome completo.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+                <div class="error" id="emailError">Por favor, insira um email válido.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="senha">Senha</label>
+                <div class="password-container">
+                    <input type="password" id="senha" name="senha" required>
+                    <span class="toggle-password" id="toggleSenha">👁️</span>
+                </div>
+                <div class="error" id="senhaError">A senha deve ter pelo menos 6 caracteres.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="celular">Celular</label>
+                <input type="tel" id="celular" name="celular" required>
+                <div class="error" id="celularError">Por favor, insira um número de celular válido.</div>
+            </div>
+
+            <div class="form-group">
+                <label>Você é:</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="palestrante" name="tipo" value="palestrante" required>
+                        <label for="palestrante">Palestrante</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="telespectador" name="tipo" value="telespectador">
+                        <label for="telespectador">Telespectador</label>
+                    </div>
+                </div>
+                <div class="error" id="tipoError">Por favor, selecione uma opção.</div>
+            </div>
+
+            <button type="submit">Cadastrar</button>
+        </form>
+    </div>
+
+    <script src="/src/javascript/cadastro.js"></script>
+</body>
+</html>
