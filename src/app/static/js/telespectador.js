@@ -133,4 +133,29 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Redirecionando para a página de exploração de eventos...');
         });
     }
+
+const explorarEventosLink = document.querySelector('a[href="explorar-eventos.html"]');
+const certificadosLink = document.querySelector('a[href="certificados.html"]');
+const perfilLink = document.querySelector('a[href="perfil.html"]');
+
+if (explorarEventosLink) {
+    explorarEventosLink.addEventListener('click', function(e) {
+        // Se quiser adicionar alguma lógica antes de navegar
+        console.log('Navegando para Explorar Eventos');
+    });
+}
+
+if (certificadosLink) {
+    certificadosLink.addEventListener('click', function(e) {
+        // Se quiser adicionar alguma lógica antes de navegar
+        console.log('Navegando para Certificados');
+    });
+}
+
+if (perfilLink) {
+    perfilLink.addEventListener('click', function(e) {
+        // Se quiser adicionar alguma lógica antes de navegar
+        console.log('Navegando para Perfil');
+    });
+}
 });

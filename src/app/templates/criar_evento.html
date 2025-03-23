@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Criar Evento - EventTool</title>
+<link rel="stylesheet" href="/src/app/static/styles/styles.css">
+<link rel="stylesheet" href="/src/app/static/styles/criar_evento.css">
+<!-- Font Awesome para ícones -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+<!-- HEADER -->
+<header>
+    <div class="container header-container">
+        <div class="logo">
+            <a href="index.html">
+                <img src="placeholder.svg?height=60&width=180" alt="EventTool Logo">
+            </a>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html#eventos">Eventos</a></li>
+                <li><a href="quem-somos.html">Quem Somos</a></li>
+                <li><a href="contato.html">Contato</a></li>
+            </ul>
+        </nav>
+        <div class="auth-buttons">
+            <a href="login.html" class="btn btn-outline">Entrar</a>
+            <a href="cadastro.html" class="btn btn-primary">Cadastrar</a>
+        </div>
+        <div class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+    </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="criar-evento-main">
+    <div class="container">
+        <div class="criar-evento-header">
+            <h1>Criar Novo Evento</h1>
+            <p>Preencha as informações abaixo para criar seu evento e alcançar seu público-alvo.</p>
+        </div>
+        
+        <div class="criar-evento-container">
+            <!-- Progresso -->
+            <div class="criar-evento-progresso">
+                <div class="progresso-etapa active" data-step="1">
+                    <div class="etapa-numero">1</div>
+                    <div class="etapa-texto">Informações Básicas</div>
+                </div>
+                <div class="progresso-etapa" data-step="2">
+                    <div class="etapa-numero">2</div>
+                    <div class="etapa-texto">Palestrantes</div>
+                </div>
+                <div class="progresso-etapa" data-step="3">
+                    <div class="etapa-numero">3</div>
+                    <div class="etapa-texto">Local e Data</div>
+                </div>
+                <div class="progresso-etapa" data-step="4">
+                    <div class="etapa-numero">4</div>
+                    <div class="etapa-texto">Ingressos</div>
+                </div>
+                <div class="progresso-etapa" data-step="5">
+                    <div class="etapa-numero">5</div>
+                    <div class="etapa-texto">Revisão</div>
+                </div>
+            </div>
+            
+            <!-- Formulário -->
+            <form class="criar-evento-form">
+                <!-- Etapa 1: Informações Básicas -->
+                <div class="form-etapa active" id="etapa-1">
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <h2>Informações Básicas</h2>
+                            <p>Forneça as informações essenciais sobre seu evento.</p>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="nome-evento" class="required">Nome do Evento</label>
+                            <input type="text" id="nome-evento" name="nome-evento" placeholder="Digite o nome do seu evento" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="descricao-evento" class="required">Descrição do Evento</label>
+                            <textarea id="descricao-evento" name="descricao-evento" placeholder="Descreva seu evento em detalhes..." required></textarea>
+                            <p class="form-help">Seja detalhado e explique o que os participantes podem esperar do seu evento.</p>
+                        </div>
+                        
+                        <div class="image-upload">
+                            <label>Imagem de Capa</label>
+                            <div class="image-preview" id="image-preview">
+                                <img src="/placeholder.svg" alt="Preview da imagem">
+                                <div class="image-preview-placeholder">
+                                    <i class="fas fa-image"></i>
+                                    <p>Clique para adicionar uma imagem de capa</p>
+                                </div>
+                            </div>
+                            <input type="file" id="imagem-evento" name="imagem-evento" class="image-upload-input" accept="image/*">
+                            <label for="imagem-evento" class="image-upload-btn">
+                                <i class="fas fa-upload"></i>
+                                <span>Escolher Imagem</span>
+                            </label>
+                            <p class="form-help">Recomendado: 1200 x 600 pixels, formato JPG ou PNG.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <h2>Categorização</h2>
+                            <p>Ajude os participantes a encontrarem seu evento.</p>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Categoria Principal</label>
+                            <div class="categorias-grid">
+                                <label class="categoria-item">
+                                    <input type="radio" name="categoria" value="tecnologia" checked>
+                                    <div class="categoria-content">
+                                        <i class="fas fa-laptop-code"></i>
+                                        <span>Tecnologia</span>
+                                    </div>
+                                </label>
+                                <label class="categoria-item">
+                                    <input type="radio" name="categoria" value="negocios">
+                                    <div class="categoria-content">
+                                        <i class="fas fa-chart-line"></i>
+                                        <span>Negócios</span>
+                                    </div>
+                                </label>
+                                <label class="categoria-item">
+                                    <input type="radio" name="categoria" value="marketing">
+                                    <div class="categoria-content">
+                                        <i class="fas fa-bullhorn"></i>
+                                        <span>Marketing</span>
+                                    </div>
+                                </label>
+                                <label class="categoria-item">
+                                    <input type="radio" name="categoria" value="design">
+                                    <div class="categoria-content">
+                                        <i class="fas fa-palette"></i>
+                                        <span>Design</span>
+                                    </div>
+                                </label>
+                                <label class="categoria-item">
+                                    <input type="radio" name="categoria" value="saude">
+                                    <div class="categoria-content">
+                                        <i class="fas fa-heartbeat"></i>
+                                        <span>Saúde</span>
+                                    </div>
+                                </label>
+                                <label class="categoria-item">
+                                    <input type="radio" name="categoria" value="educacao">
+                                    <div class="categoria-content">
+                                        <i class="fas fa-graduation-cap"></i>
+                                        <span>Educação</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="tags">Tags</label>
+                            <div class="tags-container" id="tags-container">
+                                <div class="tag">
+                                    Workshop
+                                    <button type="button" class="remove-tag"><i class="fas fa-times"></i></button>
+                                </div>
+                                <div class="tag">
+                                    Programação
+                                    <button type="button" class="remove-tag"><i class="fas fa-times"></i></button>
+                                </div>
+                            </div>
+                            <div class="add-tag-container">
+                                <input type="text" class="add-tag-input" id="add-tag-input" placeholder="Adicionar nova tag">
+                                <button type="button" class="btn btn-outline" id="add-tag-btn">Adicionar</button>
+                            </div>
+                            <p class="form-help">Adicione tags relevantes para ajudar na descoberta do seu evento.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline btn-prev" disabled>
+                            <i class="fas fa-arrow-left"></i> Anterior
+                        </button>
+                        <button type="button" class="btn btn-primary btn-next">
+                            Próximo <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Etapa 2: Palestrantes -->
+                <div class="form-etapa" id="etapa-2">
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <h2>Palestrantes</h2>
+                            <p>Adicione os palestrantes que participarão do seu evento.</p>
+                        </div>
+                        
+                        <div class="palestrantes-container" id="palestrantes-container">
+                            <div class="palestrante-item">
+                                <div class="palestrante-avatar">
+                                    <img src="placeholder.svg?height=60&width=60" alt="Avatar do Palestrante">
+                                </div>
+                                <div class="palestrante-info">
+                                    <h4>João Silva</h4>
+                                    <p>Especialista em Desenvolvimento Web</p>
+                                </div>
+                                <div class="palestrante-actions">
+                                    <button type="button" class="edit-palestrante"><i class="fas fa-edit"></i></button>
+                                    <button type="button" class="remove-palestrante remove"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="button" class="add-palestrante-btn" id="add-palestrante-btn">
+                            <i class="fas fa-plus"></i> Adicionar Palestrante
+                        </button>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline btn-prev">
+                            <i class="fas fa-arrow-left"></i> Anterior
+                        </button>
+                        <button type="button" class="btn btn-primary btn-next">
+                            Próximo <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Etapa 3: Local e Data -->
+                <div class="form-etapa" id="etapa-3">
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <h2>Data e Hora</h2>
+                            <p>Defina quando seu evento acontecerá.</p>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="data-inicio" class="required">Data de Início</label>
+                                <input type="date" id="data-inicio" name="data-inicio" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="hora-inicio" class="required">Hora de Início</label>
+                                <input type="time" id="hora-inicio" name="hora-inicio" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="data-fim">Data de Término</label>
+                                <input type="date" id="data-fim" name="data-fim">
+                                <p class="form-help">Deixe em branco se o evento terminar no mesmo dia.</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="hora-fim" class="required">Hora de Término</label>
+                                <input type="time" id="hora-fim" name="hora-fim" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <h2>Local</h2>
+                            <p>Informe onde seu evento será realizado.</p>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="tipo-evento" class="required">Tipo de Evento</label>
+                            <select id="tipo-evento" name="tipo-evento" required>
+                                <option value="">Selecione o tipo de evento</option>
+                                <option value="presencial">Presencial</option>
+                                <option value="online">Online</option>
+                                <option value="hibrido">Híbrido</option>
+                            </select>
+                        </div>
+                        
+                        <div id="local-presencial">
+                            <div class="form-group">
+                                <label for="nome-local" class="required">Nome do Local</label>
+                                <input type="text" id="nome-local" name="nome-local" placeholder="Ex: Centro de Convenções">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="endereco" class="required">Endereço Completo</label>
+                                <input type="text" id="endereco" name="endereco" placeholder="Rua, número, bairro">
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="cidade" class="required">Cidade</label>
+                                    <input type="text" id="cidade" name="cidade">
+                                </div>
+                                <div class="form-group">
+                                    <label for="estado" class="required">Estado</label>
+                                    <select id="estado" name="estado">
+                                        <option value="">Selecione</option>
+                                        <option value="AC">Acre</option>
+                                        <option value="AL">Alagoas</option>
+                                        <option value="AP">Amapá</option>
+                                        <option value="AM">Amazonas</option>
+                                        <option value="BA">Bahia</option>
+                                        <option value="CE">Ceará</option>
+                                        <option value="DF">Distrito Federal</option>
+                                        <option value="ES">Espírito Santo</option>
+                                        <option value="GO">Goiás</option>
+                                        <option value="MA">Maranhão</option>
+                                        <option value="MT">Mato Grosso</option>
+                                        <option value="MS">Mato Grosso do Sul</option>
+                                        <option value="MG">Minas Gerais</option>
+                                        <option value="PA">Pará</option>
+                                        <option value="PB">Paraíba</option>
+                                        <option value="PR">Paraná</option>
+                                        <option value="PE">Pernambuco</option>
+                                        <option value="PI">Piauí</option>
+                                        <option value="RJ">Rio de Janeiro</option>
+                                        <option value="RN">Rio Grande do Norte</option>
+                                        <option value="RS">Rio Grande do Sul</option>
+                                        <option value="RO">Rondônia</option>
+                                        <option value="RR">Roraima</option>
+                                        <option value="SC">Santa Catarina</option>
+                                        <option value="SP">São Paulo</option>
+                                        <option value="SE">Sergipe</option>
+                                        <option value="TO">Tocantins</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cep" class="required">CEP</label>
+                                    <input type="text" id="cep" name="cep" placeholder="00000-000">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Localização no Mapa</label>
+                                <div class="location-map">
+                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.1976900292937!2d-46.65429508502264!3d-23.56507968468!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8da0aa315%3A0xd59f9431f2c9776a!2sAv.%20Paulista%2C%20S%C3%A3o%20Paulo%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1615338063116!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy"></iframe>
+                                </div>
+                                <p class="form-help">Arraste o marcador para ajustar a localização exata.</p>
+                            </div>
+                        </div>
+                        
+                        <div id="local-online" style="display: none;">
+                            <div class="form-group">
+                                <label for="plataforma" class="required">Plataforma</label>
+                                <select id="plataforma" name="plataforma">
+                                    <option value="">Selecione a plataforma</option>
+                                    <option value="zoom">Zoom</option>
+                                    <option value="meet">Google Meet</option>
+                                    <option value="teams">Microsoft Teams</option>
+                                    <option value="youtube">YouTube Live</option>
+                                    <option value="outra">Outra</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="link-evento" class="required">Link do Evento</label>
+                                <input type="url" id="link-evento" name="link-evento" placeholder="https://">
+                                <p class="form-help">Este link será enviado aos participantes após a inscrição.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <h2>Capacidade</h2>
+                            <p>Defina a capacidade máxima do seu evento.</p>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="capacidade" class="required">Número de Vagas</label>
+                            <input type="number" id="capacidade" name="capacidade" min="1" placeholder="Ex: 100" required>
+                            <p class="form-help">Deixe em branco para capacidade ilimitada.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline btn-prev">
+                            <i class="fas fa-arrow-left"></i> Anterior
+                        </button>
+                        <button type="button" class="btn btn-primary btn-next">
+                            Próximo <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Etapa 4: Ingressos -->
+                <div class="form-etapa" id="etapa-4">
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <h2>Ingressos</h2>
+                            <p>Configure os tipos de ingressos disponíveis para seu evento.</p>
+                        </div>
+                        
+                        <div class="ingressos-container" id="ingressos-container">
+                            <div class="ingresso-item">
+                                <div class="ingresso-header">
+                                    <h3>Ingresso Padrão</h3>
+                                    <button type="button" class="remove-ingresso"><i class="fas fa-times"></i></button>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="nome-ingresso-1" class="required">Nome do Ingresso</label>
+                                    <input type="text" id="nome-ingresso-1" name="nome-ingresso-1" value="Ingresso Padrão" required>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="preco-ingresso-1" class="required">Preço (R$)</label>
+                                        <input type="number" id="preco-ingresso-1" name="preco-ingresso-1" min="0" step="0.01" value="0.00" required>
+                                        <p class="form-help">Digite 0 para ingressos gratuitos.</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="quantidade-ingresso-1" class="required">Quantidade Disponível</label>
+                                        <input type="number" id="quantidade-ingresso-1" name="quantidade-ingresso-1" min="1" value="100" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="descricao-ingresso-1">Descrição</label>
+                                    <textarea id="descricao-ingresso-1" name="descricao-ingresso-1" placeholder="Descreva o que está incluso neste ingresso..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="button" class="add-ingresso-btn" id="add-ingresso-btn">
+                            <i class="fas fa-plus"></i> Adicionar Novo Tipo de Ingresso
+                        </button>
+                    </div>
+                    
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <h2>Configurações Adicionais</h2>
+                            <p>Configure opções adicionais para seu evento.</p>
+                        </div>
+                        
+                        <div class="toggle-container">
+                            <div class="toggle-info">
+                                <h4>Emitir Certificados</h4>
+                                <p>Habilite a emissão de certificados para os participantes.</p>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" name="emitir-certificados" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="toggle-container">
+                            <div class="toggle-info">
+                                <h4>Lista de Espera</h4>
+                                <p>Permitir que participantes entrem em uma lista de espera quando os ingressos esgotarem.</p>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" name="lista-espera" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="toggle-container">
+                            <div class="toggle-info">
+                                <h4>Evento Privado</h4>
+                                <p>O evento só será visível para pessoas com o link de convite.</p>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" name="evento-privado">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline btn-prev">
+                            <i class="fas fa-arrow-left"></i> Anterior
+                        </button>
+                        <button type="button" class="btn btn-primary btn-next">
+                            Próximo <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Etapa 5: Revisão -->
+                <div class="form-etapa" id="etapa-5">
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <h2>Revisão do Evento</h2>
+                            <p>Revise todas as informações do seu evento antes de publicar.</p>
+                        </div>
+                        
+                        <div class="resumo-evento">
+                            <div class="resumo-header">
+                                <h3>Informações Básicas</h3>
+                                <a href="#" class="edit-section" data-step="1">
+                                    <i class="fas fa-edit"></i> Editar
+                                </a>
+                            </div>
+                            <div class="resumo-content">
+                                <div class="resumo-item">
+                                    <h4>Nome do Evento</h4>
+                                    <p>Workshop de Desenvolvimento Web</p>
+                                </div>
+                                <div class="resumo-item">
+                                    <h4>Categoria</h4>
+                                    <p>Tecnologia</p>
+                                </div>
+                                <div class="resumo-item">
+                                    <h4>Tags</h4>
+                                    <p>Workshop, Programação, Frontend</p>
+                                </div>
+                                <div class="resumo-item">
+                                    <h4>Imagem de Capa</h4>
+                                    <div class="resumo-image">
+                                        <img src="placeholder.svg?height=200&width=400" alt="Imagem do Evento">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="resumo-evento">
+                            <div class="resumo-header">
+                                <h3>Palestrantes</h3>
+                                <a href="#" class="edit-section" data-step="2">
+                                    <i class="fas fa-edit"></i> Editar
+                                </a>
+                            </div>
+                            <div class="resumo-content">
+                                <div class="resumo-item">
+                                    <h4>Palestrantes</h4>
+                                    <ul>
+                                        <li><i class="fas fa-user"></i> João Silva - Especialista em Desenvolvimento Web</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="resumo-evento">
+                            <div class="resumo-header">
+                                <h3>Local e Data</h3>
+                                <a href="#" class="edit-section" data-step="3">
+                                    <i class="fas fa-edit"></i> Editar
+                                </a>
+                            </div>
+                            <div class="resumo-content">
+                                <div class="resumo-item">
+                                    <h4>Data e Hora</h4>
+                                    <p>15/06/2025 - 09:00 às 17:00</p>
+                                </div>
+                                <div class="resumo-item">
+                                    <h4>Tipo de Evento</h4>
+                                    <p>Presencial</p>
+                                </div>
+                                <div class="resumo-item">
+                                    <h4>Local</h4>
+                                    <p>Centro de Convenções</p>
+                                    <p>Av. Paulista, 1000 - São Paulo, SP</p>
+                                </div>
+                                <div class="resumo-item">
+                                    <h4>Capacidade</h4>
+                                    <p>100 vagas</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="resumo-evento">
+                            <div class="resumo-header">
+                                <h3>Ingressos e Configurações</h3>
+                                <a href="#" class="edit-section" data-step="4">
+                                    <i class="fas fa-edit"></i> Editar
+                                </a>
+                            </div>
+                            <div class="resumo-content">
+                                <div class="resumo-item">
+                                    <h4>Ingressos</h4>
+                                    <ul>
+                                        <li><i class="fas fa-ticket-alt"></i> Ingresso Padrão - R$ 0,00 (Gratuito) - 100 unidades</li>
+                                    </ul>
+                                </div>
+                                <div class="resumo-item">
+                                    <h4>Configurações</h4>
+                                    <ul>
+                                        <li><i class="fas fa-check"></i> Emitir certificados</li>
+                                        <li><i class="fas fa-check"></i> Lista de espera</li>
+                                        <li><i class="fas fa-times"></i> Evento privado</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="termos-check">
+                            <input type="checkbox" id="termos" name="termos" required>
+                            <label for="termos">Eu confirmo que todas as informações fornecidas são verdadeiras e concordo com os <a href="#" target="_blank">Termos de Uso</a> e <a href="#" target="_blank">Política de Privacidade</a> da plataforma.</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline btn-prev">
+                            <i class="fas fa-arrow-left"></i> Anterior
+                        </button>
+                        <button type="submit" class="btn btn-primary btn-submit">
+                            <i class="fas fa-check"></i> Publicar Evento
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+    <div class="container footer-container">
+        <div class="footer-logo">
+            <img src="placeholder.svg?height=60&width=180" alt="EventTool Logo">
+            <p>A ferramenta certa para seus eventos</p>
+        </div>
+        <div class="footer-links">
+            <div class="footer-column">
+                <h3>Navegação</h3>
+                <ul>
+                    <li><a href="index.html#eventos">Eventos</a></li>
+                    <li><a href="quem-somos.html">Quem Somos</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Nossa Equipe</h3>
+                <ul class="team-links">
+                    <li>
+                        <span>João Silva</span>
+                        <div class="social-links">
+                            <a href="https://github.com/joaosilva" target="_blank"><i class="fab fa-github"></i></a>
+                            <a href="https://linkedin.com/in/joaosilva" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </li>
+                    <li>
+                        <span>Maria Oliveira</span>
+                        <div class="social-links">
+                            <a href="https://github.com/mariaoliveira" target="_blank"><i class="fab fa-github"></i></a>
+                            <a href="https://linkedin.com/in/mariaoliveira" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </li>
+                    <li>
+                        <span>Carlos Santos</span>
+                        <div class="social-links">
+                            <a href="https://github.com/carlossantos" target="_blank"><i class="fab fa-github"></i></a>
+                            <a href="https://linkedin.com/in/carlossantos" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contato</h3>
+                <ul class="contact-info">
+                    <li><i class="fas fa-envelope"></i> contato@eventtool.com</li>
+                    <li><i class="fas fa-phone"></i> (11) 99999-9999</li>
+                    <li><i class="fas fa-map-marker-alt"></i> São Paulo, SP - Brasil</li>
+                </ul>
+                <div class="social-media">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="container">
+            <p>&copy; 2025 EventTool. Todos os direitos reservados.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="criar-evento.js"></script>
+</body>
+</html>

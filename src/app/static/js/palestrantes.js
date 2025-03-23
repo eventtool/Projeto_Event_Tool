@@ -167,4 +167,30 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+    // Adicione isso ao final do arquivo palestrante-dashboard.js
+// Links para as novas páginas
+const explorarEventosLink = document.querySelector('a[href="explorar-eventos.html"]');
+const certificadosLink = document.querySelector('a[href="certificados.html"]');
+const perfilLink = document.querySelector('a[href="perfil.html"]');
+
+if (explorarEventosLink) {
+    explorarEventosLink.addEventListener('click', function(e) {
+        // Se quiser adicionar alguma lógica antes de navegar
+        console.log('Navegando para Explorar Eventos');
+    });
+}
+
+if (certificadosLink) {
+    certificadosLink.addEventListener('click', function(e) {
+        // Se quiser adicionar alguma lógica antes de navegar
+        console.log('Navegando para Certificados');
+    });
+}
+
+if (perfilLink) {
+    perfilLink.addEventListener('click', function(e) {
+        // Se quiser adicionar alguma lógica antes de navegar
+        console.log('Navegando para Perfil');
+    });
+}
 });
