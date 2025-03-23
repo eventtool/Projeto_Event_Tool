@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard do Telespectador - EventosBR</title>
+    <link rel="stylesheet" href="/src/app/static/styles/telespectador_palestrante.css">
+    <link rel="stylesheet" href="/src/app/static/styles/styles.css">
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="placeholder.svg?height=60&width=180" alt="EventTool Logo">
+                </a>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html#eventos">Eventos</a></li>
+                    <li><a href="index.html#quem-somos">Quem Somos</a></li>
+                    <li><a href="index.html#contato">Contato</a></li>
+                </ul>
+            </nav>
+            <div class="user-menu">
+                <div class="user-info">
+                    <img src="placeholder.svg?height=40&width=40" alt="Foto do Usuário" class="user-avatar">
+                    <span class="user-name">Mateus</span>
+                </div>
+                <div class="dropdown-menu">
+                    <a href="telespectador-dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    <a href="perfil.html"><i class="fas fa-user-edit"></i> Editar Perfil</a>
+                    <a href="index.html"><i class="fas fa-sign-out-alt"></i> Sair</a>
+                </div>
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="dashboard-main">
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar">
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active">
+                        <a href="telespectador-dashboard.html">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="explorar-eventos-btn">
+                            <i class="fas fa-search"></i>
+                            <span>Explorar Eventos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-ticket-alt"></i>
+                            <span>Minhas Inscrições</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Eventos Passados</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-certificate"></i>
+                            <span>Certificados</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+            <div class="dashboard-header">
+                <h1>Dashboard do Telespectador</h1>
+                <div class="search-container">
+                    <input type="text" placeholder="Buscar eventos..." class="search-input">
+                    <button class="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+
+            <!-- Resumo -->
+            <div class="dashboard-cards">
+                <div class="dashboard-card">
+                    <div class="card-icon">
+                        <i class="fas fa-ticket-alt"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Eventos Inscritos</h3>
+                        <p class="card-value">5</p>
+                    </div>
+                </div>
+                <div class="dashboard-card">
+                    <div class="card-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Eventos Participados</h3>
+                        <p class="card-value">12</p>
+                    </div>
+                </div>
+                <div class="dashboard-card">
+                    <div class="card-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Certificados</h3>
+                        <p class="card-value">8</p>
+                    </div>
+                </div>
+                <div class="dashboard-card">
+                    <div class="card-icon">
+                        <i class="fas fa-comment"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Avaliações Feitas</h3>
+                        <p class="card-value">10</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Próximos Eventos Inscritos -->
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h2>Minhas Próximas Inscrições</h2>
+                    <a href="#" class="view-all">Ver Todas</a>
+                </div>
+                <div class="eventos-table-container">
+                    <table class="eventos-table">
+                        <thead>
+                            <tr>
+                                <th>Nome do Evento</th>
+                                <th>Data</th>
+                                <th>Local</th>
+                                <th>Palestrante</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Workshop de JavaScript Avançado</td>
+                                <td>15/06/2025</td>
+                                <td>São Paulo, SP</td>
+                                <td>João Silva</td>
+                                <td><span class="status confirmado">Confirmado</span></td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="action-btn view-btn" title="Visualizar"><i class="fas fa-eye"></i></button>
+                                        <button class="action-btn cancel-btn" title="Cancelar Inscrição"><i class="fas fa-times"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Palestra: Futuro da IA</td>
+                                <td>22/06/2025</td>
+                                <td>Rio de Janeiro, RJ</td>
+                                <td>Ana Souza</td>
+                                <td><span class="status confirmado">Confirmado</span></td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="action-btn view-btn" title="Visualizar"><i class="fas fa-eye"></i></button>
+                                        <button class="action-btn cancel-btn" title="Cancelar Inscrição"><i class="fas fa-times"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Meetup: Desenvolvimento Web</td>
+                                <td>05/07/2025</td>
+                                <td>Belo Horizonte, MG</td>
+                                <td>Carlos Santos</td>
+                                <td><span class="status pendente">Pendente</span></td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="action-btn view-btn" title="Visualizar"><i class="fas fa-eye"></i></button>
+                                        <button class="action-btn cancel-btn" title="Cancelar Inscrição"><i class="fas fa-times"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Eventos Recomendados -->
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h2>Eventos Recomendados para Você</h2>
+                    <a href="#" class="view-all">Ver Todos</a>
+                </div>
+                <div class="eventos-grid">
+                    <div class="evento-card">
+                        <div class="evento-image">
+                            <img src="placeholder.svg?height=200&width=300" alt="Evento Recomendado">
+                            <div class="evento-date">
+                                <span class="day">18</span>
+                                <span class="month">JUN</span>
+                            </div>
+                        </div>
+                        <div class="evento-content">
+                            <h3>Conferência de Desenvolvimento Mobile</h3>
+                            <div class="evento-details">
+                                <p><i class="fas fa-map-marker-alt"></i> São Paulo, SP</p>
+                                <p><i class="fas fa-clock"></i> 09:00 - 18:00</p>
+                            </div>
+                            <p class="evento-description">Aprenda as mais recentes tecnologias e tendências em desenvolvimento mobile com especialistas da área.</p>
+                            <div class="evento-footer">
+                                <span class="evento-price">R$ Gratuito</span>
+                                <a href="#" class="btn btn-primary">Inscrever-se</a>
+                            </div>
+                        </div>
+                    </div>
+ 
+                    <div class="evento-card">
+                        <div class="evento-image">
+                            <img src="placeholder.svg?height=200&width=300" alt="Evento Recomendado">
+                            <div class="evento-date">
+                                <span class="day">25</span>
+                                <span class="month">JUN</span>
+                            </div>
+                        </div>
+                        <div class="evento-content">
+                            <h3>Workshop de Design Thinking</h3>
+                            <div class="evento-details">
+                                <p><i class="fas fa-map-marker-alt"></i> Curitiba, PR</p>
+                                <p><i class="fas fa-clock"></i> 14:00 - 18:00</p>
+                            </div>
+                            <p class="evento-description">Um workshop prático sobre metodologias de Design Thinking para solução de problemas complexos.</p>
+                            <div class="evento-footer">
+                                <span class="evento-price">Gratuito</span>
+                                <a href="#" class="btn btn-primary">Inscrever-se</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Evento 3 -->
+                    <div class="evento-card">
+                        <div class="evento-image">
+                            <img src="placeholder.svg?height=200&width=300" alt="Evento Recomendado">
+                            <div class="evento-date">
+                                <span class="day">02</span>
+                                <span class="month">JUL</span>
+                            </div>
+                        </div>
+                        <div class="evento-content">
+                            <h3>Palestra: Carreira em Tecnologia</h3>
+                            <div class="evento-details">
+                                <p><i class="fas fa-map-marker-alt"></i> Online</p>
+                                <p><i class="fas fa-clock"></i> 19:00 - 21:00</p>
+                            </div>
+                            <p class="evento-description">Descubra caminhos e oportunidades para desenvolver sua carreira na área de tecnologia.</p>
+                            <div class="evento-footer">
+                                <span class="evento-price">Gratuito</span>
+                                <a href="#" class="btn btn-primary">Inscrever-se</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categorias Populares -->
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h2>Categorias Populares</h2>
+                </div>
+                <div class="categorias-grid">
+                    <a href="#" class="categoria-card">
+                        <div class="categoria-icon">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <h3>Tecnologia</h3>
+                        <p>152 eventos</p>
+                    </a>
+                    <a href="#" class="categoria-card">
+                        <div class="categoria-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Negócios</h3>
+                        <p>98 eventos</p>
+                    </a>
+                    <a href="#" class="categoria-card">
+                        <div class="categoria-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h3>Design</h3>
+                        <p>64 eventos</p>
+                    </a>
+                    <a href="#" class="categoria-card">
+                        <div class="categoria-icon">
+                            <i class="fas fa-bullhorn"></i>
+                        </div>
+                        <h3>Marketing</h3>
+                        <p>87 eventos</p>
+                    </a>
+                    <a href="#" class="categoria-card">
+                        <div class="categoria-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3>Educação</h3>
+                        <p>112 eventos</p>
+                    </a>
+                    <a href="#" class="categoria-card">
+                        <div class="categoria-icon">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <h3>Saúde</h3>
+                        <p>76 eventos</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Detalhes do Evento -->
+        <div class="modal" id="evento-detalhes-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Detalhes do Evento</h2>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="evento-detalhes">
+                        <div class="evento-detalhes-imagem">
+                            <img src="placeholder.svg?height=300&width=500" alt="Imagem do Evento">
+                        </div>
+                        <div class="evento-info">
+                            <h3>Workshop de JavaScript Avançado</h3>
+                            <div class="evento-meta">
+                                <p><i class="fas fa-calendar-alt"></i> 15 de Junho de 2025</p>
+                                <p><i class="fas fa-clock"></i> 09:00 - 18:00</p>
+                                <p><i class="fas fa-map-marker-alt"></i> São Paulo, SP</p>
+                                <p><i class="fas fa-user"></i> João Silva</p>
+                            </div>
+                            <div class="evento-status">
+                                <span class="status confirmado">Confirmado</span>
+                                <span class="vagas">42/50 vagas preenchidas</span>
+                            </div>
+                            <div class="evento-descricao">
+                                <h4>Descrição</h4>
+                                <p>Neste workshop intensivo, você aprenderá técnicas avançadas de JavaScript, incluindo ES6+, padrões de design, otimização de performance e boas práticas. Ideal para desenvolvedores que já possuem conhecimento básico em JavaScript e desejam aprimorar suas habilidades.</p>
+                            </div>
+                            <div class="evento-topicos">
+                                <h4>O que você aprenderá</h4>
+                                <ul>
+                                    <li>Recursos avançados do ES6+</li>
+                                    <li>Padrões de design em JavaScript</li>
+                                    <li>Otimização de performance</li>
+                                    <li>Testes e debugging</li>
+                                    <li>Frameworks modernos</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary cancel-btn">Fechar</button>
+                    <button class="btn btn-primary">Confirmar Inscrição</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-logo">
+                <img src="placeholder.svg?height=60&width=180" alt="EventosBR Logo">
+                <p>Conectando pessoas a experiências incríveis</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h3>Navegação</h3>
+                    <ul>
+                        <li><a href="index.html#eventos">Eventos</a></li>
+                        <li><a href="index.html#quem-somos">Quem Somos</a></li>
+                        <li><a href="index.html#contato">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Nossa Equipe</h3>
+                    <ul class="team-links">
+                        <li>
+                            <span>João Silva</span>
+                            <div class="social-links">
+                                <a href="https://github.com/joaosilva" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="https://linkedin.com/in/joaosilva" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            </div>
+                        </li>
+                        <li>
+                            <span>Maria Oliveira</span>
+                            <div class="social-links">
+                                <a href="https://github.com/mariaoliveira" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="https://linkedin.com/in/mariaoliveira" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            </div>
+                        </li>
+                        <li>
+                            <span>Carlos Santos</span>
+                            <div class="social-links">
+                                <a href="https://github.com/carlossantos" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="https://linkedin.com/in/carlossantos" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contato</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-envelope"></i> contato@eventosbr.com</li>
+                        <li><i class="fas fa-phone"></i> (11) 99999-9999</li>
+                        <li><i class="fas fa-map-marker-alt"></i> São Paulo, SP - Brasil</li>
+                    </ul>
+                    <div class="social-media">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>&copy; 2025 EventosBR. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="telespectador.js"></script>
+</body>
+</html>
