@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorar Eventos - EventosBR</title>
+    <link rel="stylesheet" href="/src/app/static/styles/styles.css">
+    <link rel="stylesheet" href="/src/app/static/styles/explorar_eventos.css">
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="placeholder.svg?height=60&width=180" alt="EventTool Logo">
+                </a>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html#eventos">Eventos</a></li>
+                    <li><a href="quem-somos.html">Quem Somos</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn btn-outline">Entrar</a>
+                <a href="cadastro.html" class="btn btn-primary">Cadastrar</a>
+            </div>
+            <div class="user-menu" style="display: none;">
+                <div class="user-info">
+                    <img src="placeholder.svg?height=40&width=40" alt="Foto do Usuário" class="user-avatar">
+                    <span class="user-name">Maria Oliveira</span>
+                </div>
+                <div class="dropdown-menu">
+                    <a href="telespectador-dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    <a href="perfil.html"><i class="fas fa-user-edit"></i> Editar Perfil</a>
+                    <a href="index.html"><i class="fas fa-sign-out-alt"></i> Sair</a>
+                </div>
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <!-- Hero Section -->
+        <section class="explorar-hero">
+            <div class="container">
+                <div class="explorar-hero-content">
+                    <h1>Descubra Eventos Incríveis</h1>
+                    <p>Encontre eventos que combinam com seus interesses e expanda seus horizontes</p>
+                    <div class="search-container">
+                        <input type="text" placeholder="Buscar eventos por nome, local ou categoria..." class="search-input">
+                        <button class="search-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filtros -->
+        <section class="filtros-section">
+            <div class="container">
+                <div class="filtros-container">
+                    <div class="filtro-grupo">
+                        <label for="categoria">Categoria</label>
+                        <select id="categoria">
+                            <option value="">Todas as categorias</option>
+                            <option value="tecnologia">Tecnologia</option>
+                            <option value="negocios">Negócios</option>
+                            <option value="marketing">Marketing</option>
+                            <option value="design">Design</option>
+                            <option value="saude">Saúde</option>
+                            <option value="educacao">Educação</option>
+                        </select>
+                    </div>
+                    <div class="filtro-grupo">
+                        <label for="local">Local</label>
+                        <select id="local">
+                            <option value="">Todos os locais</option>
+                            <option value="sao-paulo">São Paulo, SP</option>
+                            <option value="rio-de-janeiro">Rio de Janeiro, RJ</option>
+                            <option value="belo-horizonte">Belo Horizonte, MG</option>
+                            <option value="curitiba">Curitiba, PR</option>
+                            <option value="online">Online</option>
+                        </select>
+                    </div>
+                    <div class="filtro-grupo">
+                        <label for="data">Data</label>
+                        <select id="data">
+                            <option value="">Qualquer data</option>
+                            <option value="hoje">Hoje</option>
+                            <option value="amanha">Amanhã</option>
+                            <option value="semana">Esta semana</option>
+                            <option value="mes">Este mês</option>
+                        </select>
+                    </div>
+                    <div class="filtro-grupo">
+                        <label for="preco">Preço</label>
+                        <select id="preco">
+                            <option value="">Qualquer preço</option>
+                            <option value="gratuito">Gratuito</option>
+                            <option value="pago">Pago</option>
+                        </select>
+                    </div>
+                    <div class="filtro-grupo">
+                        <label for="formato">Formato</label>
+                        <select id="formato">
+                            <option value="">Todos os formatos</option>
+                            <option value="presencial">Presencial</option>
+                            <option value="online">Online</option>
+                            <option value="hibrido">Híbrido</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary filtrar-btn">Aplicar Filtros</button>
+                </div>
+                <div class="tags-container">
+                    <span class="tag">Tecnologia <i class="fas fa-times"></i></span>
+                    <span class="tag">São Paulo <i class="fas fa-times"></i></span>
+                    <span class="tag">Este mês <i class="fas fa-times"></i></span>
+                    <a href="#" class="limpar-filtros">Limpar todos</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resultados -->
+        <section class="resultados-section">
+            <div class="container">
+                <div class="resultados-header">
+                    <h2>Eventos Encontrados <span>(42 resultados)</span></h2>
+                    <div class="ordenar-container">
+                        <label for="ordenar">Ordenar por:</label>
+                        <select id="ordenar">
+                            <option value="data-asc">Data (mais próxima)</option>
+                            <option value="data-desc">Data (mais distante)</option>
+                            <option value="preco-asc">Preço (menor para maior)</option>
+                            <option value="preco-desc">Preço (maior para menor)</option>
+                            <option value="relevancia">Relevância</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="eventos-grid">
+                    <!-- Evento 1 -->
+                    <div class="evento-card">
+                        <div class="evento-image">
+                            <img src="placeholder.svg?height=200&width=300" alt="Evento">
+                            <div class="evento-date">
+                                <span class="day">15</span>
+                                <span class="month">JUN</span>
+                            </div>
+                            <div class="evento-badge">Destaque</div>
+                        </div>
+                        <div class="evento-content">
+                            <h3><a href="evento-detalhes.html">Workshop de JavaScript Avançado</a></h3>
+                            <div class="evento-details">
+                                <p><i class="fas fa-map-marker-alt"></i> São Paulo, SP</p>
+                                <p><i class="fas fa-clock"></i> 09:00 - 18:00</p>
+                            </div>
+                            <p class="evento-description">Aprenda técnicas avançadas de JavaScript, incluindo ES6+, padrões de design e otimização de performance.</p>
+                            <div class="evento-footer">
+                                <span class="evento-price">R$ 120,00</span>
+                                <a href="evento-detalhes.html" class="btn btn-primary">Inscrever-se</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Evento 2 -->
+                    <div class="evento-card">
+                        <div class="evento-image">
+                            <img src="placeholder.svg?height=200&width=300" alt="Evento">
+                            <div class="evento-date">
+                                <span class="day">22</span>
+                                <span class="month">JUN</span>
+                            </div>
+                        </div>
+                        <div class="evento-content">
+                            <h3><a href="evento-detalhes.html">Palestra: Futuro da IA</a></h3>
+                            <div class="evento-details">
+                                <p><i class="fas fa-map-marker-alt"></i> Rio de Janeiro, RJ</p>
+                                <p><i class="fas fa-clock"></i> 19:00 - 21:00</p>
+                            </div>
+                            <p class="evento-description">Uma visão abrangente sobre o futuro da Inteligência Artificial e seu impacto em diversas indústrias.</p>
+                            <div class="evento-footer">
+                                <span class="evento-price">R$ 80,00</span>
+                                <a href="evento-detalhes.html" class="btn btn-primary">Inscrever-se</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Evento 3 -->
+                    <div class="evento-card">
+                        <div class="evento-image">
+                            <img src="placeholder.svg?height=200&width=300" alt="Evento">
+                            <div class="evento-date">
+                                <span class="day">05</span>
+                                <span class="month">JUL</span>
+                            </div>
+                        </div>
+                        <div class="evento-content">
+                            <h3><a href="evento-detalhes.html">Meetup: Desenvolvimento Web</a></h3>
+                            <div class="evento-details">
+                                <p><i class="fas fa-map-marker-alt"></i> Belo Horizonte, MG</p>
+                                <p><i class="fas fa-clock"></i> 18:30 - 21:30</p>
+                            </div>
+                            <p class="evento-description">Encontro para discutir as mais recentes tendências e tecnologias em desenvolvimento web.</p>
+                            <div class="evento-footer">
+                                <span class="evento-price">Gratuito</span>
+                                <a href="evento-detalhes.html" class="btn btn-primary">Inscrever-se</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Evento 4 -->
+                    <div class="evento-card">
+                        <div class="evento-image">
+                            <img src="placeholder.svg?height=200&width=300" alt="Evento">
+                            <div class="evento-date">
+                                <span class="day">18</span>
+                                <span class="month">JUN</span>
+                            </div>
+                        </div>
+                        <div class="evento-content">
+                            <h3><a href="evento-detalhes.html">Conferência de Desenvolvimento Mobile</a></h3>
+                            <div class="evento-details">
+                                <p><i class="fas fa-map-marker-alt"></i> São Paulo, SP</p>
+                                <p><i class="fas fa-clock"></i> 09:00 - 18:00</p>
+                            </div>
+                            <p class="evento-description">Aprenda as mais recentes tecnologias e tendências em desenvolvimento mobile com especialistas da área.</p>
+                            <div class="evento-footer">
+                                <span class="evento-price">R$ 150,00</span>
+                                <a href="evento-detalhes.html" class="btn btn-primary">Inscrever-se</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Evento 5 -->
+                    <div class="evento-card">
+                        <div class="evento-image">
+                            <img src="placeholder.svg?height=200&width=300" alt="Evento">
+                            <div class="evento-date">
+                                <span class="day">25</span>
+                                <span class="month">JUN</span>
+                            </div>
+                        </div>
+                        <div class="evento-content">
+                            <h3><a href="evento-detalhes.html">Workshop de Design Thinking</a></h3>
+                            <div class="evento-details">
+                                <p><i class="fas fa-map-marker-alt"></i> Curitiba, PR</p>
+                                <p><i class="fas fa-clock"></i> 14:00 - 18:00</p>
+                            </div>
+                            <p class="evento-description">Um workshop prático sobre metodologias de Design Thinking para solução de problemas complexos.</p>
+                            <div class="evento-footer">
+                                <span class="evento-price">R$ 90,00</span>
+                                <a href="evento-detalhes.html" class="btn btn-primary">Inscrever-se</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Evento 6 -->
+                    <div class="evento-card">
+                        <div class="evento-image">
+                            <img src="placeholder.svg?height=200&width=300" alt="Evento">
+                            <div class="evento-date">
+                                <span class="day">02</span>
+                                <span class="month">JUL</span>
+                            </div>
+                        </div>
+                        <div class="evento-content">
+                            <h3><a href="evento-detalhes.html">Palestra: Carreira em Tecnologia</a></h3>
+                            <div class="evento-details">
+                                <p><i class="fas fa-map-marker-alt"></i> Online</p>
+                                <p><i class="fas fa-clock"></i> 19:00 - 21:00</p>
+                            </div>
+                            <p class="evento-description">Descubra caminhos e oportunidades para desenvolver sua carreira na área de tecnologia.</p>
+                            <div class="evento-footer">
+                                <span class="evento-price">Gratuito</span>
+                                <a href="evento-detalhes.html" class="btn btn-primary">Inscrever-se</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Paginação -->
+                <div class="paginacao">
+                    <a href="#" class="pagina-anterior"><i class="fas fa-chevron-left"></i> Anterior</a>
+                    <div class="paginas">
+                        <a href="#" class="pagina active">1</a>
+                        <a href="#" class="pagina">2</a>
+                        <a href="#" class="pagina">3</a>
+                        <span class="pagina-ellipsis">...</span>
+                        <a href="#" class="pagina">7</a>
+                    </div>
+                    <a href="#" class="pagina-proxima">Próxima <i class="fas fa-chevron-right"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categorias Populares -->
+        <section class="categorias-section">
+            <div class="container">
+                <h2>Categorias Populares</h2>
+                <div class="categorias-grid">
+                    <a href="#" class="categoria-card">
+                        <div class="categoria-icon">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <h3>Tecnologia</h3>
+                        <p>152 eventos</p>
+                    </a>
+                    <a href="#" class="categoria-card">
+                        <div class="categoria-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Negócios</h3>
+                        <p>98 eventos</p>
+                    </a>
+                    <a href="#" class="categoria-card">
+                        <div class="categoria-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h3>Design</h3>
+                        <p>64 eventos</p>
+                    </a>
+                    <a href="#" class="categoria-card">
+                        <div class="categoria-icon">
+                            <i class="fas fa-bullhorn"></i>
+                        </div>
+                        <h3>Marketing</h3>
+                        <p>87 eventos</p>
+                    </a>
+                    <a href="#" class="categoria-card">
+                        <div class="categoria-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3>Educação</h3>
+                        <p>112 eventos</p>
+                    </a>
+                    <a href="#" class="categoria-card">
+                        <div class="categoria-icon">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <h3>Saúde</h3>
+                        <p>76 eventos</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter -->
+        <section class="newsletter-section">
+            <div class="container">
+                <div class="newsletter-container">
+                    <div class="newsletter-content">
+                        <h2>Fique por dentro dos melhores eventos</h2>
+                        <p>Receba recomendações personalizadas e não perca nenhuma oportunidade</p>
+                    </div>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Seu melhor e-mail" required>
+                        <button type="submit" class="btn btn-primary">Inscrever-se</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-logo">
+                <img src="placeholder.svg?height=60&width=180" alt="EventTool Logo">
+                <p>Conectando pessoas a experiências incríveis</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h3>Navegação</h3>
+                    <ul>
+                        <li><a href="index.html#eventos">Eventos</a></li>
+                        <li><a href="quem-somos.html">Quem Somos</a></li>
+                        <li><a href="contato.html">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Nossa Equipe</h3>
+                    <ul class="team-links">
+                        <li>
+                            <span>João Silva</span>
+                            <div class="social-links">
+                                <a href="https://github.com/joaosilva" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="https://linkedin.com/in/joaosilva" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            </div>
+                        </li>
+                        <li>
+                            <span>Maria Oliveira</span>
+                            <div class="social-links">
+                                <a href="https://github.com/mariaoliveira" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="https://linkedin.com/in/mariaoliveira" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            </div>
+                        </li>
+                        <li>
+                            <span>Carlos Santos</span>
+                            <div class="social-links">
+                                <a href="https://github.com/carlossantos" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="https://linkedin.com/in/carlossantos" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contato</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-envelope"></i> contato@eventosbr.com</li>
+                        <li><i class="fas fa-phone"></i> (11) 99999-9999</li>
+                        <li><i class="fas fa-map-marker-alt"></i> São Paulo, SP - Brasil</li>
+                    </ul>
+                    <div class="social-media">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>&copy; 2025 EventTool. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="explorar-eventos.js"></script>
+</body>
+</html>

@@ -1,0 +1,495 @@
+/* Estilos específicos para a página de detalhes do evento */
+
+.evento-detalhes-main {
+    padding: 4rem 0;
+    background-color: var(--light);
+}
+
+/* Hero do Evento */
+.evento-hero {
+    position: relative;
+    height: 400px;
+    margin-bottom: 3rem;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.evento-hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.evento-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.7));
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2rem;
+    color: var(--white);
+}
+
+.evento-hero-badge {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background-color: var(--secondary-color);
+    color: var(--white);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.evento-hero-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--white);
+}
+
+.evento-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.evento-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+}
+
+.evento-meta-item i {
+    color: var(--primary-color);
+}
+
+.evento-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+/* Conteúdo do Evento */
+.evento-container {
+    display: flex;
+    gap: 2rem;
+}
+
+.evento-content {
+    flex: 2;
+}
+
+.evento-sidebar {
+    flex: 1;
+}
+
+.evento-section {
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--box-shadow);
+}
+
+.evento-section h2 {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.evento-description {
+    color: var(--medium);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+}
+
+.evento-description p {
+    margin-bottom: 1.5rem;
+}
+
+.evento-description ul,
+.evento-description ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+.evento-description li {
+    margin-bottom: 0.5rem;
+}
+
+/* Agenda */
+.agenda-item {
+    display: flex;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.agenda-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.agenda-time {
+    flex: 0 0 120px;
+    padding-right: 1.5rem;
+}
+
+.agenda-time span {
+    display: block;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.agenda-content h3 {
+    margin-bottom: 0.5rem;
+}
+
+.agenda-content p {
+    color: var(--medium);
+    margin-bottom: 0.75rem;
+}
+
+.agenda-speaker {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.agenda-speaker img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.agenda-speaker-info h4 {
+    margin-bottom: 0.25rem;
+    font-size: 1rem;
+}
+
+.agenda-speaker-info p {
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+
+/* Palestrantes */
+.palestrantes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.palestrante-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.palestrante-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+    border: 3px solid var(--primary-color);
+}
+
+.palestrante-card h3 {
+    margin-bottom: 0.5rem;
+}
+
+.palestrante-card p {
+    color: var(--medium);
+    margin-bottom: 1rem;
+}
+
+.palestrante-social {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.palestrante-social a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #f5f5f5;
+    color: var(--medium);
+    transition: all 0.3s ease;
+}
+
+.palestrante-social a:hover {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+/* Localização */
+.evento-map {
+    height: 300px;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+
+.evento-map iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.evento-location-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.evento-location-details p {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    color: var(--medium);
+    margin-bottom: 0;
+}
+
+.evento-location-details i {
+    color: var(--primary-color);
+    margin-top: 0.25rem;
+}
+
+/* Sidebar */
+.evento-card {
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--box-shadow);
+}
+
+.evento-card h3 {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.evento-info-list {
+    margin-bottom: 1.5rem;
+}
+
+.evento-info-item {
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.evento-info-item:last-child {
+    margin-bottom: 0;
+}
+
+.evento-info-icon {
+    flex: 0 0 40px;
+    height: 40px;
+    background-color: rgba(245, 166, 35, 0.1);
+    color: var(--primary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+}
+
+.evento-info-content h4 {
+    margin-bottom: 0.25rem;
+    font-size: 1rem;
+}
+
+.evento-info-content p {
+    color: var(--medium);
+    margin-bottom: 0;
+}
+
+.evento-price-card {
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--box-shadow);
+    text-align: center;
+}
+
+.evento-price-header {
+    margin-bottom: 1.5rem;
+}
+
+.evento-price-header h3 {
+    margin-bottom: 0.5rem;
+}
+
+.evento-price-header p {
+    color: var(--medium);
+}
+
+.evento-price {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+}
+
+.evento-price-features {
+    margin-bottom: 1.5rem;
+}
+
+.evento-price-feature {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    color: var(--medium);
+}
+
+.evento-price-feature i {
+    color: var(--success);
+}
+
+.evento-price-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.evento-share-card {
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    box-shadow: var(--box-shadow);
+    text-align: center;
+}
+
+.evento-share-card h3 {
+    margin-bottom: 1.5rem;
+}
+
+.evento-share-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.evento-share-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    color: var(--white);
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.evento-share-button:hover {
+    transform: translateY(-5px);
+}
+
+.share-facebook {
+    background-color: #4267B2;
+}
+
+.share-twitter {
+    background-color: #1DA1F2;
+}
+
+.share-linkedin {
+    background-color: #0077B5;
+}
+
+.share-whatsapp {
+    background-color: #25D366;
+}
+
+/* Eventos Relacionados */
+.eventos-relacionados h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.eventos-relacionados-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+/* Responsividade */
+@media (max-width: 992px) {
+    .evento-container {
+        flex-direction: column;
+    }
+    
+    .evento-sidebar {
+        order: -1;
+    }
+    
+    .evento-price-card {
+        text-align: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .evento-hero {
+        height: 300px;
+    }
+    
+    .evento-hero-content h1 {
+        font-size: 2rem;
+    }
+    
+    .evento-meta {
+        gap: 1rem;
+    }
+    
+    .evento-actions {
+        flex-direction: column;
+    }
+    
+    .palestrantes-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+}
+
+@media (max-width: 576px) {
+    .evento-hero {
+        height: 250px;
+    }
+    
+    .evento-hero-content h1 {
+        font-size: 1.8rem;
+    }
+    
+    .evento-section {
+        padding: 1.5rem;
+    }
+    
+    .agenda-item {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .agenda-time {
+        flex: 0 0 auto;
+        padding-right: 0;
+    }
+    
+    .eventos-relacionados-grid {
+        grid-template-columns: 1fr;
+    }
+}
