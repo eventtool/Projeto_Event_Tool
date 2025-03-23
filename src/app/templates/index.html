@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventosBR - Plataforma de Eventos</title>
+    <link rel="stylesheet" href="/src/backend/static/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <a href="/src/backend/index.html"><img src="placeholder.svg?height=60&width=180" alt="EventTool"></a>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#eventos">Eventos</a></li>
+                    <li><a href="#quem-somos">Quem Somos</a></li>
+                    <li><a href="#contato">Contato</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn btn-login">Login</a>
+                <a href="/src/backend/templates/cadastro.html" class="btn btn-register">Cadastro</a>
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Descubra os Melhores Eventos</h1>
+                    <p>Encontre, participe e compartilhe experiências incríveis</p>
+                    <a href="#eventos" class="btn btn-primary">Ver Eventos</a>
+                </div>
+            </div>
+        </section>
+        <section id="eventos" class="eventos-section">
+            <div class="container">
+                <h2 class="section-title">Próximos Eventos</h2>
+                <div class="eventos-filter">
+                    <button class="filter-btn active" data-filter="todos">Todos</button>
+                    <button class="filter-btn" data-filter="tecnologia">Tecnologia</button>
+                    <button class="filter-btn" data-filter="negocios">Negócios</button>
+                    <button class="filter-btn" data-filter="cultura">Cultura</button>
+                </div>
+                <div class="eventos-grid">
+                    <div class="evento-card" data-category="tecnologia">
+                        <div class="evento-image">
+                            <img src="placeholder.svg?height=200&width=300" alt="Evento de Tecnologia">
+                            <div class="evento-date">
+                                <span class="day">15</span>
+                                <span class="month">JUN</span>
+                            </div>
+                        </div>
+                        <div class="evento-content">
+                            <h3>DevConf 2025</h3>
+                            <div class="evento-details">
+                                <p><i class="fas fa-map-marker-alt"></i> São Paulo, SP</p>
+                                <p><i class="fas fa-clock"></i> 09:00 - 18:00</p>
+                            </div>
+                            <p class="evento-description">Conferência para desenvolvedores com palestras sobre as mais recentes tecnologias e tendências.</p>
+                            <a href="#" class="btn btn-secondary">Saiba Mais</a>
+                        </div>
+                    </div>
+                    <div class="evento-card" data-category="negocios">
+                        <div class="evento-image">
+                            <img src="placeholder.svg?height=200&width=300" alt="Evento de Negócios">
+                            <div class="evento-date">
+                                <span class="day">22</span>
+                                <span class="month">JUN</span>
+                            </div>
+                        </div>
+                        <div class="evento-content">
+                            <h3>Empreenda 2025</h3>
+                            <div class="evento-details">
+                                <p><i class="fas fa-map-marker-alt"></i> Rio de Janeiro, RJ</p>
+                                <p><i class="fas fa-clock"></i> 10:00 - 17:00</p>
+                            </div>
+                            <p class="evento-description">Evento para empreendedores com workshops, networking e oportunidades de investimento.</p>
+                            <a href="#" class="btn btn-secondary">Saiba Mais</a>
+                        </div>
+                    </div>
+                    <div class="evento-card" data-category="cultura">
+                        <div class="evento-image">
+                            <img src="placeholder.svg?height=200&width=300" alt="Evento Cultural">
+                            <div class="evento-date">
+                                <span class="day">30</span>
+                                <span class="month">JUN</span>
+                            </div>
+                        </div>
+                        <div class="evento-content">
+                            <h3>Festival de Artes</h3>
+                            <div class="evento-details">
+                                <p><i class="fas fa-map-marker-alt"></i> Belo Horizonte, MG</p>
+                                <p><i class="fas fa-clock"></i> 14:00 - 22:00</p>
+                            </div>
+                            <p class="evento-description">Festival com exposições de arte, música ao vivo e apresentações culturais diversas.</p>
+                            <a href="#" class="btn btn-secondary">Saiba Mais</a>
+                        </div>
+                    </div>
+                    <div class="evento-card" data-category="tecnologia">
+                        <div class="evento-image">
+                            <img src="placeholder.svg?height=200&width=300" alt="Evento de Tecnologia">
+                            <div class="evento-date">
+                                <span class="day">05</span>
+                                <span class="month">JUL</span>
+                            </div>
+                        </div>
+                        <div class="evento-content">
+                            <h3>AI Summit</h3>
+                            <div class="evento-details">
+                                <p><i class="fas fa-map-marker-alt"></i> Curitiba, PR</p>
+                                <p><i class="fas fa-clock"></i> 09:00 - 18:00</p>
+                            </div>
+                            <p class="evento-description">Conferência sobre Inteligência Artificial e suas aplicações em diversos setores.</p>
+                            <a href="#" class="btn btn-secondary">Saiba Mais</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="eventos-more">
+                    <a href="#" class="btn btn-primary">Ver Todos os Eventos</a>
+                </div>
+            </div>
+        </section>
+        <section id="quem-somos" class="quem-somos-section">
+            <div class="container">
+                <div class="quem-somos-content">
+                    <div class="quem-somos-text">
+                        <h2 class="section-title">Quem Somos</h2>
+                        <p>A EventTool é uma plataforma dedicada a conectar pessoas a eventos incríveis em todo o Brasil. Nossa missão é facilitar o acesso à informação sobre eventos de diversos segmentos, promovendo a cultura, o conhecimento e o networking.</p>
+                        <p>Fundada em 2025 por um grupo de estudantes entusiastas de tecnologia e eventos.</p>
+                        <div class="stats">
+                            <div class="stat-item">
+                                <span class="stat-number">100+</span>
+                                <span class="stat-text">Eventos</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">1k+</span>
+                                <span class="stat-text">Usuários</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">10+</span>
+                                <span class="stat-text">Cidades</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="quem-somos-image">
+                        <img src="placeholder.svg?height=400&width=500" alt="Equipe EventTool">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-logo">
+                <img src="placeholder.svg?height=60&width=180" alt="EventTool Logo">
+                <p>A ferramenta certa pare seus eventos</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h3>Navegação</h3>
+                    <ul>
+                        <li><a href="#eventos">Eventos</a></li>
+                        <li><a href="#quem-somos">Quem Somos</a></li>
+                        <li><a href="login.html">Login</a></li>
+                        <li><a href="/src/backend/templates/cadastro.html">Cadastro</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Nossa Equipe</h3>
+                    <ul class="team-links">
+                        <li>
+                            <span>Lucas</span>
+                            <div class="social-links">
+                                <a href="https://github.com/joaosilva" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="https://linkedin.com/in/joaosilva" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            </div>
+                        </li>
+                        <li>
+                            <span>Elza</span>
+                            <div class="social-links">
+                                <a href="https://github.com/mariaoliveira" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="https://linkedin.com/in/mariaoliveira" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            </div>
+                        </li>
+                        <li>
+                            <span>Nicoly</span>
+                            <div class="social-links">
+                                <a href="https://github.com/carlossantos" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="https://linkedin.com/in/carlossantos" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contato</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-envelope"></i> contato@gmail.com</li>
+                        <li><i class="fas fa-phone"></i> (11) 99999-9999</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Fortaleza - CE</li>
+                    </ul>
+                    <div class="social-media">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>&copy; 2025 EventTool. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/src/backend/static/js/index.js"></script>
+</body>
+</html>

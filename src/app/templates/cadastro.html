@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - EventosBR</title>
+    <link rel="stylesheet" href="/src/backend/static/cadastro.css">
+    <link rel="stylesheet" href="/src/backend/static/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <a href="index.html">
+                    <a href="/src/backend/index.html"><img src="placeholder.svg?height=60&width=180" alt="EventTool"></a>
+                </a>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html#eventos">Eventos</a></li>
+                    <li><a href="index.html#quem-somos">Quem Somos</a></li>
+                    <li><a href="index.html#contato">Contato</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn btn-login">Login</a>
+                <a href="cadastro.html" class="btn btn-register">Cadastro</a>
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <section class="cadastro-section">
+            <div class="container">
+                <div class="cadastro-container">
+                    <div class="cadastro-header">
+                        <h1>Crie sua conta</h1>
+                        <p>Junte-se à comunidade EventTool e descubra eventos incríveis</p>
+                    </div>
+                    
+                    <div class="social-login">
+                        <button class="btn btn-google">
+                            <i class="fab fa-google"></i> Cadastrar com Google
+                        </button>
+                    </div>
+                    
+                    <div class="divider">
+                        <span>ou</span>
+                    </div>
+                    
+                    <form id="cadastro-form" class="cadastro-form">
+                        <div class="form-group">
+                            <label for="nome">Nome Completo</label>
+                            <div class="input-icon">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="nome" name="nome" placeholder="Digite seu nome completo" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <div class="input-icon">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="email" name="email" placeholder="Digite seu email" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="senha">Senha</label>
+                            <div class="input-icon">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="senha" name="senha" placeholder="Crie uma senha segura" required>
+                                <button type="button" class="toggle-password" aria-label="Mostrar senha">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="password-strength">
+                                <div class="strength-meter">
+                                    <div class="strength-meter-fill" data-strength="0"></div>
+                                </div>
+                                <div class="strength-text">Força da senha: <span>Fraca</span></div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="celular">Celular</label>
+                            <div class="input-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                                <input type="tel" id="celular" name="celular" placeholder="(00) 00000-0000" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Tipo de Conta</label>
+                            <div class="account-type-container">
+                                <div class="account-type-option">
+                                    <input type="radio" id="telespectador" name="tipo-conta" value="telespectador" checked>
+                                    <label for="telespectador" class="account-type-label">
+                                        <div class="account-type-icon">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        <div class="account-type-info">
+                                            <h3>Sou Telespectador</h3>
+                                            <p>Inscrição em eventos, comentar em postagens</p>
+                                        </div>
+                                    </label>
+                                </div>
+                                
+                                <div class="account-type-option">
+                                    <input type="radio" id="palestrante" name="tipo-conta" value="palestrante">
+                                    <label for="palestrante" class="account-type-label">
+                                        <div class="account-type-icon">
+                                            <i class="fas fa-microphone"></i>
+                                        </div>
+                                        <div class="account-type-info">
+                                            <h3>Sou Palestrante</h3>
+                                            <p>Criar eventos, fazer postagens sobre eventos</p>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group terms">
+                            <input type="checkbox" id="termos" name="termos" required>
+                            <label for="termos">
+                                Concordo com os <a href="#">Termos de Uso</a> e <a href="#">Política de Privacidade</a>
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-block">Criar Conta</button>
+                    </form>
+                    
+                    <div class="login-link">
+                        Já tem uma conta? <a href="login.html">Faça login</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-logo">
+                <img src="placeholder.svg?height=60&width=180" alt="EventTool Logo">
+                <p>A ferramenta certa para seus eventos</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h3>Navegação</h3>
+                    <ul>
+                        <li><a href="index.html#eventos">Eventos</a></li>
+                        <li><a href="index.html#quem-somos">Quem Somos</a></li>
+                        <li><a href="login.html">Login</a></li>
+                        <li><a href="cadastro.html">Cadastro</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Nossa Equipe</h3>
+                    <ul class="team-links">
+                        <li>
+                            <span>Nicoli</span>
+                            <div class="social-links">
+                                <a href="https://github.com/joaosilva" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="https://linkedin.com/in/joaosilva" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            </div>
+                        </li>
+                        <li>
+                            <span>Nicoly</span>
+                            <div class="social-links">
+                                <a href="https://github.com/mariaoliveira" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="https://linkedin.com/in/mariaoliveira" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            </div>
+                        </li>
+                        <li>
+                            <span>Elza</span>
+                            <div class="social-links">
+                                <a href="https://github.com/carlossantos" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="https://linkedin.com/in/carlossantos" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contato</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-envelope"></i> contato@gmail.com</li>
+                        <li><i class="fas fa-phone"></i> (11) 99999-9999</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Fortaleza, CE - Brasil</li>
+                    </ul>
+                    <div class="social-media">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>&copy; 2025 EventTool. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/src/backend/static/js/cadastro.js"></script>
+</body>
+</html>
