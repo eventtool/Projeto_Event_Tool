@@ -1,22 +1,26 @@
+import os
+from dotenv import load_dotenv
 import psycopg2
 from psycopg2 import OperationalError
 
+# Carrega as variáveis do arquivo .env
+load_dotenv()
+
 class DatabaseConfig:
-    SQLALCHEMY_DATABASE_URI = (
-        'postgresql://projetc_event_tool_user:6paqgMFFDNuBAeQ75s2fBRbbcepCJEaN@dpg-cvfel80fnakc739nr4v0-a.virginia-postgres.render.com:5432/postgres'
-    )
-    SQLALCHEMY_TRACK_MODIFICATIONS = False  # Para desabilitar a notificação de modificações
+    # Carrega a URI completa do .env para uso com SQLAlchemy
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     @staticmethod
     def get_connection():
         try:
-            # Estabelece a conexão com o banco de dados PostgreSQL
+            # Estabelece a conexão com o banco de dados PostgreSQL usando variáveis individuais
             connection = psycopg2.connect(
-                host="dpg-cvfel80fnakc739nr4v0-a.virginia-postgres.render.com",
-                database="postgres",
-                user="projetc_event_tool_user",
-                password="6paqgMFFDNuBAeQ75s2fBRbbcepCJEaN",
-                port="5432"
+                host=os.getenv('DB_HOST'),
+                database=os.getenv('DB_DATABASE'),
+                user=os.getenv('DB_USER'),
+                password=os.getenv('DB_PASSWORD'),
+                port=os.getenv('DB_PORT')
             )
             return connection
         except OperationalError as e:

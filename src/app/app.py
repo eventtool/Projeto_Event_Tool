@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, render_template, redirect, url_for, f
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import os
+from models import Usuario, Evento, Certificado, Presenca
 import config
 from dotenv import load_dotenv
 
@@ -17,7 +18,6 @@ config.DatabaseConfig.test_db_connection()
 
 db = SQLAlchemy(app)
 
-from models import Usuario, Evento, Certificado, Presenca
 
 # Rota para a página inicial
 @app.route('/')
