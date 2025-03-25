@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventosBR - Plataforma de Eventos</title>
-    <link rel="stylesheet" href="/src/app/static/styles/styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <header>
         <div class="container header-container">
             <div class="logo">
-                <a href="/src/app/templates/index.html"><img src="placeholder.svg?height=60&width=180" alt="EventTool"></a>
+                <a href="{{ url_for('index') }}"<img src="{{ url_for('static', filename='img/placeholder.svg') }}?height=60&width=180"  alt="EventTool"></a>
             </div>
             <nav>
                 <ul class="nav-links">
@@ -21,8 +21,8 @@
                 </ul>
             </nav>
             <div class="auth-buttons">
-                <a href="/src/app/templates/login.html" class="btn btn-login">Entrar</a>
-                <a href="/src/app/templates/cadastro.html" class="btn btn-register">Cadastro</a>
+                <a href="{{ url_for('login') }}" class="btn btn-login">Entrar</a>
+                <a href="{{ url_for('cadastro') }}" class="btn btn-register">Cadastro</a>
             </div>
             <div class="menu-toggle">
                 <i class="fas fa-bars"></i>
@@ -236,6 +236,6 @@
         </div>
     </footer>
 
-    <script src="/src/backend/static/js/index.js"></script>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
 </body>
 </html>
