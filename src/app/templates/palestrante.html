@@ -4,94 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard do Palestrante - EventosBR</title>
-    <link rel="stylesheet" href="/src/app/static/styles//telespectador_palestrante.css">
-    <link rel="stylesheet" href="/src/app/static/styles/styles.css">
-    <link rel="stylesheet" href="dashboard-styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/telespectador_palestrante.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard-styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Flatpickr para seleção de data e hora -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-
 </head>
 <body>
     <header>
         <div class="container header-container">
             <div class="logo">
-                <a href="index.html">
-                    <img src="placeholder.svg?height=60&width=180" alt="EventTool Logo">
+                <a href="{{ url_for('index') }}">
+                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="EventTool">
                 </a>
             </div>
             <nav>
                 <ul class="nav-links">
-                    <li><a href="index.html#eventos">Eventos</a></li>
-                    <li><a href="index.html#quem-somos">Quem Somos</a></li>
-                    <li><a href="index.html#contato">Contato</a></li>
+                    <li><a href="#eventos">Eventos</a></li>
+                    <li><a href="#quem-somos">Quem Somos</a></li>
+                    <li><a href="#contato">Contato</a></li>
                 </ul>
             </nav>
-            <div class="user-menu">
-                <div class="user-info">
-                    <img src="placeholder.svg?height=40&width=40" alt="Foto do Usuário" class="user-avatar">
-                    <span class="user-name">João Silva</span>
-                </div>
-                <div class="dropdown-menu">
-                    <a href="palestrante-dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-                    <a href="perfil.html"><i class="fas fa-user-edit"></i> Editar Perfil</a>
-                    <a href="index.html"><i class="fas fa-sign-out-alt"></i> Sair</a>
-                </div>
+            <div class="auth-buttons">
+                <a href="{{ url_for('login') }}" class="btn btn-login">Entrar</a>
+                <a href="{{ url_for('cadastro') }}" class="btn btn-register">Cadastro</a>
             </div>
             <div class="menu-toggle">
                 <i class="fas fa-bars"></i>
             </div>
         </div>
     </header>
-
-    <!-- MAIN CONTENT -->
     <main class="dashboard-main">
         <!-- Sidebar -->
         <aside class="dashboard-sidebar">
             <nav class="sidebar-nav">
                 <ul>
                     <li class="active">
-                        <a href="palestrante-dashboard.html">
+                        <a href="{{ url_for('palestrante_dashboard') }}">
                             <i class="fas fa-tachometer-alt"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <a href="/src/app/templates/criar_evento.html" id="criar-evento-btn">
+                        <a href="{{ url_for('criar_evento') }}" id="criar-evento-btn">
                             <i class="fas fa-calendar-plus"></i>
                             <span>Criar Evento</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="{{ url_for('meus_eventos') }}">
                             <i class="fas fa-calendar-alt"></i>
                             <span>Meus Eventos</span>
                         </a>
                     </li>
-                    <!-- <li>
-                        <a href="#">
-                            <i class="fas fa-users"></i>
-                            <span>Participantes</span>
-                        </a>
-                    </li> -->
-                    <!-- <li>
-                        <a href="#">
-                            <i class="fas fa-chart-bar"></i>
-                            <span>Estatísticas</span>
-                        </a>
-                    </li> -->
-                    <!-- <li>
-                        <a href="#">
-                            <i class="fas fa-comment-alt"></i>
-                            <span>Mensagens</span>
-                        </a>
-                    </li> -->
-                    <!-- <li>
-                        <a href="#">
-                            <i class="fas fa-cog"></i>
-                            <span>Configurações</span>
-                        </a>
-                    </li> -->
                 </ul>
             </nav>
         </aside>
@@ -101,7 +67,7 @@
             <div class="dashboard-header">
                 <h1>Dashboard do Palestrante</h1>
                 <button class="btn btn-primary" id="criar-evento-header-btn">
-                   <a href="/src/app/templates/criar_evento.html"> <i class="fas fa-plus"></i> Criar Novo Evento</a>
+                   <a href="{{ url_for('criar_evento') }}"> <i class="fas fa-plus"></i> Criar Novo Evento</a>
                 </button>
             </div>
 
@@ -116,40 +82,13 @@
                         <p class="card-value">12</p>
                     </div>
                 </div>
-                <div class="dashboard-card">
-                    <div class="card-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <div class="card-content">
-                        <h3>Total de Participantes</h3>
-                        <p class="card-value">248</p>
-                    </div>
-                </div>
-                <div class="dashboard-card">
-                    <div class="card-icon">
-                        <i class="fas fa-calendar-day"></i>
-                    </div>
-                    <div class="card-content">
-                        <h3>Próximos Eventos</h3>
-                        <p class="card-value">3</p>
-                    </div>
-                </div>
-                <div class="dashboard-card">
-                    <div class="card-icon">
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <div class="card-content">
-                        <h3>Avaliação Média</h3>
-                        <p class="card-value">4.8</p>
-                    </div>
-                </div>
             </div>
 
             <!-- Próximos Eventos -->
             <div class="dashboard-section">
                 <div class="section-header">
                     <h2>Próximos Eventos</h2>
-                    <a href="#" class="view-all">Ver Todos</a>
+                    <a href="{{ url_for('meus_eventos') }}" class="view-all">Ver Todos</a>
                 </div>
                 <div class="eventos-table-container">
                     <table class="eventos-table">
@@ -159,7 +98,6 @@
                                 <th>Data</th>
                                 <th>Local</th>
                                 <th>Inscritos</th>
-                                <th>Status</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
@@ -169,35 +107,6 @@
                                 <td>15/06/2025</td>
                                 <td>São Paulo, SP</td>
                                 <td>42/50</td>
-                                <td><span class="status confirmado">Confirmado</span></td>
-                                <td>
-                                    <div class="table-actions">
-                                        <button class="action-btn edit-btn" title="Editar"><i class="fas fa-edit"></i></button>
-                                        <button class="action-btn view-btn" title="Visualizar"><i class="fas fa-eye"></i></button>
-                                        <button class="action-btn delete-btn" title="Excluir"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Palestra: Futuro da IA</td>
-                                <td>22/06/2025</td>
-                                <td>Rio de Janeiro, RJ</td>
-                                <td>78/100</td>
-                                <td><span class="status confirmado">Confirmado</span></td>
-                                <td>
-                                    <div class="table-actions">
-                                        <button class="action-btn edit-btn" title="Editar"><i class="fas fa-edit"></i></button>
-                                        <button class="action-btn view-btn" title="Visualizar"><i class="fas fa-eye"></i></button>
-                                        <button class="action-btn delete-btn" title="Excluir"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Meetup: Desenvolvimento Web</td>
-                                <td>05/07/2025</td>
-                                <td>Belo Horizonte, MG</td>
-                                <td>25/40</td>
-                                <td><span class="status pendente">Pendente</span></td>
                                 <td>
                                     <div class="table-actions">
                                         <button class="action-btn edit-btn" title="Editar"><i class="fas fa-edit"></i></button>
@@ -211,71 +120,6 @@
                 </div>
             </div>
 
-            <!-- Eventos Recentes -->
-            <div class="dashboard-section">
-                <div class="section-header">
-                    <h2>Eventos Realizados Recentemente</h2>
-                    <a href="#" class="view-all">Ver Todos</a>
-                </div>
-                <div class="eventos-grid">
-                    <div class="evento-card">
-                        <div class="evento-image">
-                            <img src="placeholder.svg?height=200&width=300" alt="Evento Realizado">
-                            <div class="evento-date">
-                                <span class="day">10</span>
-                                <span class="month">MAI</span>
-                            </div>
-                        </div>
-                        <div class="evento-content">
-                            <h3>Conferência de UX/UI Design</h3>
-                            <div class="evento-details">
-                                <p><i class="fas fa-map-marker-alt"></i> Curitiba, PR</p>
-                                <p><i class="fas fa-users"></i> 85 participantes</p>
-                            </div>
-                            <div class="evento-rating">
-                                <span class="rating-value">4.9</span>
-                                <div class="rating-stars">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                </div>
-                            </div>
-                            <a href="#" class="btn btn-secondary">Ver Relatório</a>
-                        </div>
-                    </div>
-                    <div class="evento-card">
-                        <div class="evento-image">
-                            <img src="placeholder.svg?height=200&width=300" alt="Evento Realizado">
-                            <div class="evento-date">
-                                <span class="day">28</span>
-                                <span class="month">ABR</span>
-                            </div>
-                        </div>
-                        <div class="evento-content">
-                            <h3>Workshop de React Native</h3>
-                            <div class="evento-details">
-                                <p><i class="fas fa-map-marker-alt"></i> São Paulo, SP</p>
-                                <p><i class="fas fa-users"></i> 45 participantes</p>
-                            </div>
-                            <div class="evento-rating">
-                                <span class="rating-value">4.7</span>
-                                <div class="rating-stars">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                </div>
-                            </div>
-                            <a href="#" class="btn btn-secondary">Ver Relatório</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Modal de Criação de Evento -->
         <div class="modal" id="criar-evento-modal">
             <div class="modal-content">
@@ -284,7 +128,7 @@
                     <button class="close-modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <form id="criar-evento-form">
+                    <form id="criar-evento-form" action="{{ url_for('criar_evento') }}" method="POST">
                         <div class="form-group">
                             <label for="evento-nome">Nome do Evento</label>
                             <input type="text" id="evento-nome" name="evento-nome" placeholder="Digite o nome do evento" required>
@@ -375,40 +219,54 @@
     <footer>
         <div class="container footer-container">
             <div class="footer-logo">
-                <img src="placeholder.svg?height=60&width=180" alt="EventTool Logo">
-                <p>A ferramenta certa para seus eventos</p>
+                <p>Transformando eventos em experiências de outro mundo</p>
             </div>
             <div class="footer-links">
                 <div class="footer-column">
                     <h3>Navegação</h3>
                     <ul>
-                        <li><a href="index.html#eventos">Eventos</a></li>
-                        <li><a href="index.html#quem-somos">Quem Somos</a></li>
-                        <li><a href="index.html#contato">Contato</a></li>
+                        <li><a href="#eventos">Eventos</a></li>
+                        <li><a href="#quem-somos">Quem Somos</a></li>
+                        <li><a href="{{ url_for('login') }}">Login</a></li>
+                        <li><a href="{{ url_for('cadastro') }}">Cadastro</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h3>Nossa Equipe</h3>
                     <ul class="team-links">
                         <li>
-                            <span>Elza</span>
+                            <span>Nicoly Felizardo</span>
                             <div class="social-links">
-                                <a href="https://github.com/joaosilva" target="_blank"><i class="fab fa-github"></i></a>
-                                <a href="https://linkedin.com/in/joaosilva" target="_blank"><i class="fab fa-linkedin"></i></a>
+                                <a href="https://github.com/N1cky003" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="https://www.linkedin.com/in/nicoly-felizardo-holanda" target="_blank"><i class="fab fa-linkedin"></i></a>
                             </div>
                         </li>
                         <li>
-                            <span>Lucas</span>
+                            <span>Mateus Souza</span>
                             <div class="social-links">
-                                <a href="https://github.com/mariaoliveira" target="_blank"><i class="fab fa-github"></i></a>
-                                <a href="https://linkedin.com/in/mariaoliveira" target="_blank"><i class="fab fa-linkedin"></i></a>
+                                <a href="https://github.com/MattSouza14" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="https://www.linkedin.com/in/mateus-souzaa/" target="_blank"><i class="fab fa-linkedin"></i></a>
                             </div>
                         </li>
                         <li>
-                            <span>Nicoly</span>
+                            <span>p3</span>
                             <div class="social-links">
-                                <a href="https://github.com/carlossantos" target="_blank"><i class="fab fa-github"></i></a>
-                                <a href="https://linkedin.com/in/carlossantos" target="_blank"><i class="fab fa-linkedin"></i></a>
+                                <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            </div>
+                        </li>
+                        <li>
+                            <span>p4</span>
+                            <div class="social-links">
+                                <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            </div>
+                        </li>
+                        <li>
+                            <span>p5</span>
+                            <div class="social-links">
+                                <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
                             </div>
                         </li>
                     </ul>
@@ -416,9 +274,9 @@
                 <div class="footer-column">
                     <h3>Contato</h3>
                     <ul class="contact-info">
-                        <li><i class="fas fa-envelope"></i> contato@eventosbr.com</li>
+                        <li><i class="fas fa-envelope"></i> contato@gmail.com</li>
                         <li><i class="fas fa-phone"></i> (11) 99999-9999</li>
-                        <li><i class="fas fa-map-marker-alt"></i> Fortaleza, CE - Brasil</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Fortaleza - CE</li>
                     </ul>
                     <div class="social-media">
                         <a href="#"><i class="fab fa-facebook"></i></a>
@@ -437,6 +295,6 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="palestrantes.js"></script>
+    <script src="{{ url_for('static', filename='js/palestrantes.js') }}"></script>
 </body>
 </html>

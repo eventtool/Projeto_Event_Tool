@@ -4,28 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro - EventosBR</title>
-    <link rel="stylesheet" href="/src/app/static/styles/cadastro.css">
-    <link rel="stylesheet" href="/src/app/static/styles/styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro.css') }}" >
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <header>
         <div class="container header-container">
             <div class="logo">
-                <a href="/src/app/templates/index.html">
-                    <img src="placeholder.svg?height=60&width=180" alt="EventTool">
+                <a href="{{ url_for('index') }}">
+                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="EventTool">
                 </a>
             </div>
             <nav>
                 <ul class="nav-links">
-                    <li><a href="index.html#eventos">Eventos</a></li>
-                    <li><a href="index.html#quem-somos">Quem Somos</a></li>
-                    <li><a href="index.html#contato">Contato</a></li>
+                    <li><a href="#eventos">Eventos</a></li>
+                    <li><a href="#quem-somos">Quem Somos</a></li>
+                    <li><a href="#contato">Contato</a></li>
                 </ul>
             </nav>
             <div class="auth-buttons">
-                <a href="login.html" class="btn btn-login">Login</a>
-                <a href="cadastro.html" class="btn btn-register">Cadastro</a>
+                <a href="{{ url_for('login') }}" class="btn btn-login">Entrar</a>
+                <a href="{{ url_for('cadastro') }}" class="btn btn-register">Cadastro</a>
             </div>
             <div class="menu-toggle">
                 <i class="fas fa-bars"></i>
@@ -33,7 +33,6 @@
         </div>
     </header>
 
-    <!-- MAIN CONTENT -->
     <main>
         <section class="cadastro-section">
             <div class="container">
@@ -137,52 +136,64 @@
                     </form>
                     
                     <div class="login-link">
-                        Já tem uma conta? <a href="login.html">Faça login</a>
+                        Já tem uma conta? <a href="{{ url_for('login') }}">Faça login</a>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- FOOTER -->
     <footer>
         <div class="container footer-container">
             <div class="footer-logo">
-                <img src="placeholder.svg?height=60&width=180" alt="EventTool Logo">
-                <p>A ferramenta certa para seus eventos</p>
+                <p>Transformando eventos em experiências de outro mundo</p>
             </div>
             <div class="footer-links">
                 <div class="footer-column">
                     <h3>Navegação</h3>
                     <ul>
-                        <li><a href="index.html#eventos">Eventos</a></li>
-                        <li><a href="index.html#quem-somos">Quem Somos</a></li>
-                        <li><a href="login.html">Login</a></li>
-                        <li><a href="cadastro.html">Cadastro</a></li>
+                        <li><a href="#eventos">Eventos</a></li>
+                        <li><a href="#quem-somos">Quem Somos</a></li>
+                        <li><a href="{{ url_for('login') }}">Login</a></li>
+                        <li><a href="{{ url_for('cadastro') }}">Cadastro</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h3>Nossa Equipe</h3>
                     <ul class="team-links">
                         <li>
-                            <span>Nicoli</span>
+                            <span>Nicoly Felizardo</span>
                             <div class="social-links">
-                                <a href="https://github.com/joaosilva" target="_blank"><i class="fab fa-github"></i></a>
-                                <a href="https://linkedin.com/in/joaosilva" target="_blank"><i class="fab fa-linkedin"></i></a>
+                                <a href="https://github.com/N1cky003" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="www.linkedin.com/in/nicoly-felizardo-holanda" target="_blank"><i class="fab fa-linkedin"></i></a>
                             </div>
                         </li>
                         <li>
-                            <span>Nicoly</span>
+                            <span>Mateus Souza</span>
                             <div class="social-links">
-                                <a href="https://github.com/mariaoliveira" target="_blank"><i class="fab fa-github"></i></a>
-                                <a href="https://linkedin.com/in/mariaoliveira" target="_blank"><i class="fab fa-linkedin"></i></a>
+                                <a href="https://github.com/MattSouza14" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="https://www.linkedin.com/in/mateus-souzaa/" target="_blank"><i class="fab fa-linkedin"></i></a>
                             </div>
                         </li>
                         <li>
-                            <span>Elza</span>
+                            <span>p3</span>
                             <div class="social-links">
-                                <a href="https://github.com/carlossantos" target="_blank"><i class="fab fa-github"></i></a>
-                                <a href="https://linkedin.com/in/carlossantos" target="_blank"><i class="fab fa-linkedin"></i></a>
+                                <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            </div>
+                        </li>
+                        <li>
+                            <span>p4</span>
+                            <div class="social-links">
+                                <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            </div>
+                        </li>
+                        <li>
+                            <span>p5</span>
+                            <div class="social-links">
+                                <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
                             </div>
                         </li>
                     </ul>
@@ -192,7 +203,7 @@
                     <ul class="contact-info">
                         <li><i class="fas fa-envelope"></i> contato@gmail.com</li>
                         <li><i class="fas fa-phone"></i> (11) 99999-9999</li>
-                        <li><i class="fas fa-map-marker-alt"></i> Fortaleza, CE - Brasil</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Fortaleza - CE</li>
                     </ul>
                     <div class="social-media">
                         <a href="#"><i class="fab fa-facebook"></i></a>
@@ -210,6 +221,6 @@
         </div>
     </footer>
 
-    <script src="/src/backend/static/js/cadastro.js"></script>
+    <script src="{{ url_for('static', filename='js/cadastro.js') }}"></script>
 </body>
 </html>

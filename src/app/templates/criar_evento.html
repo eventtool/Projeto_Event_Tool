@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Criar Evento - EventTool</title>
-<link rel="stylesheet" href="/src/app/static/styles/styles.css">
-<link rel="stylesheet" href="/src/app/static/styles/criar_evento.css">
-<!-- Font Awesome para ícones -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Evento - EventTool</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/criar_evento.css') }}">
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 <!-- HEADER -->
 <header>
     <div class="container header-container">
         <div class="logo">
-            <a href="index.html">
-                <img src="placeholder.svg?height=60&width=180" alt="EventTool Logo">
+            <a href="{{ url_for('index') }}">
+                <img src="{{ url_for('static', filename='img/logo.png') }}" alt="EventTool">
             </a>
         </div>
         <nav>
             <ul class="nav-links">
-                <li><a href="index.html#eventos">Eventos</a></li>
-                <li><a href="quem-somos.html">Quem Somos</a></li>
-                <li><a href="contato.html">Contato</a></li>
+                <li><a href="#eventos">Eventos</a></li>
+                <li><a href="#quem-somos">Quem Somos</a></li>
+                <li><a href="#contato">Contato</a></li>
             </ul>
         </nav>
         <div class="auth-buttons">
-            <a href="login.html" class="btn btn-outline">Entrar</a>
-            <a href="cadastro.html" class="btn btn-primary">Cadastrar</a>
+            <a href="{{ url_for('login') }}" class="btn btn-login">Entrar</a>
+            <a href="{{ url_for('cadastro') }}" class="btn btn-register">Cadastro</a>
         </div>
         <div class="menu-toggle">
             <i class="fas fa-bars"></i>
@@ -69,7 +69,7 @@
             </div>
             
             <!-- Formulário -->
-            <form class="criar-evento-form">
+            <form class="criar-evento-form" action="{{ url_for('criar_evento') }}" method="POST">
                 <!-- Etapa 1: Informações Básicas -->
                 <div class="form-etapa active" id="etapa-1">
                     <div class="form-section">
@@ -92,7 +92,7 @@
                         <div class="image-upload">
                             <label>Imagem de Capa</label>
                             <div class="image-preview" id="image-preview">
-                                <img src="/placeholder.svg" alt="Preview da imagem">
+                                <img src="{{ url_for('static', filename='img/placeholder.svg') }}" alt="Preview da imagem">
                                 <div class="image-preview-placeholder">
                                     <i class="fas fa-image"></i>
                                     <p>Clique para adicionar uma imagem de capa</p>
@@ -104,80 +104,6 @@
                                 <span>Escolher Imagem</span>
                             </label>
                             <p class="form-help">Recomendado: 1200 x 600 pixels, formato JPG ou PNG.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="form-section">
-                        <div class="form-section-header">
-                            <h2>Categorização</h2>
-                            <p>Ajude os participantes a encontrarem seu evento.</p>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Categoria Principal</label>
-                            <div class="categorias-grid">
-                                <label class="categoria-item">
-                                    <input type="radio" name="categoria" value="tecnologia" checked>
-                                    <div class="categoria-content">
-                                        <i class="fas fa-laptop-code"></i>
-                                        <span>Tecnologia</span>
-                                    </div>
-                                </label>
-                                <label class="categoria-item">
-                                    <input type="radio" name="categoria" value="negocios">
-                                    <div class="categoria-content">
-                                        <i class="fas fa-chart-line"></i>
-                                        <span>Negócios</span>
-                                    </div>
-                                </label>
-                                <label class="categoria-item">
-                                    <input type="radio" name="categoria" value="marketing">
-                                    <div class="categoria-content">
-                                        <i class="fas fa-bullhorn"></i>
-                                        <span>Marketing</span>
-                                    </div>
-                                </label>
-                                <label class="categoria-item">
-                                    <input type="radio" name="categoria" value="design">
-                                    <div class="categoria-content">
-                                        <i class="fas fa-palette"></i>
-                                        <span>Design</span>
-                                    </div>
-                                </label>
-                                <label class="categoria-item">
-                                    <input type="radio" name="categoria" value="saude">
-                                    <div class="categoria-content">
-                                        <i class="fas fa-heartbeat"></i>
-                                        <span>Saúde</span>
-                                    </div>
-                                </label>
-                                <label class="categoria-item">
-                                    <input type="radio" name="categoria" value="educacao">
-                                    <div class="categoria-content">
-                                        <i class="fas fa-graduation-cap"></i>
-                                        <span>Educação</span>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="tags">Tags</label>
-                            <div class="tags-container" id="tags-container">
-                                <div class="tag">
-                                    Workshop
-                                    <button type="button" class="remove-tag"><i class="fas fa-times"></i></button>
-                                </div>
-                                <div class="tag">
-                                    Programação
-                                    <button type="button" class="remove-tag"><i class="fas fa-times"></i></button>
-                                </div>
-                            </div>
-                            <div class="add-tag-container">
-                                <input type="text" class="add-tag-input" id="add-tag-input" placeholder="Adicionar nova tag">
-                                <button type="button" class="btn btn-outline" id="add-tag-btn">Adicionar</button>
-                            </div>
-                            <p class="form-help">Adicione tags relevantes para ajudar na descoberta do seu evento.</p>
                         </div>
                     </div>
                     
@@ -202,7 +128,7 @@
                         <div class="palestrantes-container" id="palestrantes-container">
                             <div class="palestrante-item">
                                 <div class="palestrante-avatar">
-                                    <img src="placeholder.svg?height=60&width=60" alt="Avatar do Palestrante">
+                                    <img src="{{ url_for('static', filename='img/placeholder.svg') }}?height=60&width=60" alt="Avatar do Palestrante">
                                 </div>
                                 <div class="palestrante-info">
                                     <h4>João Silva</h4>
@@ -511,7 +437,7 @@
                                 <div class="resumo-item">
                                     <h4>Imagem de Capa</h4>
                                     <div class="resumo-image">
-                                        <img src="placeholder.svg?height=200&width=400" alt="Imagem do Evento">
+                                        <img src="{{ url_for('static', filename='img/placeholder.svg') }}?height=200&width=400" alt="Imagem do Evento">
                                     </div>
                                 </div>
                             </div>
@@ -607,44 +533,57 @@
     </div>
 </main>
 
-<!-- FOOTER -->
 <footer>
     <div class="container footer-container">
         <div class="footer-logo">
-            <img src="placeholder.svg?height=60&width=180" alt="EventTool Logo">
-            <p>A ferramenta certa para seus eventos</p>
+            <p>Transformando eventos em experiências de outro mundo</p>
         </div>
         <div class="footer-links">
             <div class="footer-column">
                 <h3>Navegação</h3>
                 <ul>
-                    <li><a href="index.html#eventos">Eventos</a></li>
-                    <li><a href="quem-somos.html">Quem Somos</a></li>
-                    <li><a href="contato.html">Contato</a></li>
+                    <li><a href="#eventos">Eventos</a></li>
+                    <li><a href="#quem-somos">Quem Somos</a></li>
+                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                    <li><a href="{{ url_for('cadastro') }}">Cadastro</a></li>
                 </ul>
             </div>
             <div class="footer-column">
                 <h3>Nossa Equipe</h3>
                 <ul class="team-links">
                     <li>
-                        <span>João Silva</span>
+                        <span>Nicoly Felizardo</span>
                         <div class="social-links">
-                            <a href="https://github.com/joaosilva" target="_blank"><i class="fab fa-github"></i></a>
-                            <a href="https://linkedin.com/in/joaosilva" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            <a href="https://github.com/N1cky003" target="_blank"><i class="fab fa-github"></i></a>
+                            <a href="www.linkedin.com/in/nicoly-felizardo-holanda" target="_blank"><i class="fab fa-linkedin"></i></a>
                         </div>
                     </li>
                     <li>
-                        <span>Maria Oliveira</span>
+                        <span>Mateus Souza</span>
                         <div class="social-links">
-                            <a href="https://github.com/mariaoliveira" target="_blank"><i class="fab fa-github"></i></a>
-                            <a href="https://linkedin.com/in/mariaoliveira" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            <a href="https://github.com/MattSouza14" target="_blank"><i class="fab fa-github"></i></a>
+                            <a href="https://www.linkedin.com/in/mateus-souzaa/" target="_blank"><i class="fab fa-linkedin"></i></a>
                         </div>
                     </li>
                     <li>
-                        <span>Carlos Santos</span>
+                        <span>p3</span>
                         <div class="social-links">
-                            <a href="https://github.com/carlossantos" target="_blank"><i class="fab fa-github"></i></a>
-                            <a href="https://linkedin.com/in/carlossantos" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                            <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </li>
+                    <li>
+                        <span>p4</span>
+                        <div class="social-links">
+                            <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                            <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </li>
+                    <li>
+                        <span>p5</span>
+                        <div class="social-links">
+                            <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                            <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
                         </div>
                     </li>
                 </ul>
@@ -652,9 +591,9 @@
             <div class="footer-column">
                 <h3>Contato</h3>
                 <ul class="contact-info">
-                    <li><i class="fas fa-envelope"></i> contato@eventtool.com</li>
+                    <li><i class="fas fa-envelope"></i> contato@gmail.com</li>
                     <li><i class="fas fa-phone"></i> (11) 99999-9999</li>
-                    <li><i class="fas fa-map-marker-alt"></i> São Paulo, SP - Brasil</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Fortaleza - CE</li>
                 </ul>
                 <div class="social-media">
                     <a href="#"><i class="fab fa-facebook"></i></a>
@@ -672,6 +611,6 @@
     </div>
 </footer>
 
-<script src="/src/app/static/js/criar_evento.js"></script>
+<script src="{{ url_for('static', filename='js/criar_evento.js') }}"></script>
 </body>
 </html>
