@@ -1,16 +1,39 @@
-from flask import Flask, request, jsonify, render_template, redirect, url_for, flash, session
-from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
 import os
-from models import Usuario, Evento, Certificado, Presenca
-import config
-from dotenv import load_dotenv
-from flask import Flask, request, jsonify, redirect, url_for, session
+from datetime import datetime
+from flask import (
+    Flask, 
+    request, 
+    jsonify, 
+    render_template, 
+    redirect, 
+    url_for, 
+    flash, 
+    session
+)
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import (
+    LoginManager, 
+    login_required, 
+    login_user, 
+    current_user
+)
 from werkzeug.security import check_password_hash
-from flask_login import LoginManager, login_required, login_user, current_user
+
+from dotenv import load_dotenv
+import config
 from models import Usuario
 
 app = Flask(__name__)
+
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:MdggWwLuExAMuAIxWoPeVbbCPQgXtQxw@interchange.proxy.rlwy.net:12530/railway'
+#usando PyMySQL
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:MdggWwLuExAMuAIxWoPeVbbCPQgXtQxw@interchange.proxy.rlwy.net:12530/railway'
+
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+
 
 load_dotenv()
 app.config['SQLALCHEMY_DATABASE_URI'] = config.DatabaseConfig.SQLALCHEMY_DATABASE_URI
@@ -20,11 +43,11 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = config.DatabaseConfig.SQLALCHEMY_
 config.DatabaseConfig.test_db_connection()
 
 
-db = SQLAlchemy(app)
+
 class Usuario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(100), unique=True, nullable=False)
+    email = db.Column(db.String(100), nullable=False, unique=True)
     senha = db.Column(db.String(200), nullable=False)
     celular = db.Column(db.String(20))
     tipo = db.Column(db.String(20), nullable=False)
@@ -48,11 +71,22 @@ def login():
         try:
             data = request.get_json()
             
+            # Debug: Verifique os dados recebidos
+            print("Dados recebidos:", data)
+            
             # Buscar usuário no banco de dados
             usuario = Usuario.query.filter_by(email=data['email']).first()
             
-            # Verificar credenciais
-            if not usuario or not check_password_hash(usuario.senha, data['password']):
+            # Debug: Verifique o usuário encontrado
+            if usuario:
+                print("Usuário encontrado:", usuario.email)
+                print("Senha armazenada:", usuario.senha)
+                print("Senha fornecida:", data['password'])
+            else:
+                print("Usuário não encontrado para o email:", data['email'])
+            
+            # Verificar credenciais (comparação direta sem hash)
+            if not usuario or usuario.senha != data['password']:
                 return jsonify({
                     'success': False,
                     'message': 'Email ou senha incorretos'
@@ -61,11 +95,11 @@ def login():
             # Fazer login do usuário
             login_user(usuario, remember=data.get('remember', False))
             
-            # Determinar para onde redirecionar com base no tipo de usuário
-            if usuario.tipo == 'palestrante':
-                redirect_url = url_for('palestrante')
-            else:
-                redirect_url = url_for('telespectador')
+            # Debug: Verifique se o login foi bem-sucedido
+            print("Usuário logado com sucesso:", current_user.email)
+            
+            # Determinar redirecionamento
+            redirect_url = url_for('palestrante' if usuario.tipo == 'palestrante' else 'telespectador')
             
             return jsonify({
                 'success': True,
@@ -74,6 +108,7 @@ def login():
             })
             
         except Exception as e:
+            print("Erro durante o login:", str(e))  # Debug
             return jsonify({
                 'success': False,
                 'message': 'Erro no servidor: ' + str(e)
