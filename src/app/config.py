@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
-import psycopg2
-from psycopg2 import OperationalError
+import mysql.connector
+from mysql.connector import Error
 
 # Carrega as variáveis do arquivo .env
 load_dotenv()
@@ -14,8 +14,8 @@ class DatabaseConfig:
     @staticmethod
     def get_connection():
         try:
-            # Estabelece a conexão com o banco de dados PostgreSQL usando variáveis individuais
-            connection = psycopg2.connect(
+            # Estabelece a conexão com o banco de dados MySQL usando variáveis individuais
+            connection = mysql.connector.connect(
                 host=os.getenv('DB_HOST'),
                 database=os.getenv('DB_DATABASE'),
                 user=os.getenv('DB_USER'),
@@ -23,7 +23,7 @@ class DatabaseConfig:
                 port=os.getenv('DB_PORT')
             )
             return connection
-        except OperationalError as e:
+        except Error as e:
             print(f"Erro ao conectar ao banco de dados: {e}")
             return None
 
