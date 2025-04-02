@@ -28,14 +28,12 @@
             </nav>
             <div class="auth-buttons">
                 {% if current_user.is_authenticated %}
-                    <div class="user-menu">
+                    <div class="user-profile">
                         <button class="btn-user">
                             <i class="fas fa-user-circle"></i>
-                            {{ current_user.nome.split(' ')[0] }}
+                            <span class="username-display">{{ current_user.nome.split(' ')[0] }}</span>
                         </button>
-                        <div class="dropdown-content">
-                            <a href="{{ url_for('logout') }}">Sair</a>
-                        </div>
+                        <a href="{{ url_for('logout') }}" class="btn-logout">Sair</a>
                     </div>
                 {% else %}
                     <a href="{{ url_for('login') }}" class="btn btn-login">Entrar</a>
@@ -137,7 +135,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h2>Criar Novo Evento</h2>
-                    <button class="close-modal">&times;</button>
+                    <button class="close-modal">×</button>
                 </div>
                 <div class="modal-body">
                     <form id="criar-evento-form" action="{{ url_for('criar_evento') }}" method="POST">
@@ -301,7 +299,7 @@
         </div>
         <div class="footer-bottom">
             <div class="container">
-                <p>&copy; 2025 EventTool. Todos os direitos reservados.</p>
+                <p>© 2025 EventTool. Todos os direitos reservados.</p>
             </div>
         </div>
     </footer>

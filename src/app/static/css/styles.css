@@ -571,3 +571,65 @@ footer {
         gap: 20px;
     }
 }
+
+.user-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-user {
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, #f7d701 0%, #f79301 100%);
+    color: #333;
+    border: none;
+    border-radius: 25px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.btn-user:hover {
+    background: linear-gradient(135deg, #f7d701 20%, #f79301 80%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(247, 147, 1, 0.3);
+}
+
+.btn-user i {
+    font-size: 18px;
+    margin-right: 8px;
+    color: #333;
+}
+
+.username-display {
+    max-width: 120px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn-logout {
+    display: block;
+    text-align: center;
+    background-color: #f8f9fa;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    padding: 6px 12px;
+    font-size: 12px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.btn-logout:hover {
+    background-color: #f1f1f1;
+    color: #f79301;
+    border-color: #f79301;
+}
