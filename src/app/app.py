@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 from fpdf import FPDF
 import config
 from models import db, Usuario, Evento, Presenca, Certificado
-from urllib.parse import quote as url_quote
+from urllib.parse import quote as url_quote  # Corrigido para importar de urllib.parse
 
 app = Flask(__name__)
 load_dotenv()
@@ -92,9 +92,11 @@ def cadastro():
             data = request.get_json()
             print("Dados recebidos no cadastro:", data)
 
+            # Verificar se o email já está cadastrado
             if Usuario.query.filter_by(email=data.get('email')).first():
                 return jsonify({'success': False, 'message': 'Este email já está cadastrado.'}), 400
 
+            # Criar novo usuário
             novo_usuario = Usuario(
                 nome=data.get('nome'),
                 email=data.get('email'),
@@ -162,6 +164,7 @@ def encerrar_evento(evento_id):
         if not usuario:
             continue
 
+        # Gerando o certificado em PDF
         pdf = FPDF()
         pdf.add_page()
         pdf.set_font("Arial", "B", 16)
@@ -178,5 +181,5 @@ def encerrar_evento(evento_id):
 
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()
-    app.run(debug=True)
+        db.create_all() 
+    app.run(debug=True) 
