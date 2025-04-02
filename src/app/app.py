@@ -11,7 +11,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
 from fpdf import FPDF
 import config
-from models import db, Usuario, Evento, Presenca, Certificado  # Importação corrigida
+from models import db, Usuario, Evento, Presenca, Certificado
+from urllib.parse import quote as url_quote
 
 app = Flask(__name__)
 load_dotenv()
