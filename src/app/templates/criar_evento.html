@@ -126,19 +126,6 @@
                         </div>
                         
                         <div class="palestrantes-container" id="palestrantes-container">
-                            <div class="palestrante-item">
-                                <div class="palestrante-avatar">
-                                    <img src="{{ url_for('static', filename='img/placeholder.svg') }}?height=60&width=60" alt="Avatar do Palestrante">
-                                </div>
-                                <div class="palestrante-info">
-                                    <h4>João Silva</h4>
-                                    <p>Especialista em Desenvolvimento Web</p>
-                                </div>
-                                <div class="palestrante-actions">
-                                    <button type="button" class="edit-palestrante"><i class="fas fa-edit"></i></button>
-                                    <button type="button" class="remove-palestrante remove"><i class="fas fa-trash"></i></button>
-                                </div>
-                            </div>
                         </div>
                         
                         <button type="button" class="add-palestrante-btn" id="add-palestrante-btn">
@@ -408,57 +395,38 @@
                 
                 <!-- Etapa 5: Revisão -->
                 <div class="form-etapa" id="etapa-5">
-                    <div class="form-section">
-                        <div class="form-section-header">
-                            <h2>Revisão do Evento</h2>
-                            <p>Revise todas as informações do seu evento antes de publicar.</p>
+                    <h2>Revisão do Evento</h2>
+                    
+                    <div class="resumo-evento">
+                        <h3>Informações Básicas</h3>
+                        <div class="resumo-item">
+                            <h4>Nome do Evento</h4>
+                            <p class="resumo-nome-evento">-</p>
                         </div>
-                        
-                        <div class="resumo-evento">
-                            <div class="resumo-header">
-                                <h3>Informações Básicas</h3>
-                                <a href="#" class="edit-section" data-step="1">
-                                    <i class="fas fa-edit"></i> Editar
-                                </a>
-                            </div>
-                            <div class="resumo-content">
-                                <div class="resumo-item">
-                                    <h4>Nome do Evento</h4>
-                                    <p>Workshop de Desenvolvimento Web</p>
-                                </div>
-                                <div class="resumo-item">
-                                    <h4>Categoria</h4>
-                                    <p>Tecnologia</p>
-                                </div>
-                                <div class="resumo-item">
-                                    <h4>Tags</h4>
-                                    <p>Workshop, Programação, Frontend</p>
-                                </div>
-                                <div class="resumo-item">
-                                    <h4>Imagem de Capa</h4>
-                                    <div class="resumo-image">
-                                        <img src="{{ url_for('static', filename='img/placeholder.svg') }}?height=200&width=400" alt="Imagem do Evento">
-                                    </div>
-                                </div>
+                        <div class="resumo-item">
+                            <h4>Descrição</h4>
+                            <p class="resumo-descricao-evento">-</p>
+                        </div>
+                        <div class="resumo-item">
+                            <h4>Categoria</h4>
+                            <p class="resumo-categoria-evento">-</p>
+                        </div>
+                        <div class="resumo-item">
+                            <h4>Imagem de Capa</h4>
+                            <div class="resumo-image">
+                                <img src="/static/img/placeholder.svg" alt="Imagem do evento">
                             </div>
                         </div>
-                        
-                        <div class="resumo-evento">
-                            <div class="resumo-header">
-                                <h3>Palestrantes</h3>
-                                <a href="#" class="edit-section" data-step="2">
-                                    <i class="fas fa-edit"></i> Editar
-                                </a>
-                            </div>
-                            <div class="resumo-content">
-                                <div class="resumo-item">
-                                    <h4>Palestrantes</h4>
-                                    <ul>
-                                        <li><i class="fas fa-user"></i> João Silva - Especialista em Desenvolvimento Web</li>
-                                    </ul>
-                                </div>
-                            </div>
+                    </div>
+                    
+                    <div class="resumo-evento">
+                        <h3>Palestrantes</h3>
+                        <div class="resumo-item">
+                            <ul class="resumo-palestrantes">
+                                <li>Nenhum palestrante adicionado</li>
+                            </ul>
                         </div>
+                    </div>
                         
                         <div class="resumo-evento">
                             <div class="resumo-header">
@@ -511,13 +479,12 @@
                                     </ul>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <div class="termos-check">
+                        </div>                        
+                         <div class="termos-check">
                             <input type="checkbox" id="termos" name="termos" required>
                             <label for="termos">Eu confirmo que todas as informações fornecidas são verdadeiras e concordo com os <a href="#" target="_blank">Termos de Uso</a> e <a href="#" target="_blank">Política de Privacidade</a> da plataforma.</label>
                         </div>
-                    </div>
+
                     
                     <div class="form-actions">
                         <button type="button" class="btn btn-outline btn-prev">

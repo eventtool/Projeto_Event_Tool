@@ -22,23 +22,21 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        if (n === 4) {
-            try {
-                atualizarResumo();
-            } catch (error) {
-                console.error("Erro ao atualizar resumo:", error);
-            }
-        }
         // Mostra a etapa atual
         etapas[n].classList.add('active');
         etapaAtual = n;
-        
+
+        if (etapaAtual === 4) {
+            atualizarResumo();
+        }
+
         // Atualiza os botões de navegação
         if (etapaAtual === 0) {
             document.querySelector('.btn-prev').setAttribute('disabled', true);
         } else {
             document.querySelector('.btn-prev').removeAttribute('disabled');
         }
+
     }
     
     // Adiciona eventos aos botões de próximo
@@ -125,8 +123,19 @@ document.addEventListener('DOMContentLoaded', function() {
             // Adicionar palestrantes
     const addPalestranteBtn = document.getElementById('add-palestrante-btn');
     const palestrantesContainer = document.getElementById('palestrantes-container');
-    let palestranteCount = 1;
+    let palestranteCount = document.querySelectorAll('.palestrante-item').length;
     
+    const botoesRemover = document.querySelectorAll('.remove-palestrante');
+    if (botoesRemover.length > 0) {
+        botoesRemover.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const palestranteItem = this.closest('.palestrante-item');
+                palestrantesContainer.removeChild(palestranteItem);
+                if (etapaAtual === 4) atualizarResumo();
+            });
+        });
+    }
+
     if (addPalestranteBtn && palestrantesContainer) {
         addPalestranteBtn.addEventListener('click', function() {
             palestranteCount++;
@@ -158,16 +167,6 @@ document.addEventListener('DOMContentLoaded', function() {
             
         });
         
-        // Adicionar evento para remover palestrante existente
-        document.querySelectorAll('.remove-palestrante').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const palestranteItem = this.closest('.palestrante-item');
-                palestrantesContainer.removeChild(palestranteItem);
-
-                if (etapaAtual === 4) atualizarResumo();
-            });
-
-        });
     }
 
         // Adicionar ingressos
@@ -329,194 +328,326 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
    
-    function atualizarResumo() {
-        console.log("Atualizando resumo...");
+function atualizarResumo() {
+    console.log("Atualizando resumo...");
+    
+    try {
+        // Informações Básicas
+        const nomeEvento = document.getElementById('nome-evento').value || 'Não informado';
+        const descricaoEvento = document.getElementById('descricao-evento').value || 'Não informada';
+        const categoriaEvento = document.getElementById('categoria-evento')?.value || 'Não informada';
         
-        try {
-            // Informações Básicas
-            const nomeEvento = document.getElementById('nome-evento').value;
-            const descricaoEvento = document.getElementById('descricao-evento').value;
+        // Atualizar nome e descrição do evento
+        document.querySelector('.resumo-nome-evento').textContent = nomeEvento;
+        document.querySelector('.resumo-descricao-evento').textContent = descricaoEvento;
+        document.querySelector('.resumo-categoria-evento').textContent = categoriaEvento;
+        
+        // Atualizar imagem de capa
+        const imagemPreview = document.querySelector('#image-preview img')?.src;
+        const imagemResumo = document.querySelector('.resumo-image img');
+        if (imagemPreview && !imagemPreview.includes('placeholder.svg') && imagemResumo) {
+            imagemResumo.src = imagemPreview;
+        }
+        
+        // Atualizar as demais seções usando as funções auxiliares
+        atualizarPalestrantes();
+        atualizarLocalData();
+        atualizarIngressos();
+        atualizarConfiguracoes();
+
+        console.log("Resumo atualizado com sucesso!");
+    } catch (error) {
+        console.error("Erro ao atualizar resumo:", error);
+    }
+}
+
+
+    function atualizarPalestrantes() {
+        const palestrantesContainer = document.getElementById('palestrantes-container');
+        const palestrantesItems = palestrantesContainer.querySelectorAll('.palestrante-item');
+        const palestrantesResumo = document.querySelector('.resumo-palestrantes');
+        
+        if (palestrantesResumo) {
+            // Limpar lista atual
+            palestrantesResumo.innerHTML = '';
             
-            // Atualizar nome do evento
-            const nomeEventoElement = document.querySelector('.resumo-evento:nth-of-type(1) .resumo-item:nth-of-type(1) p');
-            if (nomeEvento && nomeEventoElement) {
-                nomeEventoElement.textContent = nomeEvento;
-                console.log("Nome do evento atualizado:", nomeEvento);
+            if (palestrantesItems.length === 0) {
+                palestrantesResumo.innerHTML = '<li>Nenhum palestrante adicionado</li>';
+                return;
             }
             
-            // Atualizar imagem de capa
-            const imagemPreview = document.querySelector('#image-preview img').src;
-            const imagemResumo = document.querySelector('.resumo-image img');
-            if (imagemPreview && !imagemPreview.includes('placeholder.svg') && imagemResumo) {
-                imagemResumo.src = imagemPreview;
-                console.log("Imagem atualizada");
-            }
-            
-            // Palestrantes
-            const palestrantesContainer = document.getElementById('palestrantes-container');
-            const palestrantesItems = palestrantesContainer.querySelectorAll('.palestrante-item');
-            const palestrantesResumo = document.querySelector('.resumo-evento:nth-of-type(2) .resumo-item ul');
-            
-            if (palestrantesResumo) {
-                // Limpar lista atual
-                palestrantesResumo.innerHTML = '';
-                console.log("Atualizando palestrantes...", palestrantesItems.length);
+            // Adicionar cada palestrante à lista de resumo
+            palestrantesItems.forEach((item) => {
+                const nomeInput = item.querySelector('input[name^="palestrante-nome"]');
+                const cargoInput = item.querySelector('input[name^="palestrante-cargo"]');
                 
-                // Adicionar cada palestrante à lista de resumo
-                palestrantesItems.forEach((item, index) => {
-                    let nome = '';
-                    let cargo = '';
+                if (nomeInput) {
+                    const nome = nomeInput.value || 'Sem nome';
+                    const cargo = cargoInput?.value || '';
                     
-                    // Tentar obter nome e cargo de diferentes maneiras
-                    const nomeElement = item.querySelector('h4');
-                    const cargoElement = item.querySelector('p');
-                    const nomeInput = item.querySelector('input[name^="palestrante-nome"]');
-                    const cargoInput = item.querySelector('input[name^="palestrante-cargo"]');
-                    
-                    if (nomeElement) nome = nomeElement.textContent;
-                    else if (nomeInput) nome = nomeInput.value;
-                    
-                    if (cargoElement) cargo = cargoElement.textContent;
-                    else if (cargoInput) cargo = cargoInput.value;
-                    
-                    if (nome) {
-                        const li = document.createElement('li');
-                        li.innerHTML = `<i class="fas fa-user"></i> ${nome}${cargo ? ' - ' + cargo : ''}`;
-                        palestrantesResumo.appendChild(li);
-                        console.log("Palestrante adicionado:", nome);
-                    }
-                });
-            }
-            
-            // Local e Data
-            const dataInicio = document.getElementById('data-inicio').value;
-            const horaInicio = document.getElementById('hora-inicio').value;
-            const horaFim = document.getElementById('hora-fim').value;
-            const tipoEvento = document.getElementById('tipo-evento').value;
-            
-            // Atualizar data e hora
-            const dataHoraElement = document.querySelector('.resumo-evento:nth-of-type(3) .resumo-item:nth-of-type(1) p');
-            if (dataInicio && horaInicio && horaFim && dataHoraElement) {
-                try {
-                    const dataFormatada = new Date(dataInicio).toLocaleDateString('pt-BR');
-                    dataHoraElement.textContent = `${dataFormatada} - ${horaInicio} às ${horaFim}`;
-                    console.log("Data e hora atualizadas");
-                } catch (e) {
-                    console.error("Erro ao formatar data:", e);
+                    const li = document.createElement('li');
+                    li.innerHTML = `<i class="fas fa-user"></i> ${nome}${cargo ? ' - ' + cargo : ''}`;
+                    palestrantesResumo.appendChild(li);
                 }
-            }
-            
-            // Atualizar tipo de evento
-            const tipoEventoElement = document.querySelector('.resumo-evento:nth-of-type(3) .resumo-item:nth-of-type(2) p');
-            if (tipoEvento && tipoEventoElement) {
-                let tipoTexto = '';
-                switch(tipoEvento) {
-                    case 'presencial': tipoTexto = 'Presencial'; break;
-                    case 'online': tipoTexto = 'Online'; break;
-                    case 'hibrido': tipoTexto = 'Híbrido'; break;
-                    default: tipoTexto = tipoEvento;
-                }
-                tipoEventoElement.textContent = tipoTexto;
-                console.log("Tipo de evento atualizado:", tipoTexto);
-            }
-            
-            // Atualizar local
-            const localElement = document.querySelector('.resumo-evento:nth-of-type(3) .resumo-item:nth-of-type(3)');
-            if (localElement) {
-                const paragrafos = localElement.querySelectorAll('p');
-                
-                if (tipoEvento === 'presencial' || tipoEvento === 'hibrido') {
-                    const nomeLocal = document.getElementById('nome-local').value;
-                    const endereco = document.getElementById('endereco').value;
-                    const cidade = document.getElementById('cidade').value;
-                    const estado = document.getElementById('estado').value;
-                    
-                    if (paragrafos.length >= 1 && nomeLocal) 
-                        paragrafos[0].textContent = nomeLocal;
-                    
-                    if (paragrafos.length >= 2 && endereco) 
-                        paragrafos[1].textContent = `${endereco}${cidade && estado ? ` - ${cidade}, ${estado}` : ''}`;
-                    
-                    console.log("Local presencial atualizado");
-                } else if (tipoEvento === 'online') {
-                    const plataforma = document.getElementById('plataforma').value;
-                    const linkEvento = document.getElementById('link-evento').value;
-                    
-                    if (paragrafos.length >= 1) 
-                        paragrafos[0].textContent = plataforma || 'Plataforma Online';
-                    
-                    if (paragrafos.length >= 2 && linkEvento) 
-                        paragrafos[1].textContent = linkEvento;
-                    
-                    console.log("Local online atualizado");
-                }
-            }
-            
-            // Atualizar capacidade
-            const capacidade = document.getElementById('capacidade').value;
-            const capacidadeElement = document.querySelector('.resumo-evento:nth-of-type(3) .resumo-item:nth-of-type(4) p');
-            if (capacidade && capacidadeElement) {
-                capacidadeElement.textContent = `${capacidade} vagas`;
-                console.log("Capacidade atualizada:", capacidade);
-            }
-            
-            // Ingressos
-            const ingressosContainer = document.getElementById('ingressos-container');
-            const ingressosItems = ingressosContainer.querySelectorAll('.ingresso-item');
-            const ingressosResumo = document.querySelector('.resumo-evento:nth-of-type(4) .resumo-item:nth-of-type(1) ul');
-            
-            if (ingressosResumo) {
-                // Limpar lista atual
-                ingressosResumo.innerHTML = '';
-                console.log("Atualizando ingressos...", ingressosItems.length);
-                
-                // Adicionar cada ingresso à lista de resumo
-                ingressosItems.forEach((item, index) => {
-                    const nomeInput = item.querySelector('input[id^="nome-ingresso"]');
-                    const precoInput = item.querySelector('input[id^="preco-ingresso"]');
-                    const quantidadeInput = item.querySelector('input[id^="quantidade-ingresso"]');
-                    
-                    if (nomeInput && precoInput && quantidadeInput) {
-                        const nome = nomeInput.value;
-                        const preco = precoInput.value;
-                        const quantidade = quantidadeInput.value;
-                        
-                        if (nome) {
-                            const li = document.createElement('li');
-                            li.innerHTML = `<i class="fas fa-ticket-alt"></i> ${nome} - R$ ${parseFloat(preco).toFixed(2)} ${parseFloat(preco) === 0 ? '(Gratuito)' : ''} - ${quantidade} unidades`;
-                            ingressosResumo.appendChild(li);
-                            console.log("Ingresso adicionado:", nome);
-                        }
-                    }
-                });
-            }
-            
-            // Configurações adicionais
-            const emitirCertificadosInput = document.querySelector('input[name="emitir-certificados"]');
-            const listaEsperaInput = document.querySelector('input[name="lista-espera"]');
-            const eventoPrivadoInput = document.querySelector('input[name="evento-privado"]');
-            const configuracoesResumo = document.querySelector('.resumo-evento:nth-of-type(4) .resumo-item:nth-of-type(2) ul');
-            
-            if (configuracoesResumo && emitirCertificadosInput && listaEsperaInput && eventoPrivadoInput) {
-                const emitirCertificados = emitirCertificadosInput.checked;
-                const listaEspera = listaEsperaInput.checked;
-                const eventoPrivado = eventoPrivadoInput.checked;
-                
-                // Limpar lista atual
-                configuracoesResumo.innerHTML = '';
-                
-                // Adicionar configurações
-                configuracoesResumo.innerHTML += `<li><i class="fas ${emitirCertificados ? 'fa-check' : 'fa-times'}"></i> Emitir certificados</li>`;
-                configuracoesResumo.innerHTML += `<li><i class="fas ${listaEspera ? 'fa-check' : 'fa-times'}"></i> Lista de espera</li>`;
-                configuracoesResumo.innerHTML += `<li><i class="fas ${eventoPrivado ? 'fa-check' : 'fa-times'}"></i> Evento privado</li>`;
-                
-                console.log("Configurações atualizadas");
-            }
-            
-            console.log("Resumo atualizado com sucesso!");
-        } catch (error) {
-            console.error("Erro ao atualizar resumo:", error);
+            });
         }
     }
     
+    function atualizarLocalData() {
+        const dataInicio = document.getElementById('data-inicio').value || 'Não informada';
+        const dataFim = document.getElementById('data-fim').value || dataInicio;
+        const horaInicio = document.getElementById('hora-inicio').value || 'Não informada';
+        const horaFim = document.getElementById('hora-fim').value || 'Não informada';
+        const tipoEvento = document.getElementById('tipo-evento').value;
+        
+        // Atualizar data e hora
+        const dataHoraElement = document.querySelector('.resumo-item:nth-child(1) p');
+        if (dataHoraElement) {
+            try {
+                // Função para formatar a data no padrão brasileiro
+                function formatarDataBR(dataStr) {
+                    if (dataStr === 'Não informada') return dataStr;
+                    
+                    // Converter string de data para objeto Date
+                    const data = new Date(dataStr);
+                    
+                    // Formatar para DD/MM/AAAA
+                    const dia = data.getDate().toString().padStart(2, '0');
+                    const mes = (data.getMonth() + 1).toString().padStart(2, '0');
+                    const ano = data.getFullYear();
+                    
+                    return `${dia}/${mes}/${ano}`;
+                }
+                
+                const dataInicioFormatada = formatarDataBR(dataInicio);
+                const dataFimFormatada = formatarDataBR(dataFim);
+                    
+                // Se as datas são iguais, mostrar apenas uma data
+                if (dataInicio === dataFim || !dataFim) {
+                    dataHoraElement.textContent = `${dataInicioFormatada} - ${horaInicio} às ${horaFim}`;
+                } else {
+                    dataHoraElement.textContent = `De ${dataInicioFormatada} às ${horaInicio} até ${dataFimFormatada} às ${horaFim}`;
+                }
+            } catch (e) {
+                console.error("Erro ao formatar data:", e);
+                dataHoraElement.textContent = `${dataInicio} - ${horaInicio} às ${horaFim}`;
+            }
+        }
+        
+        let tipoEventoElement = null;
+        document.querySelectorAll('.resumo-item h4').forEach(h4 => {
+            if (h4.textContent.includes('Tipo')) {
+                tipoEventoElement = h4.closest('.resumo-item').querySelector('p');
+            }
+        });
+      
+        if (tipoEventoElement) {
+            let tipoTexto = 'Não informado';
+            switch(tipoEvento) {
+                case 'presencial': tipoTexto = 'Presencial'; break;
+                case 'online': tipoTexto = 'Online'; break;
+                case 'hibrido': tipoTexto = 'Híbrido'; break;
+                default: tipoTexto = tipoEvento || 'Não informado';
+            }
+            tipoEventoElement.textContent = tipoTexto;
+        }
+        
+        // Atualizar local
+        atualizarLocal(tipoEvento);
+        
+        // Atualizar capacidade
+        const capacidadeInput = document.getElementById('capacidade');
+        let capacidadeElement = null;
+    
+        document.querySelectorAll('.resumo-item h4').forEach(h4 => {
+            if (h4.textContent.includes('Capacidade')) {
+                capacidadeElement = h4.closest('.resumo-item').querySelector('p');
+            }
+        });
+          
+        let capacidade = 'Não informada';
+        if (capacidadeInput && capacidadeInput.value) {
+            capacidade = capacidadeInput.value;
+            console.log("Valor da capacidade:", capacidade);
+        }
+        
+        if (capacidadeElement) {
+            capacidadeElement.textContent = `${capacidade} vagas`;
+        }
+    }
+    function atualizarLocal(tipoEvento) {
+        let localElement = null;
+        document.querySelectorAll('.resumo-item h4').forEach(h4 => {
+            if (h4.textContent.includes('Local')) {
+                localElement = h4.closest('.resumo-item');
+            }
+        });
+
+        if (!localElement) return;
+        
+        // Manter o título
+        const titulo = localElement.querySelector('h4');
+        localElement.innerHTML = '';
+        localElement.appendChild(titulo);
+        
+        if (tipoEvento === 'presencial' || tipoEvento === 'hibrido') {
+            const nomeLocal = document.getElementById('nome-local').value || 'Não informado';
+            const endereco = document.getElementById('endereco').value || 'Não informado';
+            const cidade = document.getElementById('cidade').value || '';
+            const estado = document.getElementById('estado').value || '';
+            
+            const p1 = document.createElement('p');
+            p1.textContent = nomeLocal;
+            localElement.appendChild(p1);
+            
+            const p2 = document.createElement('p');
+            p2.textContent = `${endereco}${cidade && estado ? ` - ${cidade}, ${estado}` : ''}`;
+            localElement.appendChild(p2);
+        }
+        
+        if (tipoEvento === 'online' || tipoEvento === 'hibrido') {
+            const plataforma = document.getElementById('plataforma')?.value || 'Plataforma Online';
+            const linkEvento = document.getElementById('link-evento')?.value || 'Link não informado';
+            
+            const p1 = document.createElement('p');
+            p1.textContent = plataforma;
+            localElement.appendChild(p1);
+            
+            const p2 = document.createElement('p');
+            p2.textContent = linkEvento;
+            localElement.appendChild(p2);
+        }
+    }
+    
+    function atualizarIngressos() {
+        const ingressosContainer = document.getElementById('ingressos-container');
+        const ingressosItems = ingressosContainer.querySelectorAll('.ingresso-item');
+
+        let ingressosResumo;
+        document.querySelectorAll('.resumo-item h4').forEach(h4 => {
+            if (h4.textContent.includes('Ingressos')) {
+                ingressosResumo = h4.closest('.resumo-item').querySelector('ul');
+            }
+        });
+      
+        if (!ingressosResumo) return;
+        
+        // Limpar lista atual
+        ingressosResumo.innerHTML = '';
+        
+        if (ingressosItems.length === 0) {
+            ingressosResumo.innerHTML = '<li>Nenhum ingresso adicionado</li>';
+            return;
+        }
+        
+        // Adicionar cada ingresso à lista de resumo
+        ingressosItems.forEach((item) => {
+            const nomeInput = item.querySelector('input[id^="nome-ingresso"]');
+            const precoInput = item.querySelector('input[id^="preco-ingresso"]');
+            const quantidadeInput = item.querySelector('input[id^="quantidade-ingresso"]');
+            
+            if (nomeInput) {
+                const nome = nomeInput.value || 'Sem nome';
+                const preco = precoInput?.value || '0.00';
+                const quantidade = quantidadeInput?.value || '0';
+                
+                const li = document.createElement('li');
+                li.innerHTML = `<i class="fas fa-ticket-alt"></i> ${nome} - R$ ${parseFloat(preco).toFixed(2)} ${parseFloat(preco) === 0 ? '(Gratuito)' : ''} - ${quantidade} unidades`;
+                ingressosResumo.appendChild(li);
+            }
+        });
+    }
+    
+    function atualizarConfiguracoes() {
+        const emitirCertificadosInput = document.querySelector('input[name="emitir-certificados"]');
+        const listaEsperaInput = document.querySelector('input[name="lista-espera"]');
+        const eventoPrivadoInput = document.querySelector('input[name="evento-privado"]');
+
+        let configuracoesResumo;
+        document.querySelectorAll('.resumo-item h4').forEach(h4 => {
+            if (h4.textContent.includes('Configurações')) {
+                configuracoesResumo = h4.closest('.resumo-item').querySelector('ul');
+            }
+        });
+        
+        if (!configuracoesResumo || !emitirCertificadosInput || !listaEsperaInput || !eventoPrivadoInput) return;
+        
+        const emitirCertificados = emitirCertificadosInput.checked;
+        const listaEspera = listaEsperaInput.checked;
+        const eventoPrivado = eventoPrivadoInput.checked;
+        
+        // Limpar lista atual
+        configuracoesResumo.innerHTML = '';
+        
+        // Adicionar configurações
+        configuracoesResumo.innerHTML += `<li><i class="fas ${emitirCertificados ? 'fa-check' : 'fa-times'}"></i> Emitir certificados</li>`;
+        configuracoesResumo.innerHTML += `<li><i class="fas ${listaEspera ? 'fa-check' : 'fa-times'}"></i> Lista de espera</li>`;
+        configuracoesResumo.innerHTML += `<li><i class="fas ${eventoPrivado ? 'fa-check' : 'fa-times'}"></i> Evento privado</li>`;
+    }
+
+    document.querySelectorAll('input, select, textarea').forEach(campo => {
+        campo.addEventListener('change', function() {
+            if (etapaAtual === 4) { // Se estiver na etapa de revisão
+                atualizarResumo();
+            }
+        });
+    });
+
+    // Adicionar no final do DOMContentLoaded
+// Adicionar listeners para data de término e outros campos importantes
+document.getElementById('data-fim')?.addEventListener('change', function() {
+    if (etapaAtual === 4) atualizarResumo();
+});
+
+document.getElementById('hora-fim')?.addEventListener('change', function() {
+    if (etapaAtual === 4) atualizarResumo();
+});
+
+document.getElementById('nome-local')?.addEventListener('change', function() {
+    if (etapaAtual === 4) atualizarResumo();
+});
+
+document.getElementById('endereco')?.addEventListener('change', function() {
+    if (etapaAtual === 4) atualizarResumo();
+});
+
+document.getElementById('cidade')?.addEventListener('change', function() {
+    if (etapaAtual === 4) atualizarResumo();
+});
+
+document.getElementById('estado')?.addEventListener('change', function() {
+    if (etapaAtual === 4) atualizarResumo();
+});
+
+document.getElementById('plataforma')?.addEventListener('change', function() {
+    if (etapaAtual === 4) atualizarResumo();
+});
+
+document.getElementById('link-evento')?.addEventListener('change', function() {
+    if (etapaAtual === 4) atualizarResumo();
+});
+
+document.getElementById('capacidade')?.addEventListener('change', function() {
+    if (etapaAtual === 4) atualizarResumo();
+});
+
+const capacidadeInput = document.getElementById('capacidade');
+if (capacidadeInput) {
+    capacidadeInput.addEventListener('input', function() {
+        console.log("Capacidade alterada para:", this.value);
+        if (etapaAtual === 4) {
+            atualizarResumo();
+        }
+    });
+    
+    // Adicionar também o evento change para garantir
+    capacidadeInput.addEventListener('change', function() {
+        console.log("Capacidade alterada (change) para:", this.value);
+        if (etapaAtual === 4) {
+            atualizarResumo();
+        }
+    });
+}
+
+
 });
