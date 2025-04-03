@@ -131,31 +131,25 @@ def criar_evento():
         flash('Apenas palestrantes podem criar eventos', 'error')
         return redirect(url_for('index'))
     
-    if request.method == 'POST':
-        try:
-            # Combinar data e hora em um único datetime
-            data_inicio = datetime.strptime(request.form.get('data-inicio'), '%Y-%m-%d').date()
-            hora_inicio = datetime.strptime(request.form.get('hora-inicio'), '%H:%M').time()
-            data_hora = datetime.combine(data_inicio, hora_inicio)
-            
-            evento = Evento(
-                nome=request.form.get('nome-evento'),
-                descricao=request.form.get('descricao-evento'),
-                data_hora=data_hora,
-                local=request.form.get('nome-local') + ', ' + request.form.get('endereco'),
-                capacidade=int(request.form.get('capacidade')),
-                carga_horaria=int(request.form.get('carga-horaria')),
-                organizador_id=current_user.id
-            )
-            db.session.add(evento)
-            db.session.commit()
-            flash('Evento criado com sucesso!', 'success')
-            return redirect(url_for('palestrante_dashboard'))
-        except Exception as e:
-            db.session.rollback()
-            flash(f'Erro ao criar evento: {str(e)}', 'error')
-    
-    return render_template('criar_evento.html')
+    if request.method == 'GET':
+        return render_template('criar_evento.html')
+
+    try:
+        evento = Evento(
+            nome=request.form.get('nome'),
+            data=datetime.strptime(request.form.get('data'), '%Y-%m-%d').date(),
+            horario=datetime.strptime(request.form.get('horario'), '%H:%M').time(),
+            vagas=int(request.form.get('vagas')),
+            palestrante_id=current_user.id
+        )
+        db.session.add(evento)
+        db.session.commit()
+        flash('Evento criado com sucesso!', 'success')
+        return redirect(url_for('palestrante_dashboard'))
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Erro ao criar evento: {str(e)}', 'error')
+        return redirect(url_for('criar_evento'))
 
 # Encerrar evento e gerar certificados
 @app.route('/palestrante/encerrar_evento/<int:evento_id>', methods=['POST'])
@@ -194,11 +188,11 @@ def encerrar_evento(evento_id):
     flash("Certificados gerados com sucesso!", "success")
     return redirect(url_for('palestrante_dashboard'))
 
-# Perfil do usuário
 @app.route('/perfil')
 @login_required
 def perfil_usuario():
-    return render_template('perfil_usuario.html', usuario=current_user)
+    usuario = current_user
+    return render_template('perfil_usuario.html', usuario=usuario)
 
 # Rodar o aplicativo Flask
 if __name__ == '__main__':
