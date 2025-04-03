@@ -12,6 +12,7 @@ from dotenv import load_dotenv
 from fpdf import FPDF
 import config
 from models import db, Usuario, Evento, Presenca
+from flask_migrate import Migrate
 from urllib.parse import quote as url_quote  
 
 # Inicializa o Flask
@@ -23,7 +24,9 @@ app.secret_key = os.getenv('SECRET_KEY', 'supersecretkey')
 app.config['SQLALCHEMY_DATABASE_URI'] = config.DatabaseConfig.SQLALCHEMY_DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = config.DatabaseConfig.SQLALCHEMY_TRACK_MODIFICATIONS
 
+# Inicializa o banco de dados e o Flask-Migrate
 db.init_app(app)
+migrate = Migrate(app, db)
 config.DatabaseConfig.test_db_connection()
 
 # Configuração do Flask-Login
@@ -127,29 +130,6 @@ def criar_evento():
         flash('Apenas palestrantes podem criar eventos', 'error')
         return redirect(url_for('index'))
     
-<<<<<<< HEAD
-    if request.method == 'GET':
-        return render_template('criar_evento.html')
-
-    try:
-        evento = Evento(
-            nome=request.form.get('nome'),
-            data=datetime.strptime(request.form.get('data'), '%Y-%m-%d').date(),
-            horario=datetime.strptime(request.form.get('horario'), '%H:%M').time(),
-            vagas=int(request.form.get('vagas')),
-            palestrante_id=current_user.id
-        )
-        db.session.add(evento)
-        db.session.commit()
-        flash('Evento criado com sucesso!', 'success')
-        return redirect(url_for('palestrante_dashboard'))
-    except Exception as e:
-        db.session.rollback()
-        flash(f'Erro ao criar evento: {str(e)}', 'error')
-        return redirect(url_for('criar_evento'))
-
-# Encerrar evento e gerar certificados
-=======
     if request.method == 'POST':
         try:
             # Combinar data e hora em um único datetime
@@ -175,7 +155,8 @@ def criar_evento():
             flash(f'Erro ao criar evento: {str(e)}', 'error')
     
     return render_template('criar_evento.html')
->>>>>>> 7a33337ff1be377482687036c7eadff802ccb430
+
+# Encerrar evento e gerar certificados
 @app.route('/palestrante/encerrar_evento/<int:evento_id>', methods=['POST'])
 @login_required
 def encerrar_evento(evento_id):
@@ -184,7 +165,7 @@ def encerrar_evento(evento_id):
         return redirect(url_for('palestrante_dashboard'))
 
     evento = Evento.query.get(evento_id)
-    if not evento or evento.palestrante_id != current_user.id:
+    if not evento or evento.organizador_id != current_user.id:
         flash('Evento não encontrado ou acesso negado', 'error')
         return redirect(url_for('palestrante_dashboard'))
 
@@ -212,16 +193,14 @@ def encerrar_evento(evento_id):
     flash("Certificados gerados com sucesso!", "success")
     return redirect(url_for('palestrante_dashboard'))
 
-<<<<<<< HEAD
-# Rodar o aplicativo Flask
-=======
+# Perfil do usuário
 @app.route('/perfil')
 @login_required
 def perfil_usuario():
     return render_template('perfil_usuario.html', usuario=current_user)
 
->>>>>>> 7a33337ff1be377482687036c7eadff802ccb430
+# Rodar o aplicativo Flask
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()  
-    app.run(debug=True)  
+        db.create_all()  # Apenas para inicialização; use migrações em produção.
+    app.run(debug=True)

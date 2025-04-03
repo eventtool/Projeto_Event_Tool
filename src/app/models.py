@@ -4,7 +4,21 @@ from datetime import datetime, timezone
 
 db = SQLAlchemy()
 
-# Modelo de Usuário
+# Modelo de Perfil
+class Perfil(db.Model):
+    __tablename__ = 'perfis'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
+    bio = db.Column(db.Text, nullable=True)
+    foto = db.Column(db.String(255), nullable=True)
+
+    usuario = db.relationship('Usuario', back_populates='perfil')
+
+    def __repr__(self):
+        return f'<Perfil {self.id} - {self.usuario.nome}>'
+
+# Modelo de Usuario
 class Usuario(UserMixin, db.Model):
     __tablename__ = 'usuarios'
     
@@ -15,19 +29,28 @@ class Usuario(UserMixin, db.Model):
     celular = db.Column(db.String(20))
     tipo = db.Column(db.String(20), nullable=False)  # "palestrante" ou "telespectador"
 
+    # Relacionamento com Perfil
     perfil = db.relationship('Perfil', back_populates='usuario', uselist=False, cascade="all, delete-orphan")
-    eventos_criados = db.relationship('Evento', back_populates='organizador', cascade="all, delete")
+    
+    # Relacionamento com Organizador (para usuários do tipo palestrante)
+    organizador = db.relationship('Organizador', back_populates='usuario', uselist=False, cascade="all, delete")
+    
+    # Relações com Inscrições, Presenças e Certificados
     inscricoes = db.relationship('Inscricao', back_populates='participante', cascade="all, delete")
     presencas = db.relationship('Presenca', back_populates='participante', cascade="all, delete")
     certificados = db.relationship('Certificado', back_populates='usuario', cascade="all, delete")
-
+    
+    # Propriedade para acessar eventos criados (se o usuário for um palestrante e tiver organizador associado)
+    @property
+    def eventos_criados(self):
+        if self.organizador:
+            return self.organizador.eventos
+        return []
+    
     def __repr__(self):
         return f'<Usuario {self.nome} ({self.email})>'
 
-
-
-
-# Modelo de Organizadores (Dono do evento)
+# Modelo de Organizador (Dono do evento)
 class Organizador(db.Model):
     __tablename__ = 'organizadores'
 
@@ -38,14 +61,15 @@ class Organizador(db.Model):
     telefone = db.Column(db.String(20), nullable=True)
     endereco = db.Column(db.String(255), nullable=True)
 
-    usuario = db.relationship('Usuario', backref='organizador', uselist=False)
+    usuario = db.relationship('Usuario', back_populates='organizador')
+    
+    # Relacionamento com Eventos
     eventos = db.relationship('Evento', back_populates='organizador', cascade="all, delete")
 
     def __repr__(self):
         return f'<Organizador {self.nome_organizacao}>'
 
-
-# Modelo de Eventos
+# Modelo de Evento
 class Evento(db.Model):
     __tablename__ = 'eventos'
     
@@ -58,17 +82,18 @@ class Evento(db.Model):
     carga_horaria = db.Column(db.Integer, nullable=True)
     criado_em = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     atualizado_em = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
-    organizador_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)  # Organizador é um usuário
+
+    # Chave estrangeira para o Organizador (que gerencia o evento)
+    organizador_id = db.Column(db.Integer, db.ForeignKey('organizadores.id'), nullable=False)
+
+    # Relacionamento com Organizador
+    organizador = db.relationship('Organizador', back_populates='eventos')
     
-    organizador = db.relationship('Usuario', back_populates='eventos_criados')
+    # Relacionamentos com Inscrições, Presenças e Certificados
     inscricoes = db.relationship('Inscricao', back_populates='evento', cascade="all, delete")
-    certificados = db.relationship('Certificado', back_populates='evento', cascade="all, delete")
     presencas = db.relationship('Presenca', back_populates='evento', cascade="all, delete")
-
-    @property
-    def vagas_disponiveis(self):
-        return self.capacidade - len(self.inscricoes)
-
+    certificados = db.relationship('Certificado', back_populates='evento', cascade="all, delete")
+    
     def __repr__(self):
         return f'<Evento {self.nome}>'
 
@@ -92,7 +117,6 @@ class Inscricao(db.Model):
     def __repr__(self):
         return f'<Inscricao Usuario {self.usuario_id} no Evento {self.evento_id}>'
 
-
 # Modelo de Presença
 class Presenca(db.Model):
     __tablename__ = 'presencas'
@@ -111,7 +135,6 @@ class Presenca(db.Model):
 
     def __repr__(self):
         return f'<Presenca Usuario {self.usuario_id} no Evento {self.evento_id}>'
-
 
 # Modelo de Certificado
 class Certificado(db.Model):
