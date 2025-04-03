@@ -123,12 +123,20 @@ def criar_evento():
     
     if request.method == 'POST':
         try:
+            # Combinar data e hora em um único datetime
+
+            datetime.strptime(request.form.get('data-inicio'), '%Y-%m-%d').date()
+            datetime.strptime(request.form.get('hora-inicio'), '%H:%M').time()
+            data_hora = datetime.combine(data_inicio, hora_inicio)
+            
             evento = Evento(
-                nome=request.form.get('nome'),
-                data=datetime.strptime(request.form.get('data'), '%Y-%m-%d').date(),
-                hora=datetime.strptime(request.form.get('hora'), '%H:%M').time(),
-                vagas=int(request.form.get('vagas')),
-                palestrante_id=current_user.id
+                nome=request.form.get('nome-evento'),
+                descricao=request.form.get('descricao-evento'),
+                data_hora=data_hora,
+                local=request.form.get('nome-local') + ', ' + request.form.get('endereco'),
+                capacidade=int(request.form.get('capacidade')),
+                carga_horaria=int(request.form.get('carga-horaria')),
+                organizador_id=current_user.id
             )
             db.session.add(evento)
             db.session.commit()

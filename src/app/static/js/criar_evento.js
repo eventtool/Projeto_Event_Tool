@@ -337,11 +337,18 @@ function atualizarResumo() {
         const descricaoEvento = document.getElementById('descricao-evento').value || 'Não informada';
         const categoriaEvento = document.getElementById('categoria-evento')?.value || 'Não informada';
         
+        const cargaHorariaElement = document.getElementById('carga-horaria');
+        const cargaHoraria = cargaHorariaElement ? cargaHorariaElement.value : 'Não informada';
+
         // Atualizar nome e descrição do evento
         document.querySelector('.resumo-nome-evento').textContent = nomeEvento;
         document.querySelector('.resumo-descricao-evento').textContent = descricaoEvento;
-        document.querySelector('.resumo-categoria-evento').textContent = categoriaEvento;
-        
+
+        // Verificar se o elemento existe antes de atualizar
+        const cargaHorariaResumoElement = document.querySelector('.resumo-carga-horaria');
+        if (cargaHorariaResumoElement) {
+            cargaHorariaResumoElement.textContent = cargaHoraria ? `${cargaHoraria} horas` : '- horas';
+        }
         // Atualizar imagem de capa
         const imagemPreview = document.querySelector('#image-preview img')?.src;
         const imagemResumo = document.querySelector('.resumo-image img');
@@ -399,7 +406,21 @@ function atualizarResumo() {
         const horaInicio = document.getElementById('hora-inicio').value || 'Não informada';
         const horaFim = document.getElementById('hora-fim').value || 'Não informada';
         const tipoEvento = document.getElementById('tipo-evento').value;
+        console.log("Executando atualizarLocalData()");
+        const cargaHorariaInput = document.getElementById('carga-horaria');
+        console.log("Campo carga-horaria encontrado:", cargaHorariaInput);
+        console.log("Valor do campo:", cargaHorariaInput?.value);
+        const cargaHorariaElement = document.querySelector('.resumo-carga-horaria');
         
+        if (cargaHorariaInput && cargaHorariaElement) {
+            const cargaHoraria = cargaHorariaInput.value || 'Não informada';
+            cargaHorariaElement.textContent = cargaHoraria ? `${cargaHoraria} horas` : '- horas';
+            console.log("Carga horária atualizada:", cargaHoraria);
+        } else {
+            console.log("Elementos de carga horária não encontrados:", 
+                        { input: !!cargaHorariaInput, element: !!cargaHorariaElement });
+        }
+
         // Atualizar data e hora
         const dataHoraElement = document.querySelector('.resumo-item:nth-child(1) p');
         if (dataHoraElement) {
@@ -649,5 +670,14 @@ if (capacidadeInput) {
     });
 }
 
+document.getElementById('carga-horaria')?.addEventListener('change', function() {
+    console.log("Carga horária alterada para:", this.value);
+    if (etapaAtual === 4) atualizarResumo();
+});
+
+document.getElementById('carga-horaria')?.addEventListener('input', function() {
+    console.log("Carga horária alterada (input) para:", this.value);
+    if (etapaAtual === 4) atualizarResumo();
+});
 
 });
