@@ -11,9 +11,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
 from fpdf import FPDF
 import config
-from models import db, Usuario, Evento, Presenca, Certificado
-from urllib.parse import quote as url_quote  # Corrigido para importar de urllib.parse
+from models import db, Usuario, Evento, Presenca
+from urllib.parse import quote as url_quote  
 
+# Inicializa o Flask
 app = Flask(__name__)
 load_dotenv()
 app.secret_key = os.getenv('SECRET_KEY', 'supersecretkey')
@@ -34,10 +35,12 @@ login_manager.login_view = 'login'
 def load_user(user_id):
     return Usuario.query.get(int(user_id))
 
+# Página inicial
 @app.route('/')
 def index():
     return render_template('index.html')
 
+# Página de Login
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -62,6 +65,7 @@ def login():
 
     return render_template('login.html')
 
+# Logout
 @app.route('/logout')
 @login_required
 def logout():
@@ -69,6 +73,7 @@ def logout():
     flash('Logout realizado com sucesso!', 'success')
     return redirect(url_for('login'))
 
+# Dashboard do Palestrante
 @app.route('/palestrante/dashboard')
 @login_required
 def palestrante_dashboard():
@@ -77,6 +82,7 @@ def palestrante_dashboard():
         return redirect(url_for('index'))
     return render_template('palestrante_dashboard.html')
 
+# Dashboard do Telespectador
 @app.route('/telespectador/dashboard')
 @login_required
 def telespectador_dashboard():
@@ -85,18 +91,15 @@ def telespectador_dashboard():
         return redirect(url_for('index'))
     return render_template('telespectador_dashboard.html')
 
+# Cadastro de usuário
 @app.route('/cadastro', methods=['GET', 'POST'])
 def cadastro():
     if request.method == 'POST':
         try:
             data = request.get_json()
-            print("Dados recebidos no cadastro:", data)
-
-            # Verificar se o email já está cadastrado
             if Usuario.query.filter_by(email=data.get('email')).first():
                 return jsonify({'success': False, 'message': 'Este email já está cadastrado.'}), 400
 
-            # Criar novo usuário
             novo_usuario = Usuario(
                 nome=data.get('nome'),
                 email=data.get('email'),
@@ -109,14 +112,14 @@ def cadastro():
             db.session.commit()
 
             return jsonify({'success': True, 'message': 'Cadastro realizado com sucesso!', 'redirect': url_for('login')})
-        
+
         except Exception as e:
-            print("Erro durante o cadastro:", str(e))
             db.session.rollback()
             return jsonify({'success': False, 'message': f'Erro no servidor: {str(e)}'}), 500
 
     return render_template('cadastro.html')
 
+# Criar evento
 @app.route('/criar-evento', methods=['GET', 'POST'])
 @login_required
 def criar_evento():
@@ -124,37 +127,39 @@ def criar_evento():
         flash('Apenas palestrantes podem criar eventos', 'error')
         return redirect(url_for('index'))
     
-    if request.method == 'POST':
-        try:
-            evento = Evento(
-                nome=request.form.get('nome'),
-                data=datetime.strptime(request.form.get('data'), '%Y-%m-%d').date(),
-                hora=datetime.strptime(request.form.get('hora'), '%H:%M').time(),
-                vagas=int(request.form.get('vagas')),
-                palestrante_id=current_user.id
-            )
-            db.session.add(evento)
-            db.session.commit()
-            flash('Evento criado com sucesso!', 'success')
-            return redirect(url_for('palestrante_dashboard'))
-        except Exception as e:
-            db.session.rollback()
-            flash(f'Erro ao criar evento: {str(e)}', 'error')
-    
-    return render_template('criar_evento.html')
+    if request.method == 'GET':
+        return render_template('criar_evento.html')
 
+    try:
+        evento = Evento(
+            nome=request.form.get('nome'),
+            data=datetime.strptime(request.form.get('data'), '%Y-%m-%d').date(),
+            horario=datetime.strptime(request.form.get('horario'), '%H:%M').time(),
+            vagas=int(request.form.get('vagas')),
+            palestrante_id=current_user.id
+        )
+        db.session.add(evento)
+        db.session.commit()
+        flash('Evento criado com sucesso!', 'success')
+        return redirect(url_for('palestrante_dashboard'))
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Erro ao criar evento: {str(e)}', 'error')
+        return redirect(url_for('criar_evento'))
+
+# Encerrar evento e gerar certificados
 @app.route('/palestrante/encerrar_evento/<int:evento_id>', methods=['POST'])
 @login_required
 def encerrar_evento(evento_id):
     if current_user.tipo != 'palestrante':
         flash('Acesso não autorizado', 'error')
         return redirect(url_for('palestrante_dashboard'))
-    
+
     evento = Evento.query.get(evento_id)
-    if not evento or evento.organizador_id != current_user.id:
+    if not evento or evento.palestrante_id != current_user.id:
         flash('Evento não encontrado ou acesso negado', 'error')
         return redirect(url_for('palestrante_dashboard'))
-    
+
     certificado_folder = os.path.join('static', 'certificados', f'evento_{evento.id}')
     os.makedirs(certificado_folder, exist_ok=True)
 
@@ -175,11 +180,12 @@ def encerrar_evento(evento_id):
         pdf.ln(10)
         pdf.cell(0, 10, f"Data: {datetime.now().strftime('%d/%m/%Y')}", ln=True, align="C")
         pdf.output(os.path.join(certificado_folder, f"certificado_{usuario.id}.pdf"))
-    
+
     flash("Certificados gerados com sucesso!", "success")
     return redirect(url_for('palestrante_dashboard'))
 
+# Rodar o aplicativo Flask
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all() 
-    app.run(debug=True) 
+        db.create_all()  
+    app.run(debug=True)  
