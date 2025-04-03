@@ -12,6 +12,7 @@ from dotenv import load_dotenv
 from fpdf import FPDF
 import config
 from models import db, Usuario, Evento, Presenca
+from flask_migrate import Migrate
 from urllib.parse import quote as url_quote  
 
 # Inicializa o Flask
@@ -23,7 +24,9 @@ app.secret_key = os.getenv('SECRET_KEY', 'supersecretkey')
 app.config['SQLALCHEMY_DATABASE_URI'] = config.DatabaseConfig.SQLALCHEMY_DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = config.DatabaseConfig.SQLALCHEMY_TRACK_MODIFICATIONS
 
+# Inicializa o banco de dados e o Flask-Migrate
 db.init_app(app)
+migrate = Migrate(app, db)
 config.DatabaseConfig.test_db_connection()
 
 # Configuração do Flask-Login
@@ -156,7 +159,7 @@ def encerrar_evento(evento_id):
         return redirect(url_for('palestrante_dashboard'))
 
     evento = Evento.query.get(evento_id)
-    if not evento or evento.palestrante_id != current_user.id:
+    if not evento or evento.organizador_id != current_user.id:
         flash('Evento não encontrado ou acesso negado', 'error')
         return redirect(url_for('palestrante_dashboard'))
 
@@ -193,5 +196,5 @@ def perfil_usuario():
 # Rodar o aplicativo Flask
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()  
-    app.run(debug=True)  
+        db.create_all()  # Apenas para inicialização; use migrações em produção.
+    app.run(debug=True)
