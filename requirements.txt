@@ -8,3 +8,4 @@ email-validator==2.1.1
 reportlab>=3.6.13
 werkzeug>=2.2,<3.0
 fpdf==1.7.2
+mysql-connector-python==8.1.0
