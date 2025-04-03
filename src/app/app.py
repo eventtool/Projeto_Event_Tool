@@ -15,8 +15,9 @@ from models import db, Usuario, Evento, Presenca
 from flask_migrate import Migrate
 from urllib.parse import quote as url_quote  
 
+
 # Inicializa o Flask
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 load_dotenv()
 app.secret_key = os.getenv('SECRET_KEY', 'supersecretkey')
 
