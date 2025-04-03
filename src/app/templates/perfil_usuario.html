@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - EventosBR</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard-styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .profile-container {
+            max-width: 800px;
+            margin: 30px auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+        
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #f79301;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin-right: 20px;
+        }
+        
+        .profile-title h1 {
+            margin: 0;
+            color: #333;
+            font-size: 24px;
+        }
+        
+        .profile-title p {
+            margin: 5px 0 0;
+            color: #666;
+        }
+        
+        .profile-info {
+            margin-bottom: 30px;
+        }
+        
+        .info-group {
+            margin-bottom: 20px;
+        }
+        
+        .info-group h3 {
+            margin: 0 0 10px;
+            color: #333;
+            font-size: 18px;
+        }
+        
+        .info-item {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        
+        .info-label {
+            width: 150px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .info-value {
+            flex: 1;
+            color: #333;
+        }
+        
+        .profile-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        
+        .profile-actions .btn {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <a href="{{ url_for('index') }}">
+                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="EventTool">
+                </a>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#eventos">Eventos</a></li>
+                    <li><a href="#quem-somos">Quem Somos</a></li>
+                    <li><a href="#contato">Contato</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                {% if current_user.is_authenticated %}
+                    <div class="user-profile">
+                        <button class="btn-user">
+                            <i class="fas fa-user-circle"></i>
+                            <span class="username-display">{{ current_user.nome.split(' ')[0] }}</span>
+                        </button>
+                        <a href="{{ url_for('logout') }}" class="btn-logout">Sair</a>
+                    </div>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="btn btn-login">Entrar</a>
+                    <a href="{{ url_for('cadastro') }}" class="btn btn-register">Cadastro</a>
+                {% endif %}
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="profile-container">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="profile-title">
+                    <h1>{{ usuario.nome }}</h1>
+                    <p>{{ usuario.tipo.capitalize() }}</p>
+                </div>
+            </div>
+            
+            <div class="profile-info">
+                <div class="info-group">
+                    <h3>Informações Pessoais</h3>
+                    <div class="info-item">
+                        <div class="info-label">Nome:</div>
+                        <div class="info-value">{{ usuario.nome }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Email:</div>
+                        <div class="info-value">{{ usuario.email }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Celular:</div>
+                        <div class="info-value">{{ usuario.celular or 'Não informado' }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Tipo de Conta:</div>
+                        <div class="info-value">{{ usuario.tipo.capitalize() }}</div>
+                    </div>
+                </div>
+                
+                <div class="info-group">
+                    <h3>Estatísticas</h3>
+                    {% if usuario.tipo == 'palestrante' %}
+                        <div class="info-item">
+                            <div class="info-label">Eventos Criados:</div>
+                            <div class="info-value">{{ usuario.eventos_criados|length }}</div>
+                        </div>
+                    {% endif %}
+                    <div class="info-item">
+                        <div class="info-label">Eventos Participados:</div>
+                        <div class="info-value">{{ usuario.presencas|length }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Certificados:</div>
+                        <div class="info-value">{{ usuario.certificados|length }}</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="profile-actions">
+                <a href="{{ url_for('index') }}" class="btn btn-secondary">Voltar</a>
+                {% if usuario.tipo == 'palestrante' %}
+                    <a href="{{ url_for('palestrante_dashboard') }}" class="btn btn-primary">Meu Dashboard</a>
+                {% elif usuario.tipo == 'telespectador' %}
+                    <a href="{{ url_for('telespectador_dashboard') }}" class="btn btn-primary">Meu Dashboard</a>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-logo">
+                <p>Transformando eventos em experiências de outro mundo</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h3>Navegação</h3>
+                    <ul>
+                        <li><a href="#eventos">Eventos</a></li>
+                        <li><a href="#quem-somos">Quem Somos</a></li>
+                        <li><a href="{{ url_for('login') }}">Login</a></li>
+                        <li><a href="{{ url_for('cadastro') }}">Cadastro</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Nossa Equipe</h3>
+                    <ul class="team-links">
+                        <li>
+                            <span>Nicoly Felizardo</span>
+                            <div class="social-links">
+                                <a href="https://github.com/N1cky003" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="https://www.linkedin.com/in/nicoly-felizardo-holanda" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            </div>
+                        </li>
+                        <li>
+                            <span>Mateus Souza</span>
+                            <div class="social-links">
+                                <a href="https://github.com/MattSouza14" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="https://www.linkedin.com/in/mateus-souzaa/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contato</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-envelope"></i> contato@gmail.com</li>
+                        <li><i class="fas fa-phone"></i> (11) 99999-9999</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Fortaleza - CE</li>
+                    </ul>
+                    <div class="social-media">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>© 2025 EventTool. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Script para o menu mobile
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

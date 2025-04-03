@@ -26,8 +26,20 @@
             </ul>
         </nav>
         <div class="auth-buttons">
-            <a href="{{ url_for('login') }}" class="btn btn-login">Entrar</a>
-            <a href="{{ url_for('cadastro') }}" class="btn btn-register">Cadastro</a>
+            {% if current_user.is_authenticated %}
+                <div class="user-profile">
+                    <button class="btn-user">
+                        <i class="fas fa-user-circle"></i>
+                        <a href="{{ url_for('perfil_usuario') }}" style="text-decoration: none; color: inherit;">
+                            <span class="username-display">{{ current_user.nome.split(' ')[0] }}</span>
+                        </a>
+                    </button>
+                    <a href="{{ url_for('logout') }}" class="btn-logout">Sair</a>
+                </div>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="btn btn-login">Entrar</a>
+                <a href="{{ url_for('cadastro') }}" class="btn btn-register">Cadastro</a>
+            {% endif %}
         </div>
         <div class="menu-toggle">
             <i class="fas fa-bars"></i>

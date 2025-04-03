@@ -127,9 +127,8 @@ def criar_evento():
     if request.method == 'POST':
         try:
             # Combinar data e hora em um único datetime
-
-            datetime.strptime(request.form.get('data-inicio'), '%Y-%m-%d').date()
-            datetime.strptime(request.form.get('hora-inicio'), '%H:%M').time()
+            data_inicio = datetime.strptime(request.form.get('data-inicio'), '%Y-%m-%d').date()
+            hora_inicio = datetime.strptime(request.form.get('hora-inicio'), '%H:%M').time()
             data_hora = datetime.combine(data_inicio, hora_inicio)
             
             evento = Evento(
@@ -150,7 +149,6 @@ def criar_evento():
             flash(f'Erro ao criar evento: {str(e)}', 'error')
     
     return render_template('criar_evento.html')
-
 @app.route('/palestrante/encerrar_evento/<int:evento_id>', methods=['POST'])
 @login_required
 def encerrar_evento(evento_id):
@@ -186,6 +184,11 @@ def encerrar_evento(evento_id):
     
     flash("Certificados gerados com sucesso!", "success")
     return redirect(url_for('palestrante_dashboard'))
+
+@app.route('/perfil')
+@login_required
+def perfil_usuario():
+    return render_template('perfil_usuario.html', usuario=current_user)
 
 if __name__ == '__main__':
     with app.app_context():
