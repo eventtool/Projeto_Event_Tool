@@ -127,6 +127,7 @@ def criar_evento():
         flash('Apenas palestrantes podem criar eventos', 'error')
         return redirect(url_for('index'))
     
+<<<<<<< HEAD
     if request.method == 'GET':
         return render_template('criar_evento.html')
 
@@ -148,6 +149,33 @@ def criar_evento():
         return redirect(url_for('criar_evento'))
 
 # Encerrar evento e gerar certificados
+=======
+    if request.method == 'POST':
+        try:
+            # Combinar data e hora em um único datetime
+            data_inicio = datetime.strptime(request.form.get('data-inicio'), '%Y-%m-%d').date()
+            hora_inicio = datetime.strptime(request.form.get('hora-inicio'), '%H:%M').time()
+            data_hora = datetime.combine(data_inicio, hora_inicio)
+            
+            evento = Evento(
+                nome=request.form.get('nome-evento'),
+                descricao=request.form.get('descricao-evento'),
+                data_hora=data_hora,
+                local=request.form.get('nome-local') + ', ' + request.form.get('endereco'),
+                capacidade=int(request.form.get('capacidade')),
+                carga_horaria=int(request.form.get('carga-horaria')),
+                organizador_id=current_user.id
+            )
+            db.session.add(evento)
+            db.session.commit()
+            flash('Evento criado com sucesso!', 'success')
+            return redirect(url_for('palestrante_dashboard'))
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Erro ao criar evento: {str(e)}', 'error')
+    
+    return render_template('criar_evento.html')
+>>>>>>> 7a33337ff1be377482687036c7eadff802ccb430
 @app.route('/palestrante/encerrar_evento/<int:evento_id>', methods=['POST'])
 @login_required
 def encerrar_evento(evento_id):
@@ -184,7 +212,15 @@ def encerrar_evento(evento_id):
     flash("Certificados gerados com sucesso!", "success")
     return redirect(url_for('palestrante_dashboard'))
 
+<<<<<<< HEAD
 # Rodar o aplicativo Flask
+=======
+@app.route('/perfil')
+@login_required
+def perfil_usuario():
+    return render_template('perfil_usuario.html', usuario=current_user)
+
+>>>>>>> 7a33337ff1be377482687036c7eadff802ccb430
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()  
