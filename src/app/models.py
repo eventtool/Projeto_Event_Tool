@@ -2,32 +2,10 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from datetime import datetime, timezone
 
+# Inicialização do banco de dados
 db = SQLAlchemy()
 
-
-class Perfil(db.Model):
-    __tablename__ = 'perfis'
-    id = db.Column(db.Integer, primary_key=True)
-    nome = db.Column(db.String(100), nullable=False)
-    usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
-    usuario = db.relationship('Usuario', backref='usuario_perfil', uselist=False)
-
 # Modelo de Usuário
-# Modelo de Perfil
-class Perfil(db.Model):
-    __tablename__ = 'perfis'
-    
-    id = db.Column(db.Integer, primary_key=True)
-    usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
-    bio = db.Column(db.Text, nullable=True)
-    foto = db.Column(db.String(255), nullable=True)
-
-    usuario = db.relationship('Usuario', back_populates='perfil')
-
-    def __repr__(self):
-        return f'<Perfil {self.id} - {self.usuario.nome}>'
-
-# Modelo de Usuario
 class Usuario(UserMixin, db.Model):
     __tablename__ = 'usuarios'
     
@@ -44,12 +22,28 @@ class Usuario(UserMixin, db.Model):
     inscricoes = db.relationship('Inscricao', back_populates='participante', cascade="all, delete")
     presencas = db.relationship('Presenca', back_populates='participante', cascade="all, delete")
     certificados = db.relationship('Certificado', back_populates='usuario', cascade="all, delete")
+    organizador = db.relationship('Organizador', back_populates='usuario', uselist=False, cascade="all, delete")
+
+    def __repr__(self):
+        return f'<Usuario {self.nome}>'
+
+# Modelo de Perfil
+class Perfil(db.Model):
+    __tablename__ = 'perfis'
     
-    # Propriedade para acessar eventos criados (se o usuário for um palestrante e tiver organizador associado)
-    @property
-    def eventos_criados(self):
-        if self.organizador:
-            return self.organizador.eventos
+    id = db.Column(db.Integer, primary_key=True)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), unique=True, nullable=False)
+    bio = db.Column(db.Text, nullable=True)
+    foto = db.Column(db.String(255), nullable=True)
+
+    usuario = db.relationship('Usuario', back_populates='perfil')
+
+    def __repr__(self):
+        return f'<Perfil {self.id} - {self.usuario.nome}>'
+
+# Modelo de Organizador
+class Organizador(db.Model):
+    __tablename__ = 'organizadores'
     
     id = db.Column(db.Integer, primary_key=True)
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), unique=True, nullable=False)
@@ -59,8 +53,6 @@ class Usuario(UserMixin, db.Model):
     endereco = db.Column(db.String(255), nullable=True)
 
     usuario = db.relationship('Usuario', back_populates='organizador')
-    
-    # Relacionamento com Eventos
     eventos = db.relationship('Evento', back_populates='organizador', cascade="all, delete")
 
     def __repr__(self):
@@ -81,6 +73,7 @@ class Evento(db.Model):
     atualizado_em = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     organizador_id = db.Column(db.Integer, db.ForeignKey('organizadores.id'), nullable=False)
     criador_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
+    
     criador = db.relationship('Usuario', back_populates='eventos_criados')
     organizador = db.relationship('Organizador', back_populates='eventos')
     inscricoes = db.relationship('Inscricao', back_populates='evento', cascade="all, delete")
@@ -138,11 +131,6 @@ class Certificado(db.Model):
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
     evento_id = db.Column(db.Integer, db.ForeignKey('eventos.id'), nullable=False)
     data_emissao = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
-
-    nome_evento = db.Column(db.String(100), nullable=False)
-    data_evento = db.Column(db.Date, nullable=False)
-    carga_horaria = db.Column(db.Integer, nullable=False)
-    nome_participante = db.Column(db.String(100), nullable=False)
 
     usuario = db.relationship('Usuario', back_populates='certificados')
     evento = db.relationship('Evento', back_populates='certificados')
