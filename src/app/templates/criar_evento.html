@@ -26,8 +26,20 @@
             </ul>
         </nav>
         <div class="auth-buttons">
-            <a href="{{ url_for('login') }}" class="btn btn-login">Entrar</a>
-            <a href="{{ url_for('cadastro') }}" class="btn btn-register">Cadastro</a>
+            {% if current_user.is_authenticated %}
+                <div class="user-profile">
+                    <button class="btn-user">
+                        <i class="fas fa-user-circle"></i>
+                        <a href="{{ url_for('perfil_usuario') }}" style="text-decoration: none; color: inherit;">
+                            <span class="username-display">{{ current_user.nome.split(' ')[0] }}</span>
+                        </a>
+                    </button>
+                    <a href="{{ url_for('logout') }}" class="btn-logout">Sair</a>
+                </div>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="btn btn-login">Entrar</a>
+                <a href="{{ url_for('cadastro') }}" class="btn btn-register">Cadastro</a>
+            {% endif %}
         </div>
         <div class="menu-toggle">
             <i class="fas fa-bars"></i>
@@ -174,7 +186,13 @@
                             </div>
                         </div>
                     </div>
-                    
+
+                    <div class="form-group">
+                        <label for="carga-horaria" class="required">Carga Horária (horas)</label>
+                        <input type="number" id="carga-horaria" name="carga-horaria" min="1" step="1" placeholder="Ex: 4" required>
+                        <p class="form-help">Informe a carga horária total do evento em horas.</p>
+                    </div>
+
                     <div class="form-section">
                         <div class="form-section-header">
                             <h2>Local</h2>
@@ -439,6 +457,10 @@
                                 <div class="resumo-item">
                                     <h4>Data e Hora</h4>
                                     <p>15/06/2025 - 09:00 às 17:00</p>
+                                </div>
+                                <div class="resumo-item">
+                                    <h4>Carga Horária</h4>
+                                    <p class="resumo-carga-horaria">- horas</p>
                                 </div>
                                 <div class="resumo-item">
                                     <h4>Tipo de Evento</h4>
