@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <!-- Font Awesome para ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="{{ url_for('static', filename='js/eventos.js') }}"></script>
 </head>
 <body>
     <header>
@@ -87,7 +88,7 @@
                     </div>
                     <div class="card-content">
                         <h3>Eventos Inscritos</h3>
-                        <p class="card-value">5</p>
+                        <p class="card-value">{{ current_user.inscricoes|length }}</p>
                     </div>
                 </div>
                 
@@ -97,40 +98,102 @@
                     </div>
                     <div class="card-content">
                         <h3>Certificados</h3>
-                        <p class="card-value">8</p>
+                        <p class="card-value">{{ current_user.certificados|length }}</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Próximos Eventos Inscritos -->
-            <div class="dashboard-section">
-                <div class="section-header">
-                    <h2>Minhas Próximas Inscrições</h2>
+            <!-- Lista de Eventos -->
+            <div class="eventos-section">
+                <h2>Eventos Disponíveis</h2>
+                <div class="eventos-grid">
+                    <!-- Eventos serão carregados via JavaScript -->
                 </div>
-                <div class="eventos-table-container">
-                    <table class="eventos-table">
+            </div>
+                </div>
+            </div>
+
+            <!-- Abas de Eventos -->
+            <div class="eventos-tabs">
+                <button class="tab-btn active" onclick="mostrarAba('proximos')">Próximos Eventos</button>
+                <button class="tab-btn" onclick="mostrarAba('encerrados')">Eventos Encerrados</button>
+            </div>
+
+            <!-- Seção de Próximos Eventos -->
+            <div id="proximos" class="eventos-section tab-content active">
+                <!-- <div class="section-header">
+                    <h2>Próximos Eventos</h2>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
                         <thead>
                             <tr>
-                                <th>Nome do Evento</th>
+                                <th>Evento</th>
                                 <th>Data</th>
                                 <th>Local</th>
-                                <th>Palestrante</th>
+                                <th>Organizador</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
+                            {% for inscricao in inscricoes %}
+                                {% if inscricao.evento.status != 'finalizado' %}
+                                <tr>
+                                    <td>{{ inscricao.evento.nome }}</td>
+                                    <td>{{ inscricao.evento.data_hora.strftime('%d/%m/%Y %H:%M') }}</td>
+                                    <td>{{ inscricao.evento.local }}</td>
+                                    <td>{{ inscricao.evento.criador.nome }}</td>
+                                    <td>
+                                        <div class="table-actions">
+                                            <button class="action-btn cancel-btn" title="Cancelar Inscrição" onclick="cancelarInscricao({{ inscricao.evento.id }})">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div> -->
+            </div>
+
+            <!-- Seção de Eventos Encerrados -->
+            <div id="encerrados" class="eventos-section tab-content">
+                <div class="section-header">
+                    <h2>Eventos Encerrados</h2>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
                             <tr>
-                                <td>Workshop de JavaScript Avançado</td>
-                                <td>15/06/2025</td>
-                                <td>São Paulo, SP</td>
-                                <td>João Silva</td>
-                                
-                                <td>
-                                    <div class="table-actions">
-                                        <button class="action-btn cancel-btn" title="Cancelar Inscrição"><i class="fas fa-times"></i></button>
-                                    </div>
-                                </td>
+                                <th>Evento</th>
+                                <th>Data</th>
+                                <th>Local</th>
+                                <th>Carga Horária</th>
+                                <th>Organizador</th>
+                                <th>Ações</th>
                             </tr>
+                        </thead>
+                        <tbody>
+                            {% for inscricao in inscricoes %}
+                                {% if inscricao.evento.status == 'finalizado' %}
+                                <tr>
+                                    <td>{{ inscricao.evento.nome }}</td>
+                                    <td>{{ inscricao.evento.data_hora.strftime('%d/%m/%Y %H:%M') }}</td>
+                                    <td>{{ inscricao.evento.local }}</td>
+                                    <td>{{ inscricao.evento.carga_horaria }}h</td>
+                                    <td>{{ inscricao.evento.criador.nome }}</td>
+                                    <td>
+                                        <div class="table-actions">
+                                            <a href="{{ url_for('gerar_certificado', evento_id=inscricao.evento.id) }}" class="action-btn certificate-btn" title="Gerar Certificado">
+                                                <i class="fas fa-certificate"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>

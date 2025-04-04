@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Flatpickr para seleção de data e hora -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="{{ url_for('static', filename='js/eventos.js') }}"></script>
 </head>
 <body>
     <header>
@@ -91,14 +92,52 @@
                     </div>
                     <div class="card-content">
                         <h3>Eventos Criados</h3>
-                        <p class="card-value">12</p>
+                        <p class="card-value">{{ eventos|length }}</p>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <div class="card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Total de Inscritos</h3>
+                        <p class="card-value">{{ eventos|map(attribute='inscricoes')|map('length')|sum }}</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Próximos Eventos -->
-            <div class="dashboard-section">
-                <div class="section-header">
+            <!-- Eventos -->
+            <div class="eventos-section">
+                <h2>Meus Eventos</h2>
+                <div class="eventos-grid">
+                    {% for evento in eventos %}
+                    <div class="evento-card">
+                        <div class="evento-header">
+                            <h3>{{ evento.nome }}</h3>
+                            <span class="evento-data">{{ evento.data_hora.strftime('%d/%m/%Y %H:%M') }}</span>
+                        </div>
+                        <div class="evento-content">
+                            <p>{{ evento.descricao[:150] }}...</p>
+                            <div class="evento-info">
+                                <span><i class="fas fa-map-marker-alt"></i> {{ evento.local }}</span>
+                                <span><i class="fas fa-users"></i> {{ evento.inscricoes|length }}/{{ evento.capacidade }}</span>
+                            </div>
+                        </div>
+                        <div class="evento-footer">
+                            <button class="btn-editar" onclick="editarEvento({{ evento.id }})">
+                                <i class="fas fa-edit"></i> Editar
+                            </button>
+                            <button class="btn-encerrar" onclick="encerrarEvento({{ evento.id }})">
+                                <i class="fas fa-flag-checkered"></i> Encerrar
+                            </button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+
                     <h2>Próximos Eventos</h2>
                     <a href="" class="view-all">Ver Todos</a>
                 </div>

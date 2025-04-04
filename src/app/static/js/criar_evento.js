@@ -1,4 +1,40 @@
 document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('.criar-evento-form');
+    
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = {
+            nome: document.getElementById('nome-evento').value,
+            descricao: document.getElementById('descricao-evento').value,
+            data: document.getElementById('data-inicio').value,
+            hora: document.getElementById('hora-inicio').value,
+            local: document.getElementById('nome-local').value,
+            capacidade: document.getElementById('capacidade').value,
+            carga_horaria: document.getElementById('carga-horaria').value
+        };
+        
+        fetch('/criar-evento', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(data.message);
+                window.location.href = data.redirect;
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Erro ao criar evento');
+        });
+    });
     // Variáveis para controlar a navegação
     const etapas = document.querySelectorAll('.form-etapa');
     const progressoEtapas = document.querySelectorAll('.progresso-etapa');

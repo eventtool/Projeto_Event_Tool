@@ -1,5 +1,123 @@
 /* Estilos para os dashboards de palestrante e telespectador */
 
+/* Eventos Grid */
+.eventos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.evento-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.evento-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.evento-header {
+    padding: 20px;
+    background-color: var(--gradient);
+    color: white;
+    position: relative;
+}
+
+.evento-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.evento-data {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin-top: 5px;
+    display: block;
+}
+
+.evento-content {
+    padding: 20px;
+}
+
+.evento-content p {
+    color: #666;
+    margin: 0 0 15px;
+    line-height: 1.5;
+}
+
+.evento-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.evento-info span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.evento-footer {
+    padding: 15px 20px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-inscrever {
+    background: var(--gradient);
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 5px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: opacity 0.3s ease;
+}
+
+.btn-inscrever:hover {
+    opacity: 0.9;
+}
+
+.btn-inscrito {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 5px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.8;
+    cursor: not-allowed;
+}
+
+.eventos-section {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    padding: 25px;
+    margin-top: 30px;
+}
+
+.eventos-section h2 {
+    color: #333;
+    font-size: 1.3rem;
+    margin: 0 0 20px;
+}
+
 /* Layout do Dashboard */
 .dashboard-main {
     display: flex;
@@ -790,4 +908,165 @@
     .evento-meta {
         grid-template-columns: 1fr;
     }
+}
+
+/* Estilos para abas */
+.eventos-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+.tab-btn {
+    padding: 10px 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #666;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.tab-btn:hover {
+    color: var(--secondary-color);
+}
+
+.tab-btn.active {
+    color: var(--secondary-color);
+    font-weight: 600;
+}
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--secondary-color);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Estilos para tabelas */
+.table-responsive {
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.table th,
+.table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #333;
+}
+
+.table tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Estilos para botões de ação */
+.action-btn {
+    padding: 5px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    margin: 0 5px;
+}
+
+.edit-btn:hover {
+    color: #4CAF50;
+}
+
+.view-btn:hover {
+    color: #2196F3;
+}
+
+.delete-btn:hover, .cancel-btn:hover {
+    color: #f44336;
+}
+
+.certificate-btn {
+    color: #FFA000;
+}
+
+.certificate-btn:hover {
+    color: #FF6F00;
+    transform: scale(1.2);
+}
+
+.table-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Estilos para botões de ação */
+.action-btn {
+    padding: 5px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    margin: 0 5px;
+}
+
+.edit-btn:hover {
+    color: #4CAF50;
+}
+
+.view-btn:hover {
+    color: #2196F3;
+}
+
+.delete-btn:hover, .cancel-btn:hover {
+    color: #f44336;
+}
+
+.certificate-btn {
+    color: #FFA000;
+}
+
+.certificate-btn:hover {
+    color: #FF6F00;
+    transform: scale(1.2);
+}
+
+.table-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

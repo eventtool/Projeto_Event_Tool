@@ -69,6 +69,7 @@ class Evento(db.Model):
     local = db.Column(db.String(255), nullable=False)
     capacidade = db.Column(db.Integer, nullable=False)
     carga_horaria = db.Column(db.Integer, nullable=True)
+    status = db.Column(db.String(20), default='ativo', nullable=False)  # ativo, finalizado
     criado_em = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     atualizado_em = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     organizador_id = db.Column(db.Integer, db.ForeignKey('organizadores.id'), nullable=False)
