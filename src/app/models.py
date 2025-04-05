@@ -53,7 +53,7 @@ class Organizador(db.Model):
     endereco = db.Column(db.String(255), nullable=True)
 
     usuario = db.relationship('Usuario', back_populates='organizador')
-    eventos = db.relationship('Evento', back_populates='organizador', cascade="all, delete")
+    eventos = db.relationship('Evento', back_populates='organizador', cascade="all, delete")  # Changed from backref to back_populates
 
     def __repr__(self):
         return f'<Organizador {self.nome_organizacao}>'
@@ -64,23 +64,26 @@ class Evento(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100), nullable=False)
-    descricao = db.Column(db.Text, nullable=False)
+    descricao = db.Column(db.Text)
     data_hora = db.Column(db.DateTime, nullable=False)
-    local = db.Column(db.String(255), nullable=False)
-    capacidade = db.Column(db.Integer, nullable=False)
-    carga_horaria = db.Column(db.Integer, nullable=True)
-    status = db.Column(db.String(20), default='ativo', nullable=False)  # ativo, finalizado
-    criado_em = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
-    atualizado_em = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
-    organizador_id = db.Column(db.Integer, db.ForeignKey('organizadores.id'), nullable=False)
+    local = db.Column(db.String(100), nullable=False)
+    capacidade = db.Column(db.Integer, nullable=False)  # Add if missing
+    status = db.Column(db.String(20), default='aberto')  # Added status field
+    carga_horaria = db.Column(db.Integer, nullable=False)
     criador_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
+    organizador_id = db.Column(db.Integer, db.ForeignKey('organizadores.id'), nullable=False)
     
-    criador = db.relationship('Usuario', back_populates='eventos_criados')
+    # Relationships
+    inscricoes = db.relationship('Inscricao', back_populates='evento', lazy=True)
     organizador = db.relationship('Organizador', back_populates='eventos')
-    inscricoes = db.relationship('Inscricao', back_populates='evento', cascade="all, delete")
+    criador = db.relationship('Usuario', back_populates='eventos_criados', foreign_keys=[criador_id])
     presencas = db.relationship('Presenca', back_populates='evento', cascade="all, delete")
     certificados = db.relationship('Certificado', back_populates='evento', cascade="all, delete")
     
+    @property
+    def vagas_disponiveis(self):
+        return self.capacidade - len(self.inscricoes)
+
     def __repr__(self):
         return f'<Evento {self.nome}>'
 

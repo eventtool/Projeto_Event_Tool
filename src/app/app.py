@@ -17,6 +17,7 @@ from flask_migrate import Migrate
 from urllib.parse import quote as url_quote
 import uuid
 import tempfile
+from io import BytesIO
 
 
 # Inicializa o Flask
@@ -81,13 +82,13 @@ def logout():
     return redirect(url_for('login'))
 
 # Dashboard do Palestrante
-@app.route('/palestrante/dashboard')
+@app.route('/palestrante_dashboard', methods=['GET'])
 @login_required
 def palestrante_dashboard():
     if current_user.tipo != 'palestrante':
         flash('Acesso não autorizado', 'error')
         return redirect(url_for('index'))
-    
+
     eventos = Evento.query.filter_by(criador_id=current_user.id).all()
     return render_template('palestrante_dashboard.html', eventos=eventos)
 
@@ -183,25 +184,6 @@ def criar_evento():
 
     return render_template('criar_evento.html')
 
-
-    return render_template('criar_evento.html')
-    try:
-        evento = Evento(
-            nome=request.form.get('nome'),
-            data=datetime.strptime(request.form.get('data'), '%Y-%m-%d').date(),
-            horario=datetime.strptime(request.form.get('horario'), '%H:%M').time(),
-            vagas=int(request.form.get('vagas')),
-            palestrante_id=current_user.id
-        )
-        db.session.add(evento)
-        db.session.commit()
-        flash('Evento criado com sucesso!', 'success')
-        return redirect(url_for('palestrante_dashboard'))
-    except Exception as e:
-        db.session.rollback()
-        flash(f'Erro ao criar evento: {str(e)}', 'error')
-        return redirect(url_for('criar_evento'))
-
 # Encerrar evento e gerar certificados
 @app.route('/palestrante/encerrar_evento/<int:evento_id>', methods=['POST'])
 @login_required
@@ -226,6 +208,7 @@ def encerrar_evento(evento_id):
 
         # Gerando o certificado em PDF
         pdf = FPDF()
+        pdf.set_auto_page_break(auto=True, margin=15)
         pdf.add_page()
         pdf.set_font("Arial", "B", 16)
         pdf.cell(0, 10, "Certificado de Participação", ln=True, align="C")
@@ -270,12 +253,14 @@ def inscrever_evento(evento_id):
                 'message': 'Você já está inscrito neste evento'
             }), 400
         
-        # Verifica se há vagas disponíveis
-        total_inscritos = Inscricao.query.filter_by(evento_id=evento_id).count()
+        # Verifica se há vagas disponíveis usando uma query otimizada
+        total_inscritos = db.session.query(db.func.count(Inscricao.id))\
+            .filter_by(evento_id=evento_id).scalar()
+            
         if total_inscritos >= evento.capacidade:
             return jsonify({
                 'success': False,
-                'message': 'Evento já está com capacidade máxima'
+                'message': f'Evento já está com capacidade máxima ({evento.capacidade} vagas)'
             }), 400
         
         nova_inscricao = Inscricao(
@@ -287,13 +272,17 @@ def inscrever_evento(evento_id):
         db.session.add(nova_inscricao)
         db.session.commit()
         
+        vagas_restantes = evento.capacidade - (total_inscritos + 1)
+        
         return jsonify({
             'success': True,
-            'message': 'Inscrição realizada com sucesso!'
+            'message': f'Inscrição realizada com sucesso! Restam {vagas_restantes} vagas.',
+            'vagas_restantes': vagas_restantes
         })
         
     except Exception as e:
         db.session.rollback()
+        app.logger.error(f"Erro ao realizar inscrição: {str(e)}")
         return jsonify({
             'success': False,
             'message': f'Erro ao realizar inscrição: {str(e)}'
@@ -301,37 +290,45 @@ def inscrever_evento(evento_id):
 
 # API para listar eventos
 @app.route('/api/eventos')
-@login_required
-def listar_eventos_api():
+def get_eventos():
     try:
         eventos = Evento.query.all()
         eventos_data = []
-
+        
         for evento in eventos:
+            # Check if user is authenticated before checking inscription
             inscrito = False
-            if current_user.tipo == 'telespectador':
-                inscrito = any(i.usuario_id == current_user.id for i in evento.inscricoes)
-
+            if current_user.is_authenticated:
+                inscrito = Inscricao.query.filter_by(
+                    usuario_id=current_user.id,
+                    evento_id=evento.id
+                ).first() is not None
+            
+            # Format date properly
+            data_hora = evento.data_hora.isoformat() if evento.data_hora else None
+            
             eventos_data.append({
                 'id': evento.id,
                 'nome': evento.nome,
                 'descricao': evento.descricao,
-                'data_hora': evento.data_hora.isoformat(),
+                'data_hora': data_hora,
                 'local': evento.local,
                 'capacidade': evento.capacidade,
-                'inscricoes_count': len(evento.inscricoes),
+                'inscricoes_count': len(evento.inscricoes) if evento.inscricoes else 0,
+                'status': evento.status if hasattr(evento, 'status') else 'ativo',
                 'inscrito': inscrito
             })
-
+            
         return jsonify({
             'success': True,
             'eventos': eventos_data
         })
-
     except Exception as e:
+        # Log the error for debugging
+        app.logger.error(f"Error in get_eventos: {str(e)}")
         return jsonify({
             'success': False,
-            'message': f'Erro ao carregar eventos: {str(e)}'
+            'message': "Erro ao carregar eventos: " + str(e)
         }), 500
 
 # Rota para cancelar inscrição em evento
@@ -383,7 +380,8 @@ def gerar_lista_presenca(evento_id):
     inscricoes = Inscricao.query.filter_by(evento_id=evento_id).all()
 
     # Criar PDF
-    pdf = FPDF()
+    pdf = FPDF('L', 'mm', 'A4')
+    pdf.set_auto_page_break(auto=True, margin=15)
     pdf.add_page()
     pdf.set_font('Arial', 'B', 16)
     
@@ -437,30 +435,13 @@ def finalizar_evento(evento_id):
         }), 403
 
     try:
-        # Registrar presença para todos os inscritos
-        inscricoes = Inscricao.query.filter_by(evento_id=evento_id).all()
-        for inscricao in inscricoes:
-            # Verificar se já existe presença
-            presenca = Presenca.query.filter_by(
-                usuario_id=inscricao.usuario_id,
-                evento_id=evento_id
-            ).first()
-            
-            if not presenca:
-                # Criar presença
-                presenca = Presenca(
-                    usuario_id=inscricao.usuario_id,
-                    evento_id=evento_id
-                )
-                db.session.add(presenca)
-        
         # Marcar evento como finalizado
         evento.status = 'finalizado'
         db.session.commit()
         
         return jsonify({
             'success': True,
-            'message': 'Evento finalizado com sucesso e presenças registradas!'
+            'message': 'Evento finalizado com sucesso!'
         })
     except Exception as e:
         db.session.rollback()
@@ -473,133 +454,110 @@ def finalizar_evento(evento_id):
 @app.route('/evento/<int:evento_id>/certificado', methods=['GET'])
 @login_required
 def gerar_certificado(evento_id):
-    evento = Evento.query.get_or_404(evento_id)
-    
-    # Verificar se o evento está finalizado
-    if evento.status != 'finalizado':
-        return jsonify({
-            'success': False,
-            'message': 'O evento ainda não foi finalizado'
-        }), 400
+    try:
+        # Busca o evento
+        evento = Evento.query.get_or_404(evento_id)
+        
+        # Verifica se o evento foi finalizado
+        if evento.status != 'finalizado':
+            return jsonify({
+                'success': False,
+                'message': 'O evento ainda não foi finalizado'
+            }), 400
 
-    # Verificar se o usuário está inscrito no evento
-    inscricao = Inscricao.query.filter_by(
-        usuario_id=current_user.id,
-        evento_id=evento_id
-    ).first()
-    
-    if not inscricao:
-        return jsonify({
-            'success': False,
-            'message': 'Você não está inscrito neste evento'
-        }), 400
-    
-    # Quando o evento é finalizado, automaticamente registra presença para todos os inscritos
-    presenca = Presenca.query.filter_by(
-        usuario_id=current_user.id,
-        evento_id=evento_id
-    ).first()
-    
-    if not presenca:
-        # Criar presença automaticamente para eventos finalizados
-        presenca = Presenca(
+        # Verifica se o usuário está inscrito
+        inscricao = Inscricao.query.filter_by(
             usuario_id=current_user.id,
             evento_id=evento_id
-        )
-        db.session.add(presenca)
-        db.session.commit()
+        ).first()
+        
+        if not inscricao:
+            return jsonify({
+                'success': False,
+                'message': 'Você não está inscrito neste evento'
+            }), 400
 
-    # Verificar se já existe um certificado
-    certificado = Certificado.query.filter_by(
-        usuario_id=current_user.id,
-        evento_id=evento_id
-    ).first()
-    
-    if not certificado:
-        # Criar novo certificado
-        certificado = Certificado(
-            codigo=str(uuid.uuid4()),
-            usuario_id=current_user.id,
-            evento_id=evento_id
-        )
-        db.session.add(certificado)
-        db.session.commit()
+        # Cria um arquivo temporário para o PDF
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as temp_file:
+            # Cria o certificado
+            pdf = FPDF('L', 'mm', 'A4')
+            pdf.add_page()
+            
+            # Configurações de fonte e cores
+            pdf.set_font('Arial', 'B', 30)
+            pdf.set_text_color(0, 0, 128)  # Azul escuro
+            pdf.cell(0, 30, 'CERTIFICADO', 0, 1, 'C')
+            
+            pdf.set_font('Arial', '', 16)
+            pdf.set_text_color(0, 0, 0)  # Preto
+            
+            texto = f"""
+            Certificamos que
 
-    # Gerar PDF do certificado
-    pdf = FPDF('L', 'mm', 'A4')  # Landscape mode
-    pdf.add_page()
-    
-    # Adicionar borda decorativa
-    pdf.set_draw_color(0, 0, 128)  # Cor azul escuro para a borda
-    pdf.set_line_width(2)
-    pdf.rect(10, 10, 277, 190)
-    
-    # Título
-    pdf.set_font('Arial', 'B', 30)
-    pdf.set_text_color(0, 0, 128)  # Azul escuro para o título
-    pdf.cell(0, 40, 'CERTIFICADO', 0, 1, 'C')
-    
-    # Conteúdo
-    pdf.set_font('Arial', '', 16)
-    pdf.set_text_color(0, 0, 0)  # Voltar para texto preto
-    
-    # Texto principal
-    texto_principal = f"""Certificamos que
+            {current_user.nome}
 
-{current_user.nome}
+            participou do evento
 
-participou com êxito do evento
+            {evento.nome}
 
-{evento.nome}
+            realizado em {evento.data_hora.strftime('%d/%m/%Y')},
+            no local {evento.local}, com carga horária total de {evento.carga_horaria} horas.
+            """
+            
+            for linha in texto.split('\n'):
+                if linha.strip() == current_user.nome:
+                    pdf.set_font('Arial', 'B', 20)
+                    pdf.cell(0, 10, linha.strip(), 0, 1, 'C')
+                    pdf.set_font('Arial', '', 16)
+                else:
+                    pdf.cell(0, 10, linha.strip(), 0, 1, 'C')
 
-realizado em {evento.data_hora.strftime('%d de %B de %Y')},
-no local {evento.local}, com carga horária total de {evento.carga_horaria} horas."""
-    
-    # Centralizar texto principal
-    pdf.ln(10)
-    for linha in texto_principal.split('\n'):
-        if linha.strip() == current_user.nome:
-            pdf.set_font('Arial', 'B', 20)  # Nome em negrito e maior
-            pdf.cell(0, 10, linha, 0, 1, 'C')
-            pdf.set_font('Arial', '', 16)  # Voltar ao estilo normal
-        elif linha.strip() == evento.nome:
-            pdf.set_font('Arial', 'B', 18)  # Nome do evento em negrito
-            pdf.cell(0, 10, linha, 0, 1, 'C')
-            pdf.set_font('Arial', '', 16)  # Voltar ao estilo normal
-        else:
-            pdf.cell(0, 10, linha, 0, 1, 'C')
-    
-    # Adicionar data de emissão
-    pdf.ln(20)
-    pdf.set_font('Arial', '', 12)
-    data_atual = datetime.now().strftime('%d de %B de %Y')
-    pdf.cell(0, 10, f'Emitido em {data_atual}', 0, 1, 'C')
-    
-    # Adicionar assinatura do organizador
-    pdf.ln(10)
-    pdf.line(85, 160, 205, 160)  # Linha para assinatura
-    pdf.ln(5)
-    pdf.set_font('Arial', 'B', 14)
-    pdf.cell(0, 10, evento.organizador.nome_organizacao, 0, 1, 'C')
-    pdf.set_font('Arial', '', 12)
-    pdf.cell(0, 10, 'Organizador do Evento', 0, 1, 'C')
-    
-    # Código de verificação
-    pdf.set_font('Arial', '', 8)
-    pdf.set_text_color(128, 128, 128)  # Cinza para o código
-    pdf.cell(0, 10, f'Código de verificação: {certificado.codigo}', 0, 1, 'C')
-    
-    # Salvar PDF temporariamente
-    with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as temp_file:
-        pdf.output(temp_file.name)
-        return send_file(
-            temp_file.name,
-            mimetype='application/pdf',
-            as_attachment=True,
-            download_name=f'certificado_{evento.nome}.pdf'
-        )
+            # Adiciona assinatura e código de verificação
+            pdf.ln(20)
+            pdf.line(80, 180, 215, 180)
+            pdf.set_font('Arial', 'B', 12)
+            pdf.cell(0, 10, 'Organizador do Evento', 0, 1, 'C')
+            
+            # Código de verificação
+            codigo = str(uuid.uuid4())
+            pdf.set_font('Arial', '', 8)
+            pdf.cell(0, 10, f'Código de verificação: {codigo}', 0, 1, 'C')
+
+            # Salva o PDF no arquivo temporário
+            pdf.output(temp_file.name)
+
+            # Retorna o arquivo
+            return send_file(
+                temp_file.name,
+                mimetype='application/pdf',
+                as_attachment=True,
+                download_name=f'certificado_{evento.nome}.pdf'
+            )
+
+    except Exception as e:
+        app.logger.error(f"Erro ao gerar certificado: {str(e)}")
+        return jsonify({
+            'success': False,
+            'message': 'Erro ao gerar certificado'
+        }), 500
+
+@app.route('/dashboard')
+@login_required
+def dashboard():
+    if current_user.tipo == 'palestrante':
+        return redirect(url_for('palestrante_dashboard'))
+    elif current_user.tipo == 'telespectador':
+        return redirect(url_for('telespectador_dashboard'))
+    else:
+        flash('Acesso não autorizado', 'error')
+        return redirect(url_for('index'))
+
+@app.route('/eventos', methods=['GET'])
+def todos_eventos():
+    eventos = Evento.query.all()  # Busca todos os eventos no banco de dados
+    return render_template('todos_eventos.html', eventos=eventos)
 
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()  # Apenas para inicialização; use migrações em produção.
+        db.create_all()
     app.run(debug=True)

@@ -9,6 +9,7 @@
     <!-- Font Awesome para ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="{{ url_for('static', filename='js/eventos.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/certificado.js') }}"></script>
 </head>
 <body>
     <header>
@@ -20,7 +21,7 @@
             </div>
             <nav>
                 <ul class="nav-links">
-                    <li><a href="#eventos">Eventos</a></li>
+                    <li><a href="{{ url_for('todos_eventos') }}">Eventos</a></li>
                     <li><a href="#quem-somos">Quem Somos</a></li>
                     <li><a href="#contato">Contato</a></li>
                 </ul>
@@ -103,99 +104,20 @@
                 </div>
             </div>
 
-            <!-- Lista de Eventos -->
-            <div class="eventos-section">
-                <h2>Eventos Disponíveis</h2>
-                <div class="eventos-grid">
-                    <!-- Eventos serão carregados via JavaScript -->
+                <!-- Abas de Eventos -->
+                <div class="eventos-tabs">
+                    <button class="tab-btn active" onclick="mostrarAba('proximos')">Próximos Eventos</button>
+                    <button class="tab-btn" onclick="mostrarAba('encerrados')">Eventos Encerrados</button>
                 </div>
-            </div>
-                </div>
-            </div>
 
-            <!-- Abas de Eventos -->
-            <div class="eventos-tabs">
-                <button class="tab-btn active" onclick="mostrarAba('proximos')">Próximos Eventos</button>
-                <button class="tab-btn" onclick="mostrarAba('encerrados')">Eventos Encerrados</button>
-            </div>
-
-            <!-- Seção de Próximos Eventos -->
-            <div id="proximos" class="eventos-section tab-content active">
-                <!-- <div class="section-header">
-                    <h2>Próximos Eventos</h2>
+                <!-- Seção de Eventos Encerrados -->
+                <div id="encerrados" class="eventos-section tab-content">
+                <!-- Conteúdo de Eventos Encerrados -->
                 </div>
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Evento</th>
-                                <th>Data</th>
-                                <th>Local</th>
-                                <th>Organizador</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for inscricao in inscricoes %}
-                                {% if inscricao.evento.status != 'finalizado' %}
-                                <tr>
-                                    <td>{{ inscricao.evento.nome }}</td>
-                                    <td>{{ inscricao.evento.data_hora.strftime('%d/%m/%Y %H:%M') }}</td>
-                                    <td>{{ inscricao.evento.local }}</td>
-                                    <td>{{ inscricao.evento.criador.nome }}</td>
-                                    <td>
-                                        <div class="table-actions">
-                                            <button class="action-btn cancel-btn" title="Cancelar Inscrição" onclick="cancelarInscricao({{ inscricao.evento.id }})">
-                                                <i class="fas fa-times"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                {% endif %}
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div> -->
-            </div>
 
-            <!-- Seção de Eventos Encerrados -->
-            <div id="encerrados" class="eventos-section tab-content">
-                <div class="section-header">
-                    <h2>Eventos Encerrados</h2>
-                </div>
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Evento</th>
-                                <th>Data</th>
-                                <th>Local</th>
-                                <th>Carga Horária</th>
-                                <th>Organizador</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for inscricao in inscricoes %}
-                                {% if inscricao.evento.status == 'finalizado' %}
-                                <tr>
-                                    <td>{{ inscricao.evento.nome }}</td>
-                                    <td>{{ inscricao.evento.data_hora.strftime('%d/%m/%Y %H:%M') }}</td>
-                                    <td>{{ inscricao.evento.local }}</td>
-                                    <td>{{ inscricao.evento.carga_horaria }}h</td>
-                                    <td>{{ inscricao.evento.criador.nome }}</td>
-                                    <td>
-                                        <div class="table-actions">
-                                            <a href="{{ url_for('gerar_certificado', evento_id=inscricao.evento.id) }}" class="action-btn certificate-btn" title="Gerar Certificado">
-                                                <i class="fas fa-certificate"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                {% endif %}
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                <!-- Seção de Próximos Eventos -->
+                <div id="proximos" class="eventos-section tab-content active ">
+                    <!-- Conteúdo de Próximos Eventos -->
                 </div>
             </div>
         </div>

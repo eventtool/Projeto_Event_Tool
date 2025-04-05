@@ -1,10 +1,11 @@
-<!DOCTYPE html>
+-<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EventosBR - Plataforma de Eventos</title>
+    <title>Todos os Eventos - EventTool</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/todos_eventos.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -49,56 +50,29 @@
             </div>
         </div>
     </header>
-    <main>
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="container">
-                <div class="hero-content">
-                    <h1>Descubra os Melhores Eventos</h1>
-                    <p>Encontre, participe e compartilhe experiências incríveis</p>
-                    <a href="{{ url_for('todos_eventos') }}" class="btn btn-primary">Ver Eventos</a>
-                </div>
-            </div>
-        </section>
-        <section id="eventos" class="eventos-section">
-            <div class="container">
-                <h2 class="section-title">Próximos Eventos</h2>
-                <div class="eventos-grid">
-                    <div class="evento-card" data-category="tecnologia">
-                        <div class="evento-image">
-                            <img src="{{ url_for('static', filename='img/placeholder.svg') }}?height=200&width=300" alt="Evento de Tecnologia">
-                            <div class="evento-date">
-                                <span class="day">15</span>
-                                <span class="month">JUN</span>
-                            </div>
+
+    <main class="todos-eventos-main">
+        <div class="container">
+            <h1>Todos os Eventos</h1>
+            <div class="eventos-grid">
+                {% for evento in eventos %}
+                <div class="evento-card">
+                    <div class="evento-image">
+                        <img src="{{ url_for('static', filename='img/placeholder.svg') }}" alt="Imagem do Evento">
+                    </div>
+                    <div class="evento-content">
+                        <h3>{{ evento.nome }}</h3>
+                        <p>{{ evento.descricao[:100] }}...</p>
+                        <div class="evento-info">
+                            <span><i class="fas fa-calendar-alt"></i> {{ evento.data_hora.strftime('%d/%m/%Y %H:%M') }}</span>
+                            <span><i class="fas fa-map-marker-alt"></i> {{ evento.local }}</span>
                         </div>
-                        <div class="evento-content">
-                            <h3>DevConf 2025</h3>
-                            <div class="evento-details">
-                                <p><i class="fas fa-map-marker-alt"></i> São Paulo, SP</p>
-                                <p><i class="fas fa-clock"></i> 09:00 - 18:00</p>
-                            </div>
-                            <p class="evento-description">Conferência para desenvolvedores com palestras sobre as mais recentes tecnologias e tendências.</p>
-                            <a href="#" class="btn btn-secondary">Saiba Mais</a>
-                        </div>
+                        <a href="/evento/{{ evento.id }}" class="btn btn-primary">Ver Mais</a>
                     </div>
                 </div>
+                {% endfor %}
             </div>
-        </section>
-        <section id="quem-somos" class="quem-somos-section">
-            <div class="container">
-                <div class="quem-somos-content">
-                    <div class="quem-somos-text">
-                        <h2 class="section-title">Quem Somos</h2>
-                        <p>A EventTool é uma plataforma dedicada a conectar pessoas a eventos incríveis em todo o Brasil. Nossa missão é facilitar o acesso à informação sobre eventos de diversos segmentos, promovendo a cultura, o conhecimento e o networking.</p>
-                        <p>Fundada em 2025 por um grupo de estudantes entusiastas de tecnologia e eventos.</p>
-                    </div>
-                    <div class="quem-somos-image">
-                        <img src="{{ url_for('static', filename='img/Grupo.jpeg') }}" alt="Equipe EventTool">
-                    </div>
-                </div>
-            </div>
-        </section>
+        </div>
     </main>
     <footer id="contato">
         <div class="container footer-container">
@@ -122,7 +96,7 @@
                             <span>Nicoly Felizardo</span>
                             <div class="social-links">
                                 <a href="https://github.com/N1cky003" target="_blank"><i class="fab fa-github"></i></a>
-                                <a href="www.linkedin.com/in/nicoly-felizardo-holanda" target="_blank"><i class="fab fa-linkedin"></i></a>
+                                <a href="https://www.linkedin.com/in/nicoly-felizardo-holanda" target="_blank"><i class="fab fa-linkedin"></i></a>
                             </div>
                         </li>
                         <li>
@@ -178,6 +152,5 @@
         </div>
     </footer>
 
-    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
 </body>
 </html>

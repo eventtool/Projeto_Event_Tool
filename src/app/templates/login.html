@@ -19,7 +19,7 @@
             </div>
             <nav>
                 <ul class="nav-links">
-                    <li><a href="#eventos">Eventos</a></li>
+                    <li><a href="{{ url_for('todos_eventos') }}">Eventos</a></li>
                     <li><a href="#quem-somos">Quem Somos</a></li>
                     <li><a href="#contato">Contato</a></li>
                 </ul>
@@ -78,11 +78,11 @@
                             <span>ou</span>
                         </div>
                         <div class="social-login">
-                            <button type="button" class="btn btn-social google">
-                                <i class="fab fa-google"></i> Entrar com Google
+                            <button class="btn-google">
+                                <i class="fab fa-google"></i> Login com Google
                             </button>
-                            <button type="button" class="btn btn-social facebook">
-                                <i class="fab fa-facebook-f"></i> Entrar com Facebook
+                            <button class="btn-facebook">
+                                <i class="fab fa-facebook-f"></i> Login com Facebook
                             </button>
                         </div>
                     </form>

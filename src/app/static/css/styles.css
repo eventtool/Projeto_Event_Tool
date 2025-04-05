@@ -47,14 +47,24 @@ img {
 }
 
 /* Botões */
-.btn {
-    display: inline-block;
-    padding: 10px 20px;
+button, .btn {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
     border-radius: 5px;
-    font-weight: 600;
-    transition: all 0.3s ease;
+    padding: 10px 20px;
     cursor: pointer;
-    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover, .btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+button:disabled, .btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
 }
 
 .btn-primary {
@@ -70,14 +80,21 @@ img {
 }
 
 .btn-secondary {
-    background-color: transparent;
-    color: var(--secondary-color);
-    border: 2px solid var(--secondary-color);
+    background-color: #6c757d;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    cursor: not-allowed;
+    opacity: 0.8;
 }
 
 .btn-secondary:hover {
-    background-color: var(--secondary-color);
-    color: white;
+    background-color: #5a6268;
+}
+
+.btn-secondary i {
+    margin-right: 0.5rem;
 }
 
 .btn-login {
@@ -99,6 +116,59 @@ img {
 
 .btn-register:hover {
     opacity: 0.9;
+}
+
+/* Botão de login com Google */
+.btn-google {
+    background-color: #db4437; /* Vermelho do Google */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-google:hover {
+    background-color: #c33d2e; /* Tom mais escuro para hover */
+}
+
+/* Botão de login com Facebook */
+.btn-facebook {
+    background-color: #4267B2; /* Azul do Facebook */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-facebook:hover {
+    background-color: #365899; /* Tom mais escuro para hover */
+}
+
+/* Botão de dashboard */
+.btn-dashboard {
+    background: none;
+    border: none;
+    color: var(--dark);
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.btn-dashboard:hover {
+    color: var(--primary-color);
+}
+
+.btn-dashboard i {
+    font-size: 1.5rem;
 }
 /* Botões */
 
@@ -253,16 +323,22 @@ section {
 }
 
 .evento-card {
-    background-color: white;
+    background-color: #fff;
     border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 15px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .evento-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.evento-header h3 {
+    font-size: 1.5rem;
+    color: #333;
 }
 
 .evento-image {
@@ -311,6 +387,11 @@ section {
     font-size: 1.3rem;
 }
 
+.evento-content p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
 .evento-details {
     display: flex;
     justify-content: space-between;
@@ -332,6 +413,44 @@ section {
 
 .eventos-more {
     text-align: center;
+}
+
+/* Estilo para as abas */
+.eventos-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.tab-btn {
+    background-color: var(--gray-color);
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: 500;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.tab-btn.active {
+    background-color: var(--primary-color);
+    color: var(--dark-color);
+}
+
+.tab-btn:hover {
+    background-color: var(--secondary-color);
+    color: #fff;
+}
+
+/* Conteúdo das abas */
+.tab-content {
+    display: none;
+    margin-top: 20px;
+}
+
+.tab-content.active {
+    display: block;
 }
 
 /* Quem Somos Section */
@@ -386,9 +505,21 @@ section {
 
 /* Footer */
 footer {
-    background-color: var(--dark-color);
-    color: white;
-    padding-top: 60px;
+    background-color: #333;
+    color: #fff;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+footer .social-media a {
+    color: #fff;
+    margin: 0 10px;
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+footer .social-media a:hover {
+    color: #007BFF;
 }
 
 .footer-container {
@@ -437,6 +568,12 @@ footer {
     left: 0;
 }
 
+.footer-column ul {
+    text-align: left; /* Alinha os itens à esquerda */
+    padding-left: 0; /* Remove o recuo padrão */
+    margin: 0; /* Remove margens extras */
+}
+
 .footer-column ul li {
     margin-bottom: 10px;
 }
@@ -482,7 +619,7 @@ footer {
     margin-top: 20px;
 }
 
-.social-media a {
+social-media a {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -582,6 +719,7 @@ footer {
 .btn-user {
     display: flex;
     align-items: center;
+    justify-content: center;
     background: linear-gradient(135deg, #f7d701 0%, #f79301 100%);
     color: #333;
     border: none;
@@ -593,6 +731,7 @@ footer {
     transition: all 0.3s ease;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     width: 100%;
+    text-align: center; /* Garante que o texto fique centralizado */
 }
 
 .btn-user:hover {
@@ -606,7 +745,6 @@ footer {
     margin-right: 8px;
     color: #333;
 }
-
 .username-display {
     max-width: 120px;
     white-space: nowrap;

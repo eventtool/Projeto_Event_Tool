@@ -22,7 +22,7 @@
             </div>
             <nav>
                 <ul class="nav-links">
-                    <li><a href="#eventos">Eventos</a></li>
+                    <li><a href="{{ url_for('todos_eventos') }}">Eventos</a></li>
                     <li><a href="#quem-somos">Quem Somos</a></li>
                     <li><a href="#contato">Contato</a></li>
                 </ul>
@@ -115,7 +115,13 @@
                     <div class="evento-card">
                         <div class="evento-header">
                             <h3>{{ evento.nome }}</h3>
-                            <span class="evento-data">{{ evento.data_hora.strftime('%d/%m/%Y %H:%M') }}</span>
+                            <span class="evento-data">
+                                {% if evento.data_hora %}
+                                    {{ evento.data_hora.strftime('%d/%m/%Y %H:%M') }}
+                                {% else %}
+                                    Data não definida
+                                {% endif %}
+                            </span>
                         </div>
                         <div class="evento-content">
                             <p>{{ evento.descricao[:150] }}...</p>
@@ -125,10 +131,10 @@
                             </div>
                         </div>
                         <div class="evento-footer">
-                            <button class="btn-editar" onclick="editarEvento({{ evento.id }})">
+                            <button class="btn-editar" aria-label="Editar evento">
                                 <i class="fas fa-edit"></i> Editar
                             </button>
-                            <button class="btn-encerrar" onclick="encerrarEvento({{ evento.id }})">
+                            <button class="btn-encerrar" aria-label="Encerrar evento">
                                 <i class="fas fa-flag-checkered"></i> Encerrar
                             </button>
                         </div>
@@ -136,40 +142,7 @@
                     {% endfor %}
                 </div>
             </div>
-
-
-                    <h2>Próximos Eventos</h2>
-                    <a href="" class="view-all">Ver Todos</a>
-                </div>
-                <div class="eventos-table-container">
-                    <table class="eventos-table">
-                        <thead>
-                            <tr>
-                                <th>Nome do Evento</th>
-                                <th>Data</th>
-                                <th>Local</th>
-                                <th>Inscritos</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Workshop de JavaScript Avançado</td>
-                                <td>15/06/2025</td>
-                                <td>São Paulo, SP</td>
-                                <td>42/50</td>
-                                <td>
-                                    <div class="table-actions">
-                                        <button class="action-btn edit-btn" title="Editar"><i class="fas fa-edit"></i></button>
-                                        <button class="action-btn view-btn" title="Visualizar"><i class="fas fa-eye"></i></button>
-                                        <button class="action-btn delete-btn" title="Excluir"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+        </div>  
 
         <!-- Modal de Criação de Evento -->
         <div class="modal" id="criar-evento-modal">
@@ -300,10 +273,10 @@
                             </div>
                         </li>
                         <li>
-                            <span>p3</span>
+                            <span>Elza Cristina</span>
                             <div class="social-links">
                                 <a href="#" target="_blank"><i class="fab fa-github"></i></a>
-                                <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                                <a href="#" target="https://www.linkedin.com/in/elzinha-cristina-403053327?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"><i class="fab fa-linkedin"></i></a>
                             </div>
                         </li>
                         <li>
@@ -347,5 +320,13 @@
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="{{ url_for('static', filename='js/palestrantes.js') }}"></script>
+    <script>
+        document.querySelectorAll('.btn-editar').forEach(button => {
+            button.addEventListener('click', () => {
+                const eventoId = button.getAttribute('data-evento-id');
+                editarEvento(eventoId);
+            });
+        });
+    </script>
 </body>
 </html>
