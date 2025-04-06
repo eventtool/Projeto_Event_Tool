@@ -8,6 +8,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import (
     LoginManager, login_required, login_user, logout_user, current_user
 )
+import config
+
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
 from fpdf import FPDF
