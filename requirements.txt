@@ -12,4 +12,6 @@ SQLAlchemy==1.4.54
 Flask-SQLAlchemy==2.5.1
 python-dotenv
 Flask-Migrate
+gunicorn
+
 
