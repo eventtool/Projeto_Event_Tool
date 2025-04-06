@@ -1,0 +1,82 @@
+.evento-footer {
+    padding: 15px 20px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .btn-inscrever,
+  .btn-editar,
+  .btn-encerrar,
+  .btn-inscrito {
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+  }
+  
+  .btn-inscrever {
+    background: var(--gradient);
+    color: white;
+    border: none;
+  }
+  
+  .btn-inscrever:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+  }
+  
+  .btn-editar {
+    background-color: #f8f9fa;
+    color: #4caf50;
+    border: 1px solid #4caf50;
+  }
+  
+  .btn-editar:hover {
+    background-color: #4caf50;
+    color: white;
+    transform: translateY(-2px);
+  }
+  
+  .btn-encerrar {
+    background-color: #f8f9fa;
+    color: #f44336;
+    border: 1px solid #f44336;
+  }
+  
+  .btn-encerrar:hover {
+    background-color: #f44336;
+    color: white;
+    transform: translateY(-2px);
+  }
+  
+  .btn-inscrito {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    opacity: 0.8;
+    cursor: not-allowed;
+  }
+  
+  @media (max-width: 480px) {
+    .evento-footer {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .btn-inscrever,
+    .btn-editar,
+    .btn-encerrar,
+    .btn-inscrito {
+      justify-content: center;
+    }
+  }
+  
+  
