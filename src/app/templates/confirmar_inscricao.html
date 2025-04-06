@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmar Inscrição - EventTool</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .confirmation-container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .evento-info {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .evento-info h3 {
+            margin: 0 0 10px;
+            color: var(--primary-color);
+        }
+        
+        .evento-detalhes {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .evento-detalhes span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .evento-detalhes i {
+            color: var(--primary-color);
+            width: 20px;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .btn-voltar {
+            background-color: #6c757d;
+        }
+        
+        .btn-voltar:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <a href="{{ url_for('index') }}">
+                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="EventTool">
+                </a>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="{{ url_for('todos_eventos') }}">Eventos</a></li>
+                    <li><a href="#quem-somos">Quem Somos</a></li>
+                    <li><a href="#contato">Contato</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                {% if current_user.is_authenticated %}
+                    <div class="user-profile">
+                        <button class="btn-user">
+                            <i class="fas fa-user-circle"></i>
+                            <span class="username-display">{{ current_user.nome.split(' ')[0] }}</span>
+                        </button>
+                        <a href="{{ url_for('logout') }}" class="btn-logout">Sair</a>
+                    </div>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="btn btn-login">Entrar</a>
+                    <a href="{{ url_for('cadastro') }}" class="btn btn-register">Cadastro</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="confirmation-container">
+            <h2>Confirmar Inscrição</h2>
+            
+            <div class="evento-info">
+                <h3>{{ evento.nome }}</h3>
+                <div class="evento-detalhes">
+                    <span><i class="fas fa-calendar-alt"></i> {{ evento.data_hora.strftime('%d/%m/%Y às %H:%M') }}</span>
+                    <span><i class="fas fa-map-marker-alt"></i> {{ evento.local }}</span>
+                    <span><i class="fas fa-users"></i> {{ evento.inscricoes|length }}/{{ evento.capacidade }} vagas preenchidas</span>
+                    <span><i class="fas fa-clock"></i> {{ evento.carga_horaria }} horas de duração</span>
+                </div>
+                <p class="mt-3">{{ evento.descricao }}</p>
+            </div>
+            
+            <div class="actions">
+                <a href="{{ url_for('telespectador_dashboard') }}" class="btn btn-voltar">Voltar</a>
+                <form action="{{ url_for('inscrever_evento', evento_id=evento.id) }}" method="post" style="display: inline;">
+                    <button type="submit" class="btn btn-primary">Confirmar Inscrição</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer id="contato">
+        <div class="container footer-container">
+            <div class="footer-logo">
+                <p>Transformando eventos em experiências de outro mundo</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h3>Navegação</h3>
+                    <ul>
+                        <li><a href="#eventos">Eventos</a></li>
+                        <li><a href="#quem-somos">Quem Somos</a></li>
+                        <li><a href="{{ url_for('login') }}">Login</a></li>
+                        <li><a href="{{ url_for('cadastro') }}">Cadastro</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

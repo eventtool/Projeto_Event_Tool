@@ -1,20 +1,21 @@
 .todos-eventos-main {
-    padding: 4rem 0;
-    background-color: var(--light);
+    padding: 40px 0;
+    background-color: var(--background-color);
 }
 
 .eventos-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
 }
 
 .evento-card {
-    background-color: var(--white);
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
+    background: white;
+    border-radius: 10px;
     overflow: hidden;
-    transition: transform 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .evento-card:hover {
@@ -44,10 +45,75 @@
 
 .evento-info {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 15px;
+    color: #555;
     font-size: 0.9rem;
-    color: var(--medium);
-    margin-bottom: 1rem;
+}
+
+.evento-info span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.evento-info i {
+    color: var(--primary-color);
+}
+
+.evento-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.badge {
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.badge-inscrito {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.badge-lotado {
+    background-color: var(--error-color);
+    color: white;
+}
+
+.btn-secondary {
+    background-color: #dc3545;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #c82333;
+}
+
+@media (max-width: 768px) {
+    .eventos-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .evento-actions {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+    
+    .evento-actions .btn {
+        text-align: center;
+    }
 }
 
 .btn-primary {

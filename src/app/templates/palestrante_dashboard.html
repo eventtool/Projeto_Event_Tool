@@ -86,16 +86,78 @@
 
             <!-- Resumo -->
             <div class="dashboard-cards">
+                <!-- Cards de resumo aqui -->
+            </div>
+
+            <!-- Eventos Ativos -->
+            <section class="eventos-section">
+                <h2><i class="fas fa-calendar-check"></i> Eventos Ativos</h2>
+                <div class="eventos-grid">
+                    {% for evento in eventos_ativos %}
+                    <div class="evento-card">
+                        <div class="evento-header">
+                            <h3>{{ evento.nome }}</h3>
+                            <span class="evento-data">{{ evento.data_hora.strftime('%d/%m/%Y %H:%M') }}</span>
+                        </div>
+                        <div class="evento-content">
+                            <p>{{ evento.descricao }}</p>
+                            <div class="evento-info">
+                                <span><i class="fas fa-users"></i> {{ evento.inscritos|length }}/{{ evento.vagas }}</span>
+                                <span><i class="fas fa-map-marker-alt"></i> {{ evento.local }}</span>
+                            </div>
+                        </div>
+                        <div class="evento-footer">
+                            <a href="{{ url_for('gerenciar_evento', evento_id=evento.id) }}" class="btn btn-primary">Gerenciar</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <!-- Eventos Encerrados -->
+            <section class="eventos-section">
+                <h2><i class="fas fa-calendar-times"></i> Eventos Encerrados</h2>
+                <div class="eventos-grid">
+                    {% for evento in eventos_encerrados %}
+                    <div class="evento-card">
+                        <div class="evento-header">
+                            <h3>{{ evento.nome }}</h3>
+                            <span class="evento-data">{{ evento.data_hora.strftime('%d/%m/%Y %H:%M') }}</span>
+                        </div>
+                        <div class="evento-content">
+                            <p>{{ evento.descricao }}</p>
+                            <div class="evento-info">
+                                <span><i class="fas fa-users"></i> {{ evento.inscritos|length }}/{{ evento.vagas }}</span>
+                                <span><i class="fas fa-map-marker-alt"></i> {{ evento.local }}</span>
+                            </div>
+                        </div>
+                        <div class="evento-footer">
+                            <a href="{{ url_for('relatorio_evento', evento_id=evento.id) }}" class="btn btn-secondary">Ver Relatório</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
                 <div class="dashboard-card">
                     <div class="card-icon">
                         <i class="fas fa-calendar-check"></i>
                     </div>
                     <div class="card-content">
-                        <h3>Eventos Criados</h3>
-                        <p class="card-value">{{ eventos|length }}</p>
+                        <h3>Eventos Ativos</h3>
+                        <p class="card-value">{{ eventos_ativos|length }}</p>
                     </div>
                 </div>
                 
+                <div class="dashboard-card">
+                    <div class="card-icon">
+                        <i class="fas fa-calendar-times"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Eventos Encerrados</h3>
+                        <p class="card-value">{{ eventos_encerrados|length }}</p>
+                    </div>
+                </div>
+
                 <div class="dashboard-card">
                     <div class="card-icon">
                         <i class="fas fa-users"></i>
@@ -137,6 +199,9 @@
                             <button class="btn-encerrar" aria-label="Encerrar evento">
                                 <i class="fas fa-flag-checkered"></i> Encerrar
                             </button>
+                            <a href="{{ url_for('gerar_lista_presenca', evento_id=evento.id) }}" class="btn-lista-presenca" aria-label="Gerar lista de presença">
+                                <i class="fas fa-clipboard-list"></i> Lista de Presença
+                            </a>
                         </div>
                     </div>
                     {% endfor %}

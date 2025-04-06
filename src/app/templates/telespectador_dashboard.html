@@ -89,7 +89,7 @@
                     </div>
                     <div class="card-content">
                         <h3>Eventos Inscritos</h3>
-                        <p class="card-value">{{ current_user.inscricoes|length }}</p>
+                        <p class="card-value">{{ total_eventos }}</p>
                     </div>
                 </div>
                 
@@ -99,7 +99,7 @@
                     </div>
                     <div class="card-content">
                         <h3>Certificados</h3>
-                        <p class="card-value">{{ current_user.certificados|length }}</p>
+                        <p class="card-value">{{ certificados }}</p>
                     </div>
                 </div>
             </div>
@@ -112,12 +112,60 @@
 
                 <!-- Seção de Eventos Encerrados -->
                 <div id="encerrados" class="eventos-section tab-content">
-                <!-- Conteúdo de Eventos Encerrados -->
+                    {% for evento in eventos_encerrados %}
+                    <div class="evento-card">
+                        <div class="evento-header">
+                            <h3>{{ evento.nome }}</h3>
+                            <span class="evento-data">{{ evento.data_hora.strftime('%d/%m/%Y') }}</span>
+                        </div>
+                        <div class="evento-content">
+                            <p>{{ evento.descricao }}</p>
+                            <div class="evento-info">
+                                <span><i class="fas fa-users"></i> {{ evento.inscricoes|length }}/{{ evento.capacidade }}</span>
+                                <span><i class="fas fa-map-marker-alt"></i> {{ evento.local }}</span>
+                            </div>
+                        </div>
+                        <div class="evento-footer">
+                            {% if evento.inscrito %}
+                                <span class="badge badge-inscrito">Inscrito</span>
+                                {% if evento.certificado_disponivel %}
+                                    <a href="{{ url_for('gerar_certificado', evento_id=evento.id) }}" class="btn btn-primary">Baixar Certificado</a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
 
                 <!-- Seção de Próximos Eventos -->
-                <div id="proximos" class="eventos-section tab-content active ">
-                    <!-- Conteúdo de Próximos Eventos -->
+                <div id="proximos" class="eventos-section tab-content active">
+                    {% for evento in eventos_ativos %}
+                    <div class="evento-card">
+                        <div class="evento-header">
+                            <h3>{{ evento.nome }}</h3>
+                            <span class="evento-data">{{ evento.data_hora.strftime('%d/%m/%Y') }}</span>
+                        </div>
+                        <div class="evento-content">
+                            <p>{{ evento.descricao }}</p>
+                            <div class="evento-info">
+                                <span><i class="fas fa-users"></i> {{ evento.inscricoes|length }}/{{ evento.capacidade }}</span>
+                                <span><i class="fas fa-map-marker-alt"></i> {{ evento.local }}</span>
+                            </div>
+                        </div>
+                        <div class="evento-footer">
+                            {% if evento.inscrito %}
+                                <span class="badge badge-inscrito">Inscrito</span>
+                                <a href="{{ url_for('cancelar_inscricao', evento_id=evento.id) }}" class="btn btn-secondary">Cancelar Inscrição</a>
+                            {% else %}
+                                {% if evento.inscricoes|length < evento.capacidade %}
+                                    <a href="{{ url_for('inscrever_evento', evento_id=evento.id) }}" class="btn btn-primary">Inscrever-se</a>
+                                {% else %}
+                                    <span class="badge badge-lotado">Evento Lotado</span>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -201,6 +249,6 @@
         </div>
     </footer>
 
-    <script src="{{ url_for('static', filename='js/telespectador.js') }}"></script>
+
 </body>
 </html>

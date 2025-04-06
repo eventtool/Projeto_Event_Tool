@@ -83,6 +83,12 @@ function inscreverEvento(eventoId) {
     .then(data => {
         if (data.success) {
             alert(data.message);
+            
+            // Baixar o ingresso automaticamente
+            if (data.ingresso_url) {
+                window.location.href = data.ingresso_url;
+            }
+            
             carregarEventos(); // Recarrega os eventos para atualizar o status
         } else {
             alert(data.message);
@@ -139,6 +145,12 @@ function inscreverEvento(eventoId) {
     .then(data => {
         if (data.success) {
             alert(data.message);
+            
+            // Baixar o ingresso automaticamente
+            if (data.ingresso_url) {
+                window.location.href = data.ingresso_url;
+            }
+            
             // Recarregar os eventos para atualizar o status
             carregarProximosEventos();
             carregarEventosEncerrados();
@@ -178,13 +190,17 @@ function cancelarInscricao(eventoId) {
                 'Content-Type': 'application/json',
             }
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert(data.message);
-                location.reload();
+        .then(response => {
+            if (response.redirected) {
+                window.location.href = response.url;
             } else {
-                alert(data.message);
+                return response.json().then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert(data.message);
+                    }
+                });
             }
         })
         .catch(error => {

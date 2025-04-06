@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Ingresso - {{ evento.nome }}</title>
+    <style>
+        @page {
+            size: 21cm 7.5cm landscape;
+            margin: 0;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            width: 21cm;
+            height: 7.5cm;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .ticket {
+            width: 20cm;
+            height: 6.5cm;
+            padding: 15px;
+            box-sizing: border-box;
+            border: 2px solid #000;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+            background: #fff;
+        }
+        .ticket-left {
+            border-right: 1px dashed #000;
+            padding-right: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .ticket-header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 10px;
+        }
+        .ticket-header h2 {
+            margin: 0;
+            font-size: 18px;
+            color: #333;
+            max-width: 100%;
+            word-wrap: break-word;
+            line-height: 1.2;
+        }
+        .ticket-content {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 10px 15px;
+            align-content: center;
+        }
+        .ticket-content .label {
+            font-weight: bold;
+            font-size: 14px;
+            color: #555;
+            text-align: right;
+        }
+        .ticket-content .value {
+            font-size: 14px;
+            color: #000;
+            padding-left: 5px;
+            line-height: 1.4;
+        }
+        .ticket-footer {
+            grid-column: 1 / -1;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            margin-top: 10px;
+        }
+        .verification {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="ticket">
+        <div class="ticket-left">
+            <div class="ticket-header">
+                <h1>INGRESSO</h1>
+                <h2>{{ evento.nome }}</h2>
+            </div>
+        </div>
+        <div class="ticket-right">
+            <div class="ticket-content">
+                <div class="label">Participante:</div>
+                <div class="value">{{ inscricao.usuario.nome }}</div>
+                
+                <div class="label">Data:</div>
+                <div class="value">{{ evento.data_hora.strftime('%d/%m/%Y') }}</div>
+                
+                <div class="label">Horário:</div>
+                <div class="value">{{ evento.data_hora.strftime('%H:%M') }}</div>
+                
+                <div class="label">Local:</div>
+                <div class="value">{{ evento.local }}</div>
+
+                <div class="ticket-footer">
+                    <span class="verification">Código de verificação: {{ inscricao.id }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -66,8 +66,24 @@
                         <div class="evento-info">
                             <span><i class="fas fa-calendar-alt"></i> {{ evento.data_hora.strftime('%d/%m/%Y %H:%M') }}</span>
                             <span><i class="fas fa-map-marker-alt"></i> {{ evento.local }}</span>
+                            <span><i class="fas fa-users"></i> {{ evento.inscritos|length }}/{{ evento.vagas }}</span>
                         </div>
-                        <a href="/evento/{{ evento.id }}" class="btn btn-primary">Ver Mais</a>
+                        <div class="evento-actions">
+                            {% if current_user.is_authenticated %}
+                                {% if evento.id in eventos_inscritos %}
+                                    <span class="badge badge-inscrito">Inscrito</span>
+                                    <a href="{{ url_for('cancelar_inscricao', evento_id=evento.id) }}" class="btn btn-secondary">Cancelar Inscrição</a>
+                                {% else %}
+                                    {% if evento.inscritos|length < evento.vagas %}
+                                        <a href="{{ url_for('inscrever_evento', evento_id=evento.id) }}" class="btn btn-primary">Inscrever-se</a>
+                                    {% else %}
+                                        <span class="badge badge-lotado">Evento Lotado</span>
+                                    {% endif %}
+                                {% endif %}
+                            {% else %}
+                                <a href="{{ url_for('login') }}" class="btn btn-primary">Fazer Login para Inscrever-se</a>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
                 {% endfor %}
