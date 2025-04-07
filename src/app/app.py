@@ -8,12 +8,13 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import (
     LoginManager, login_required, login_user, logout_user, current_user
 )
-import config
+
 
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
 from fpdf import FPDF
-import config
+from .. import config
+
 from models import db, Usuario, Evento, Presenca, Inscricao, Certificado
 from flask_migrate import Migrate
 from urllib.parse import quote as url_quote
