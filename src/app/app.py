@@ -13,7 +13,8 @@ from flask_login import (
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
 from fpdf import FPDF
-from .. import config
+from app import config
+
 
 from models import db, Usuario, Evento, Presenca, Inscricao, Certificado
 from flask_migrate import Migrate
