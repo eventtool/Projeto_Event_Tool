@@ -16,7 +16,8 @@ from fpdf import FPDF
 from app import config
 
 
-from models import db, Usuario, Evento, Presenca, Inscricao, Certificado
+from app.models import db, Usuario, Evento, Presenca, Inscricao, Certificado
+
 from flask_migrate import Migrate
 from urllib.parse import quote as url_quote
 import uuid
